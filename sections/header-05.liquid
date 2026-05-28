@@ -201,7 +201,15 @@
             <div class="header__logo header__logo_fixed fixed-left">
                 <div class="header__heading">
                     <a href="{{ routes.root_url }}" class="header__heading-link focus-inset">
-                        {%- if section.settings.logo_fixed != blank -%}
+                        {%- if section.settings.logo != blank -%}
+                            {%- assign image = section.settings.logo -%}
+                            {%- assign image_size = section.settings.logo_width | append: 'x' -%}
+                            <img srcset="{{ image | img_url: image_size }} 1x, {{ image | img_url: image_size, scale: 2 }} 2x"
+                                src="{{ image | img_url: image_size }}"
+                                loading="lazy"
+                                class="header__heading-logo"
+                                alt="{{ image.alt | default: shop.name | escape }}">
+                        {%- elsif section.settings.logo_fixed != blank -%}
                             {%- assign image = section.settings.logo_fixed -%}
                             {%- assign image_size = section.settings.logo_width_fixed | append: 'x' -%}
                             <img srcset="{{ image | img_url: image_size }} 1x, {{ image | img_url: image_size, scale: 2 }} 2x"
@@ -209,6 +217,10 @@
                                 loading="lazy"
                                 class="header__heading-logo"
                                 alt="{{ image.alt | default: shop.name | escape }}">
+                        {%- elsif section.settings.logo_text != blank -%}
+                            <span class="h2">{{ section.settings.logo_text }}</span>
+                        {%- else -%}
+                            <span class="h2">{{ shop.name }}</span>
                         {%- endif -%}
                     </a>
                 </div>
@@ -241,6 +253,25 @@
                         </details>
                     </details-modal>
                 {% endif %}
+                {%- if settings.show_wishlist and section.settings.show_wishlist -%}
+                    <a href="{{ pages['wish-list'].url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
+                        {% render 'icon-heart-2' %}
+                    </a>
+                {%- endif -%}
+                {%- if shop.customer_accounts_enabled and section.settings.show_customer -%}
+                    {%- if routes.account_login_url contains '/account/login' -%}
+                        {%- assign is_sticky_contained = true -%}
+                    {%- else -%}
+                        {%- assign is_sticky_contained = false -%}
+                    {%- endif -%}
+                    <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text focus-inset"{% if is_sticky_contained %} data-open-auth-sidebar{% endif %}>
+                        {% render 'icon-account-2' %}
+                    </a>
+                {%- endif -%}
+                <a href="/pages/contact" class="header__contact-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    Contact
+                </a>
                 {% if section.settings.show_cart %}
                     <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset" id="cart-icon-bubble"{% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
                         {% render 'icon-cart-3' %}

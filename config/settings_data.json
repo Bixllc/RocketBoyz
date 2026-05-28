@@ -427,10 +427,9 @@
           },
           "announcement-bar-0": {
             "type": "announcement",
-            "disabled": true,
             "settings": {
-              "text": "<div class=\"message\">\n  ORDERS $60+ FREE SHIPPING  <a href=\"/collections/all\" alt=\"Shop Now\">SHOP NOW</a>\n</div>",
-              "btn_color": "#f84248",
+              "text": "&#9679;&nbsp;&nbsp;Free shipping on orders over $60",
+              "btn_color": "#ffffff",
               "btn_border_color": "#ffffff",
               "btn_bg_color": "#ffffff",
               "btn_bg_color_gradient": ""
@@ -439,8 +438,8 @@
           "announcement_QiMWRk": {
             "type": "announcement",
             "settings": {
-              "text": "PROTECT YOUR PACKAGE BY ADDING SHIPINSURE PACKAGE PROTECTION!!",
-              "btn_color": "#f84248",
+              "text": "&#9679;&nbsp;&nbsp;Don't forget to add ShipInsure package protection",
+              "btn_color": "#ffffff",
               "btn_border_color": "#ffffff",
               "btn_bg_color": "#ffffff",
               "btn_bg_color_gradient": ""
@@ -455,11 +454,11 @@
         ],
         "settings": {
           "enable_announcement": true,
-          "layout": "slider",
-          "arrow_active": true,
+          "layout": "scroll",
+          "arrow_active": false,
           "enable_close": false,
-          "color_text": "#f8f8f8",
-          "bg_color_text": "#232323",
+          "color_text": "#ffffff",
+          "bg_color_text": "#0A5F5F",
           "bg_color_text_gradient": "",
           "font_size_text": 14,
           "font_style_text": "normal",
