@@ -1,0 +1,149 @@
+<div class="wrapper">
+      <div class="testimonial-container" id="testimonial-container"></div>
+      <button id="prev">&lt;</button>
+      <button id="next">&gt;</button>
+    </div>
+
+
+
+
+<script>
+const testimonials = [
+  {
+    name: "Ryan Shorts",
+    image: "https://cdn.shopify.com/s/files/1/0098/3465/9919/files/fds.jpg?v=1706354947",
+    testimonial:
+      "The snacks always come fresh and the customer service is A1. The fact that you can call Wayne directly and resolve any issue givs  me a sense of reliability.",
+  },
+  {
+    name: "Simone",
+    image: "https://cdn.shopify.com/s/files/1/0098/3465/9919/files/fds.jpg?v=1706354947",
+    testimonial:
+      "Mi love how the things dem cum fast and the price them good naah lie big up yuh self rocket.",
+  },
+  {
+    name: "Ackeem",
+    image: "https://cdn.shopify.com/s/files/1/0098/3465/9919/files/fds.jpg?v=1706354947",
+    testimonial:
+      "The dawg nah laugh wid the snacks .. him send it out quick and fast. I rate the movements ",
+  },
+];
+
+
+let i = 0;
+
+let j = testimonials.length;
+
+let testimonialContainer = document.getElementById("testimonial-container");
+let nextBtn = document.getElementById("next");
+let prevBtn = document.getElementById("prev");
+
+nextBtn.addEventListener("click", () => {
+  i = (j + i + 1) % j;
+  displayTestimonial();
+});
+prevBtn.addEventListener("click", () => {
+  i = (j + i - 1) % j;
+  displayTestimonial();
+});
+
+let displayTestimonial = () => {
+  testimonialContainer.innerHTML = `
+    <p>${testimonials[i].testimonial}</p>
+    <img src=${testimonials[i].image}>
+    <h3>${testimonials[i].name}</h3>
+  `;
+};
+window.onload = displayTestimonial;
+</script>
+
+
+<style>
+.wrapper {
+  background-color: #f2efdd;
+  position: relative;
+  width: 80vw;
+  max-width: 41em;
+  min-height: 25em;
+  border-radius: 0.6em;
+  margin: auto;
+  margin-top: 2em; 
+  display: flex;
+}
+.testimonial-container {
+  width: 85%;
+  height: 100%;
+  position: relative;
+  margin: auto;
+  padding: 1.8em 1.2em;
+}
+.wrapper button {
+  font-size: 1.8em;
+  height: 2.2em;
+  width: 2.2em;
+  background-color: #f2efdd;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  border: none;
+  color: #09571b;
+  cursor: pointer;
+  border-radius: 50%;
+}
+button#next {
+  right: -6.1em;
+}
+button#prev {
+  left: -6.1em;
+}
+.testimonial-container p {
+  color: #8c8c90;
+  text-align: center;
+  font-size: 0.9em;
+  line-height: 2em;
+  letter-spacing: 0.05em;
+}
+.testimonial-container img {
+  display: block;
+  margin: 1.8em auto 1.25em auto;
+  border-radius: 50%;
+  width: 4.4em;
+}
+.testimonial-container h3 {
+  color: #2d3d67;
+  font-size: 1em;
+  text-align: center;
+}
+.testimonial-container h6 {
+  color: #bcc4da;
+  font-size: 0.9em;
+  letter-spacing: 0.03em;
+  font-weight: 400;
+  text-align: center;
+}
+@media screen and (max-width: 650px) {
+  .wrapper {
+    font-size: 14px;
+  }
+}
+</style>
+
+
+
+
+{% schema %}
+  {
+    "name": "Testimonial",
+    "settings": [],
+    "presets": [{
+      "name": "Testimonial"
+    }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

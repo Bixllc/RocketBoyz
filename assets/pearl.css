@@ -1,0 +1,9 @@
+.product-item .card{
+    font-size: 17px;
+    font-weight: 600;
+}
+@media (max-width:678px){
+  .section-block-template--16779954815234__custom_press_banner_wtajeY img{
+    padding-bottom: 30px;
+}
+}
