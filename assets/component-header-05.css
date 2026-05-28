@@ -322,23 +322,51 @@
     display: none !important;
 }
 
-/* White background, comfortable vertical padding */
-.header-05 .header-bottom {
+/* Make header-bottom always a full flex row (base.css hides fixed-left/right by default) */
+.header-wrapper .header-05 .header-bottom {
+    display: flex !important;
+    align-items: center;
     background: #ffffff;
-    padding: 10px 0;
     border-bottom: 1px solid #f0f0f0;
+    padding: 0;
 }
 
-/* Icon spacing inside fixed-right */
-.header-05 .fixed-right {
-    display: flex;
+/* Logo column — left */
+.header-wrapper .header-05 .header-bottom .fixed-left {
+    display: inline-flex !important;
     align-items: center;
+    flex: 0 0 auto;
+    padding: 10px 20px 10px 24px;
+}
+
+/* Nav column — center, takes remaining space */
+.header-wrapper .header-05 .header-bottom .fixed-center {
+    flex: 1 1 auto;
+    width: auto !important;
+}
+
+/* Icons column — right, always visible */
+.header-wrapper .header-05 .header-bottom .fixed-right {
+    display: flex !important;
+    align-items: center;
+    flex: 0 0 auto;
     gap: 14px;
+    padding: 10px 24px 10px 20px;
+    width: auto !important;
 }
 
 .header-05 .fixed-right .header__icon {
     display: flex;
     align-items: center;
+}
+
+/* Remove sticky-only border styles from icons inside fixed-right */
+.header-wrapper .header-05 .fixed-right .header__search,
+.header-wrapper .header-05 .fixed-right .header__icon--cart {
+    width: auto;
+    height: auto;
+    border-left: none;
+    padding: 0;
 }
 
 /* Yellow rounded Contact button */
