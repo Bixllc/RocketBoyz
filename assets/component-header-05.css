@@ -369,6 +369,19 @@
     padding: 0;
 }
 
+/* Make details-modal and details render inline so search icon is visible */
+.header-05 .fixed-right details-modal,
+.header-05 .fixed-right details-modal details {
+    display: inline-flex;
+    align-items: center;
+}
+
+.header-05 .fixed-right .header__icon--search {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
 /* Yellow rounded Contact button */
 .header__contact-btn {
     display: inline-flex;

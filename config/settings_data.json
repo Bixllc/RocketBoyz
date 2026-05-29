@@ -586,7 +586,7 @@
           "ec0f7e9f-1012-463e-a1fd-f9225f7f1cc3"
         ],
         "settings": {
-          "menu": "main-menu",
+          "menu": "header-nav",
           "show_megamenu": true,
           "enable_sticky_header": true,
           "hide_scroll": true,
