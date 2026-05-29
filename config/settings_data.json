@@ -121,7 +121,7 @@
     "type_page_title_font_weight": "700",
     "type_page_title_letter_spacing": ".05em",
     "favicon": "shopify://shop_images/WhatsApp_Image_2024-03-09_at_6.02.51_PM_1.jpg",
-    "show_wishlist": false,
+    "show_wishlist": true,
     "show_effect_close": true,
     "show_global_checkbox": false,
     "global_checkbox_text": "I agree with",

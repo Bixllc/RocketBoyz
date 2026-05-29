@@ -79,7 +79,7 @@
 	}
 
 	.header-05 .menu-lv-1__action {
-    	padding: 21px 22px 22px 22px;
+    	padding: 18px 12px;
 	}
 
 	.header-05 .list-menu--disclosure, .header-05 .menu-lv-item.has-megamenu:hover>.menu-dropdown{
@@ -398,4 +398,10 @@
 .header-05 .fixed-left .header__heading {
     display: flex;
     align-items: center;
+}
+
+/* Prevent nav from wrapping to multiple lines */
+.header-05 .header-bottom .list-menu--inline {
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
