@@ -1,136 +1,95 @@
-# RocketBoyz — Project Context for Claude
+# RocketBoyz Shopify Theme — Claude Code Rules
 
-## Project
-Shopify theme for **snacks-by-rocket.myshopify.com** (RocketBoyz Caribbean snack brand).
+## Project Overview
+This is a Shopify theme redesign for RocketBoyz (snacks-by-rocket.myshopify.com).
+We are redesigning the existing "rocket 2023" theme to match new Figma designs.
+The live site must never be touched — all work is on the duplicate theme only.
 
-- Active header: `sections/header-05.liquid` (controlled by `settings.header_layout: "05"`)
-- Dev theme ID: `161208828162`
-- Backup/staging theme ID: `161208336642`
-- Local dev server: `shopify theme dev --store snacks-by-rocket.myshopify.com` → `http://127.0.0.1:9292`
-- Push to dev: `shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208828162`
+## Workflow
+- All design decisions come from Figma screenshots provided by the developer
+- All styling must follow the Brand Kit below exactly
+- When given HTML/CSS code, integrate it into the correct Liquid/CSS files
+- Do not guess at design — ask if unclear
+- Do not remove existing Shopify Liquid logic (cart, product, collection functionality)
+- Only change the visual layer unless explicitly told otherwise
 
----
+## Brand Kit
 
-# RocketBoyz Brand Kit
+### Fonts
+- Primary: Clash Display (Fontshare)
+- Import: @import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
+- Use Clash Display for ALL text — headings, nav, buttons, body
 
-## Brand Overview
-RocketBoyz is a premium Caribbean snack brand featuring a vibrant, modern aesthetic with bold gradients and high-contrast design elements.
+### Colors
+- Brand Yellow: #FFD400
+- White: #FFFFFF
+- Deep Black: #030213
+- Secondary Text: #27272A
+- Tertiary Text: #52525B
+- Red Accent: #DC2626
+- Primary Gradient: linear-gradient(to right, #DC2626, #FACC15)
+- Border: #E4E4E7
 
----
+### Buttons
+- Primary CTA: background #FFD400, text zinc-900, font-weight bold, border-radius rounded-full
+- Secondary: border-2 zinc-800, text zinc-800, rounded-full
+- Hover: yellow shifts to #EAB308
 
-## Color Palette
+### Icons
+- Library: Lucide (use SVG equivalents in Liquid)
+- Size: w-5 h-5 (20px) for nav icons
+- Color: #030213 default, #DC2626 on hover
 
-### Primary Colors
-```css
-#FFD400  /* Brand Yellow — Primary CTA, buttons */
-#FFFFFF  /* Pure White — Backgrounds */
-#030213  /* Deep Black — Primary text */
-#27272A  /* Zinc 800 — Secondary text */
-#52525B  /* Zinc 600 — Tertiary text */
-```
+### Cards
+- Border radius: rounded-2xl
+- Border: 1px solid #E4E4E7
+- Shadow on hover: shadow-lg
+- Product price: gradient text (red to yellow)
+- Add to Cart button: hidden by default, visible on hover
 
-### Gradients
-```css
-/* Primary — Headings & Accents */
-background: linear-gradient(to right, #DC2626, #FACC15);
+### Spacing
+- Container max-width: 1280px
+- Section padding: py-16 md:py-24
+- Mobile padding: px-4, tablet: px-6, desktop: px-8
 
-/* Extended variation */
-background: linear-gradient(to right, #DC2626, #FACC15, #EF4444);
-```
+### Animations
+- Standard: transition-colors duration-200
+- Dropdowns: fade in + slide down (opacity 0→1, y 8→0, 150ms)
 
-### Semantic Colors
-```css
-#DC2626  /* Red — Hover states, badges */
-#EAB308  /* Yellow hover state */
-#E4E4E7  /* Border (zinc-200) */
-#FEFCE8  /* Background accent (yellow-50) */
-```
+## File Structure Notes
+- Header: sections/header-05.liquid (active header, controlled by settings.header_layout: "05")
+- Announcement bar: sections/announcement-bar.liquid
+- CSS: assets/component-header-05.css, assets/base.css
+- Sections: sections/*.liquid
+- Snippets: snippets/*.liquid
+- Theme entry: layout/theme.liquid
 
----
+## Theme IDs
+- Dev theme (work here): 161208828162
+- Backup/staging: 161208336642
+- Live theme (DO NOT TOUCH): rocket 2023 — #136885895426
 
-## Typography
+## Dev Commands
+- Start dev server: shopify theme dev --store snacks-by-rocket.myshopify.com
+- Push to dev: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208828162
+- Push single file: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208828162 --only <file>
+- Local preview: http://127.0.0.1:9292
 
-**Font**: Clash Display (Fontshare)
-```css
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
-font-family: 'Clash Display', sans-serif;
-```
+## Navigation
+- Active header nav menu handle: header-nav (Shop w/ dropdown, About, Recipes, Customer Service)
+- Do not touch main-menu handle — used by other parts of the theme
 
-**Weights**: 400 Regular · 500 Medium · 600 Semi-Bold · 700 Bold
+## Do's
+- Always use Clash Display font
+- Always use #FFD400 for primary CTAs
+- Apply gradient to all major headings
+- Keep white backgrounds throughout
+- Maintain all existing Shopify Liquid tags and functionality
+- Use inline Lucide SVGs for all icons in Liquid files
 
-### Gradient Heading Pattern
-```css
-background: linear-gradient(to right, #DC2626, #FACC15);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-font-weight: 700;
-letter-spacing: -0.025em;
-```
-
----
-
-## Buttons
-
-**Primary CTA (Yellow)**
-```css
-background: #FFD400;
-color: #030213;
-font-weight: 700;
-padding: 12px 32px;
-border-radius: 9999px; /* rounded-full */
-```
-Hover: `background: #EAB308`
-
-**Secondary (Outline)**
-```css
-border: 2px solid #27272A;
-color: #27272A;
-border-radius: 9999px;
-```
-Hover: `background: #27272A; color: #fff`
-
----
-
-## Icons
-**Lucide React** v0.487.0 — use exclusively.
-```
-ShoppingCart, ShoppingBag, Heart, User, Search, Menu,
-ChevronDown, Mail, Plus, Minus, X, Trash2, Check,
-ArrowLeft, Star
-```
-Sizes: 16px (inline), 20px (nav/UI), 24px (mobile/prominent), 32px (feature)
-
----
-
-## Border Radius
-```
-rounded-lg    → 8px   (small)
-rounded-xl    → 12px  (medium)
-rounded-2xl   → 16px  (cards)
-rounded-full        (buttons, pills)
-```
-
----
-
-## Product Cards
-- White background, `rounded-2xl`, `border border-zinc-200`
-- Center-aligned content
-- Brand tag: zinc-100 bg pill
-- Product name: black, bold
-- Price: gradient text (red→yellow)
-- "Add to Cart": yellow fill, shows on hover
-
----
-
-## Layout
-- Container: `max-w-7xl` (1280px)
-- Section spacing: `py-16 md:py-24`
-- Product grid: 2col mobile → 3col tablet → 4col desktop
-
----
-
-## Do's & Don'ts
-✅ White backgrounds · Yellow CTAs · Gradient headings · Clash Display font · Lucide icons · Center-aligned cards · Smooth transitions
-
-❌ Colored backgrounds · Mixed button styles · Left-aligned cards · Custom fonts · No gradient on headings · Small mobile padding
+## Don'ts
+- Do not use any font other than Clash Display
+- Do not use colored backgrounds (white only)
+- Do not break existing cart/product/collection Liquid logic
+- Do not touch the main-menu navigation handle
+- Do not publish or push to the live theme (#136885895426)
