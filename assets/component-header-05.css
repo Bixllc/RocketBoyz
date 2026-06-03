@@ -315,7 +315,27 @@
 	}
 }
 
-/* ── RocketBoyz header redesign ── */
+/* ── RocketBoyz header redesign — Brand Kit applied ── */
+
+/* Brand color tokens */
+:root {
+    --rb-yellow:      #FFD400;
+    --rb-yellow-hover:#EAB308;
+    --rb-black:       #030213;
+    --rb-gray-2:      #27272A;
+    --rb-gray-3:      #52525B;
+    --rb-border:      #E4E4E7;
+    --rb-red:         #DC2626;
+    --rb-font:        'Clash Display', sans-serif;
+}
+
+/* Apply Clash Display to the entire header */
+.header-05,
+.header-05 .menu-lv-1__action,
+.header-05 .menu-lv-2__action,
+.header__contact-btn {
+    font-family: var(--rb-font);
+}
 
 /* Hide the old top bar; header-bottom is now the primary row */
 .header-05 .header-top {
@@ -382,28 +402,29 @@
     cursor: pointer;
 }
 
-/* Yellow rounded Contact button */
+/* Yellow rounded Contact button — brand yellow #FFD400 */
 .header__contact-btn {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: #FFD400;
-    color: #030213;
+    background: var(--rb-yellow);
+    color: var(--rb-black);
+    font-family: var(--rb-font);
     font-weight: 600;
     font-size: 14px;
     padding: 9px 20px;
     border-radius: 50px;
     text-decoration: none;
     white-space: nowrap;
-    border: 2px solid #FFD400;
+    border: 2px solid var(--rb-yellow);
     transition: background 0.2s, border-color 0.2s;
     line-height: 1;
 }
 
 .header__contact-btn:hover {
-    background: #EAB308;
-    border-color: #EAB308;
-    color: #030213;
+    background: var(--rb-yellow-hover);
+    border-color: var(--rb-yellow-hover);
+    color: var(--rb-black);
     text-decoration: none;
 }
 
@@ -431,7 +452,7 @@
 /* Active/hover nav item turns brand red */
 .header-05 .menu-lv-item:hover > .menu-lv-1__action,
 .header-05 .menu-lv-item:hover > .menu-lv-1__action .text {
-    color: #DC2626 !important;
+    color: var(--rb-red) !important;
 }
 
 /* Simple dropdown panel — white card, auto width, rounded */
@@ -445,7 +466,7 @@
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    border: 1px solid #E4E4E7;
+    border: 1px solid var(--rb-border);
     padding: 8px 0;
     z-index: 100;
 }
@@ -459,9 +480,10 @@
 .header-05 .list-menu--disclosure .menu-lv-2__action {
     display: block;
     padding: 12px 24px;
+    font-family: var(--rb-font);
     font-size: 15px;
     font-weight: 500;
-    color: #030213;
+    color: var(--rb-black);
     white-space: nowrap;
     text-transform: none !important;
     transition: color 0.15s;
@@ -469,6 +491,6 @@
 }
 
 .header-05 .list-menu--disclosure .menu-lv-2__action:hover {
-    color: #DC2626;
+    color: var(--rb-red);
     background: transparent;
 }
