@@ -425,3 +425,50 @@
     flex-wrap: nowrap;
     white-space: nowrap;
 }
+
+/* ── Shop dropdown styling ── */
+
+/* Active/hover nav item turns brand red */
+.header-05 .menu-lv-item:hover > .menu-lv-1__action,
+.header-05 .menu-lv-item:hover > .menu-lv-1__action .text {
+    color: #DC2626 !important;
+}
+
+/* Simple dropdown panel — white card, auto width, rounded */
+.header-05 .list-menu--disclosure {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    min-width: 200px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border: 1px solid #E4E4E7;
+    padding: 8px 0;
+    z-index: 100;
+}
+
+/* Remove the full-width override from base header-05 */
+.header-05 .list-menu--disclosure.list-menu--disclosure-2 {
+    border-top: none;
+}
+
+/* Dropdown list items */
+.header-05 .list-menu--disclosure .menu-lv-2__action {
+    display: block;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #030213;
+    white-space: nowrap;
+    text-transform: none !important;
+    transition: color 0.15s;
+    text-decoration: none;
+}
+
+.header-05 .list-menu--disclosure .menu-lv-2__action:hover {
+    color: #DC2626;
+    background: transparent;
+}
