@@ -246,16 +246,18 @@
                         <details>
                             <summary class="header__icon header__icon--search header__icon--summary link link--text focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}" data-search-sticky-form data-search-mobile>
                                 <span>
-                                    {% render 'icon-search', class: 'modal__toggle-open icon icon-search' %}
-                                    {% render 'icon-close', class: 'modal__toggle-close icon icon-close' %}
+                                    {%- comment -%}Lucide Search icon — 20px{%- endcomment -%}
+                                    <svg class="modal__toggle-open lucide-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                                    <svg class="modal__toggle-close lucide-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                                 </span>
                             </summary>
                         </details>
                     </details-modal>
                 {% endif %}
                 {%- if settings.show_wishlist and section.settings.show_wishlist -%}
-                    <a href="{{ pages['wish-list'].url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
-                        {% render 'icon-heart-2' %}
+                    <a href="{{ pages['wish-list'].url }}" class="header__icon header__icon--wishlist link link--text focus-inset" aria-label="Wishlist">
+                        {%- comment -%}Lucide Heart icon — 20px{%- endcomment -%}
+                        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                     </a>
                 {%- endif -%}
                 {%- if shop.customer_accounts_enabled and section.settings.show_customer -%}
@@ -264,22 +266,24 @@
                     {%- else -%}
                         {%- assign is_sticky_contained = false -%}
                     {%- endif -%}
-                    <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text focus-inset"{% if is_sticky_contained %} data-open-auth-sidebar{% endif %}>
-                        {% render 'icon-account-2' %}
+                    <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text focus-inset" aria-label="Account"{% if is_sticky_contained %} data-open-auth-sidebar{% endif %}>
+                        {%- comment -%}Lucide User icon — 20px{%- endcomment -%}
+                        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                     </a>
                 {%- endif -%}
                 <a href="/pages/contact" class="header__contact-btn">
+                    {%- comment -%}Lucide Mail icon — 16px{%- endcomment -%}
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                     Contact
                 </a>
                 {% if section.settings.show_cart %}
-                    <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset" id="cart-icon-bubble"{% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
-                        {% render 'icon-cart-3' %}
+                    <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset" id="cart-icon-bubble" aria-label="Cart"{% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
+                        {%- comment -%}Lucide ShoppingCart icon — 20px{%- endcomment -%}
+                        <svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
                         <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
                         <div class="cart-count-bubble">
-                            {%- if cart.item_count < 100 -%} <span class="text" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
-                                {%- endif -%}
-                                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                            {%- if cart.item_count < 100 -%}<span class="text" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>{%- endif -%}
+                            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
                         </div>
                     </a>
                 {% endif %}

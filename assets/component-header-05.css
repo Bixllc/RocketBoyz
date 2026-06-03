@@ -443,6 +443,40 @@
     align-items: center;
 }
 
+/* Lucide icons — consistent color and size */
+.header-05 .fixed-right .lucide-icon {
+    display: block;
+    color: var(--rb-gray-2);
+    transition: color 0.15s;
+}
+
+.header-05 .fixed-right .header__icon:hover .lucide-icon {
+    color: var(--rb-red);
+}
+
+/* Thin brand bottom border on header */
+.header-wrapper .header-05 .header-bottom {
+    border-bottom: 1px solid var(--rb-border) !important;
+}
+
+/* Show Lucide ChevronDown next to nav items with sub-links on desktop */
+.header-05 .menu-lv-item.menu-lv-1.dropdown .rb-chevron {
+    display: inline-flex !important;
+    align-items: center;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
+/* Hide GET OUR APP app-embed button */
+[class*="smart-app"],
+[class*="getapp"],
+[id*="smart-app"],
+[id*="getapp"],
+.smartbanner,
+[data-app-banner] {
+    display: none !important;
+}
+
 /* Prevent nav from wrapping to multiple lines */
 .header-05 .header-bottom .list-menu--inline {
     flex-wrap: nowrap;
