@@ -5,7 +5,7 @@
         assign hasCountDown = hasCountDown[0]
     -%}
 
-    <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement' | t }}" style="opacity: 0; visibility: hidden;">
+    <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
         <script>
             if (window.announcementClosed) {
                 document.querySelector('.announcement-bar').remove();
@@ -151,6 +151,16 @@
         .announcement-bar .layout--scroll .announcement-bar__message {
             width: auto;
             vertical-align: middle;
+            padding: 0 2rem;
+        }
+
+        .announcement-bar .layout--scroll .announcement-bar__message::after {
+            content: '\25C6';
+            display: inline-block;
+            margin-left: 2rem;
+            color: #FF9F1C;
+            font-size: 0.625rem;
+            vertical-align: middle;
         }
 
         .announcement-bar .layout--scroll .announcement-bar__message .message, .announcement-bar .layout--scroll .announcement-bar__message p {
@@ -171,6 +181,7 @@
         }
 
         .announcement-bar__message, .announcement-bar__message .message, .announcement-bar__message a, .announcement-bar__message p, .top-mesage-countdown {
+            font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
             color: {{ section.settings.color_text }};
             font-size: {{ section.settings.font_size_text | append: 'px' }};
             font-style: {{ section.settings.font_style_text }};

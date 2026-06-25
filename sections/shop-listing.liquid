@@ -1,0 +1,1081 @@
+{%- liquid
+  assign cat_snacks = 'Snacks'
+  assign cat_beverages = 'Beverages'
+  assign cat_sweets = 'Sweets'
+  assign cat_groceries = 'Groceries'
+  assign cat_household = 'Household'
+  assign cat_health = 'Health & Beauty'
+
+  assign price_mode = section.settings.price_mode
+  assign case_size = section.settings.case_size
+-%}
+
+<style>
+  .rb-shop { background:#ffffff; color:#1b1a16; }
+
+  .rb-shop-header { padding: 36px 0 0; }
+
+  .rb-shop-breadcrumb {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #9a9488;
+    margin: 0 0 14px;
+  }
+  .rb-shop-breadcrumb a { color: #9a9488; text-decoration: none; }
+  .rb-shop-breadcrumb a:hover { color: #1b1a16; }
+
+  .rb-shop-h1 {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #1b1a16;
+    font-size: clamp(54px, 8vw, 116px);
+    line-height: 0.92;
+    margin: 0;
+  }
+
+  .rb-shop-intro-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 18px 0 0;
+  }
+  .rb-shop-intro-text {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 16px;
+    color: #54514a;
+    margin: 0;
+  }
+
+  .rb-shop-catnav {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    margin-top: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(27,26,22,0.1);
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .rb-shop-catnav::-webkit-scrollbar { display: none; }
+
+  .rb-shop-catnav__link {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    color: #1b1a16;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0 0 8px;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .rb-shop-catnav__link.is-active {
+    font-weight: 800;
+    border-bottom-color: #1b1a16;
+  }
+
+  .rb-shop-body {
+    display: grid;
+    grid-template-columns: 248px 1fr;
+    gap: 44px;
+    align-items: start;
+    padding: 32px 0 96px;
+  }
+
+  .rb-shop-sidebar {
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .rb-shop-search {
+    position: relative;
+  }
+  .rb-shop-search svg {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9a9488;
+    pointer-events: none;
+  }
+  .rb-shop-search input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 14.5px;
+    color: #1b1a16;
+    background: #f3f1ec;
+    border: 1px solid rgba(27,26,22,0.12);
+    border-radius: 999px;
+    padding: 13px 16px 13px 42px;
+  }
+  .rb-shop-search input::placeholder { color: #9a9488; }
+
+  .rb-shop-filter-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #9a9488;
+    margin: 0 0 14px;
+  }
+
+  .rb-shop-cat-list, .rb-shop-price-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .rb-shop-check-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 4px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .rb-shop-check-row__left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15px;
+    color: #1b1a16;
+  }
+  .rb-shop-check-row__count {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: #9a9488;
+  }
+
+  .rb-shop-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    border: 1.5px solid rgba(27,26,22,0.28);
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .rb-shop-checkbox:checked {
+    background: #1b1a16;
+    border-color: #1b1a16;
+  }
+  .rb-shop-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .rb-shop-radio-row {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15px;
+    color: #1b1a16;
+  }
+  .rb-shop-radio-row.is-selected {
+    background: #f3f1ec;
+    font-weight: 700;
+  }
+
+  .rb-shop-radio {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(27,26,22,0.28);
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+  }
+  .rb-shop-radio:checked {
+    border-color: #1b1a16;
+  }
+  .rb-shop-radio:checked::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1b1a16;
+  }
+
+  .rb-shop-stock-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1b1a16;
+  }
+
+  .rb-shop-switch {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 42px;
+    height: 24px;
+    border-radius: 999px;
+    background: #e4e1d8;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .rb-shop-switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    transition: transform 0.15s;
+  }
+  .rb-shop-switch:checked {
+    background: #1b1a16;
+  }
+  .rb-shop-switch:checked::after {
+    transform: translateX(18px);
+  }
+
+  .rb-shop-clear {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #E63946;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .rb-shop-wholesale-cta {
+    margin-top: 4px;
+  }
+
+  /* ── Toolbar ── */
+  .rb-shop-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .rb-shop-count {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 16px;
+    color: #1b1a16;
+  }
+  .rb-shop-count strong { font-weight: 800; }
+
+  .rb-shop-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .rb-shop-sortby {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rb-shop-sortby-label {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #7a7567;
+  }
+  .rb-shop-sortby-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rb-shop-sortby-control svg {
+    pointer-events: none;
+    color: #1b1a16;
+  }
+  .rb-shop-sortby select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #1b1a16;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .rb-shop-show {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rb-shop-show-label {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #7a7567;
+  }
+  .rb-shop-show-track {
+    display: flex;
+    background: #f1ede4;
+    border-radius: 10px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .rb-shop-show-btn {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #7a7567;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+  .rb-shop-show-btn.is-active {
+    background: #fff;
+    color: #1b1a16;
+    box-shadow: 0 2px 6px rgba(20,22,18,0.16);
+  }
+
+  .rb-shop-density {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rb-shop-density-btn {
+    width: 34px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .rb-shop-density-btn.is-active {
+    border-color: #1b1a16;
+  }
+  .rb-shop-density-btn span {
+    display: block;
+    width: 3px;
+    border-radius: 1px;
+    background: rgba(27,26,22,0.28);
+  }
+  .rb-shop-density-btn.is-active span { background: #1b1a16; }
+  .rb-shop-density-btn[data-cols="3"] span { height: 16px; }
+  .rb-shop-density-btn[data-cols="4"] span { height: 16px; }
+  .rb-shop-density-btn[data-cols="5"] span { height: 16px; }
+
+  /* ── Out of stock + add-state ── */
+  .rb-shop-card { position: relative; }
+  .rb-shop-card[data-available="false"] .rb-shop-card__imgwrap { position: relative; }
+  .rb-shop-oos-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rb-shop-oos-chip {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #1b1a16;
+    background: #fff;
+    border: 1px solid rgba(27,26,22,0.16);
+    border-radius: 999px;
+    padding: 7px 14px;
+  }
+  .rb-btn-sm-outline.is-added {
+    background: #1f7a3a;
+    border-color: #1f7a3a;
+    color: #fff;
+  }
+
+  .rb-shop-case-label {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 12px;
+    color: #7a7567;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .rb-shop-body {
+      grid-template-columns: 1fr;
+    }
+    .rb-shop-sidebar {
+      position: static;
+      order: 2;
+    }
+    .rb-shop-grid-wrap { order: 1; }
+    .rb-shop-grid-wrap .rb-grid-3,
+    .rb-shop-grid-wrap .rb-grid-4,
+    .rb-shop-grid-wrap .rb-grid-5 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .rb-shop-toolbar-right { gap: 14px; }
+  }
+  @media (max-width: 460px) {
+    .rb-shop-grid-wrap .rb-grid-3,
+    .rb-shop-grid-wrap .rb-grid-4,
+    .rb-shop-grid-wrap .rb-grid-5 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div
+  class="rb-shop"
+  data-shop-root
+  data-default-price="{{ section.settings.default_price_filter }}"
+>
+  <div class="rb-container rb-shop-header">
+    <p class="rb-shop-breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a> / {{ section.settings.breadcrumb_label | default: section.settings.heading }}
+    </p>
+    <h1 class="rb-shop-h1">{{ section.settings.heading | default: 'Shop' }}</h1>
+
+    {%- if section.settings.intro_text != blank or section.settings.show_wholesale_cta -%}
+      <div class="rb-shop-intro-row">
+        {%- if section.settings.intro_text != blank -%}
+          <div class="rb-shop-intro-text">{{ section.settings.intro_text }}</div>
+        {%- endif -%}
+        {%- if section.settings.show_wholesale_cta -%}
+          <a href="{{ section.settings.wholesale_cta_url | default: '#' }}" class="rb-btn-outline rb-shop-wholesale-cta">
+            {{ section.settings.wholesale_cta_text | default: 'Request a wholesale account' }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <nav class="rb-shop-catnav" aria-label="Shop categories">
+      <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="snacks">{{ cat_snacks }}</button>
+      <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="beverages">{{ cat_beverages }}</button>
+      <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="sweets">{{ cat_sweets }}</button>
+      <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="groceries">{{ cat_groceries }}</button>
+      <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="household">{{ cat_household }}</button>
+      <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="health-beauty">{{ cat_health }}</button>
+    </nav>
+  </div>
+
+  <div class="rb-container rb-shop-body">
+
+    <!-- Sidebar -->
+    <aside class="rb-shop-sidebar">
+      <div class="rb-shop-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="text" placeholder="{{ section.settings.search_placeholder | default: 'Search snacks' }}" data-shop-search aria-label="Search products">
+      </div>
+
+      <div>
+        <p class="rb-shop-filter-label">Category</p>
+        <ul class="rb-shop-cat-list">
+          <li>
+            <label class="rb-shop-check-row">
+              <span class="rb-shop-check-row__left">
+                <input type="checkbox" class="rb-shop-checkbox" data-shop-cat-check value="snacks"> {{ cat_snacks }}
+              </span>
+              <span class="rb-shop-check-row__count" data-shop-cat-count="snacks">0</span>
+            </label>
+          </li>
+          <li>
+            <label class="rb-shop-check-row">
+              <span class="rb-shop-check-row__left">
+                <input type="checkbox" class="rb-shop-checkbox" data-shop-cat-check value="beverages"> {{ cat_beverages }}
+              </span>
+              <span class="rb-shop-check-row__count" data-shop-cat-count="beverages">0</span>
+            </label>
+          </li>
+          <li>
+            <label class="rb-shop-check-row">
+              <span class="rb-shop-check-row__left">
+                <input type="checkbox" class="rb-shop-checkbox" data-shop-cat-check value="sweets"> {{ cat_sweets }}
+              </span>
+              <span class="rb-shop-check-row__count" data-shop-cat-count="sweets">0</span>
+            </label>
+          </li>
+          <li>
+            <label class="rb-shop-check-row">
+              <span class="rb-shop-check-row__left">
+                <input type="checkbox" class="rb-shop-checkbox" data-shop-cat-check value="groceries"> {{ cat_groceries }}
+              </span>
+              <span class="rb-shop-check-row__count" data-shop-cat-count="groceries">0</span>
+            </label>
+          </li>
+          <li>
+            <label class="rb-shop-check-row">
+              <span class="rb-shop-check-row__left">
+                <input type="checkbox" class="rb-shop-checkbox" data-shop-cat-check value="household"> {{ cat_household }}
+              </span>
+              <span class="rb-shop-check-row__count" data-shop-cat-count="household">0</span>
+            </label>
+          </li>
+          <li>
+            <label class="rb-shop-check-row">
+              <span class="rb-shop-check-row__left">
+                <input type="checkbox" class="rb-shop-checkbox" data-shop-cat-check value="health-beauty"> {{ cat_health }}
+              </span>
+              <span class="rb-shop-check-row__count" data-shop-cat-count="health-beauty">0</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="rb-shop-filter-label">Price</p>
+        <ul class="rb-shop-price-list">
+          <li><label class="rb-shop-radio-row" data-shop-price-row="all"><input type="radio" class="rb-shop-radio" name="rb-shop-price-{{ section.id }}" data-shop-price-radio value="all"> All prices</label></li>
+          <li><label class="rb-shop-radio-row" data-shop-price-row="under2"><input type="radio" class="rb-shop-radio" name="rb-shop-price-{{ section.id }}" data-shop-price-radio value="under2"> Dollar Menu — under $2</label></li>
+          <li><label class="rb-shop-radio-row" data-shop-price-row="2to4"><input type="radio" class="rb-shop-radio" name="rb-shop-price-{{ section.id }}" data-shop-price-radio value="2to4"> $2 – $4</label></li>
+          <li><label class="rb-shop-radio-row" data-shop-price-row="4plus"><input type="radio" class="rb-shop-radio" name="rb-shop-price-{{ section.id }}" data-shop-price-radio value="4plus"> $4 &amp; up</label></li>
+        </ul>
+      </div>
+
+      <div class="rb-shop-stock-row">
+        In stock only
+        <input type="checkbox" class="rb-shop-switch" data-shop-instock aria-label="In stock only">
+      </div>
+
+      <button type="button" class="rb-shop-clear" data-shop-clear>Clear all filters</button>
+    </aside>
+
+    <!-- Grid -->
+    <div class="rb-shop-grid-wrap">
+      <div class="rb-shop-toolbar">
+        <p class="rb-shop-count"><strong data-shop-count-num>0</strong> <span data-shop-count-word>products</span></p>
+        <div class="rb-shop-toolbar-right">
+          <div class="rb-shop-sortby">
+            <span class="rb-shop-sortby-label">Sort by</span>
+            <div class="rb-shop-sortby-control">
+              <select data-shop-sort aria-label="Sort products">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="name">Name A–Z</option>
+              </select>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="rb-shop-show">
+            <span class="rb-shop-show-label">Show</span>
+            <div class="rb-shop-show-track">
+              <button type="button" class="rb-shop-show-btn is-active" data-shop-show="60">60</button>
+              <button type="button" class="rb-shop-show-btn" data-shop-show="120">120</button>
+            </div>
+          </div>
+
+          <div class="rb-shop-density">
+            <button type="button" class="rb-shop-density-btn" data-shop-density="3" data-cols="3" aria-label="3 columns">
+              <span></span><span></span><span></span>
+            </button>
+            <button type="button" class="rb-shop-density-btn is-active" data-shop-density="4" data-cols="4" aria-label="4 columns">
+              <span></span><span></span><span></span><span></span>
+            </button>
+            <button type="button" class="rb-shop-density-btn" data-shop-density="5" data-cols="5" aria-label="5 columns">
+              <span></span><span></span><span></span><span></span><span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="rb-grid-4" data-shop-grid>
+        {%- if section.settings.collection != blank -%}
+          {%- for product in section.settings.collection.products limit: 250 -%}
+            {%- liquid
+              assign variant = product.selected_or_first_available_variant
+              assign tags_lower = ''
+              assign matched_cats = ''
+
+              for tag in product.tags
+                assign t = tag | downcase | strip
+                if t == 'snacks'
+                  assign matched_cats = matched_cats | append: 'snacks '
+                endif
+                if t == 'beverages'
+                  assign matched_cats = matched_cats | append: 'beverages '
+                endif
+                if t == 'sweets'
+                  assign matched_cats = matched_cats | append: 'sweets '
+                endif
+                if t == 'grocery' or t == 'groceries'
+                  assign matched_cats = matched_cats | append: 'groceries '
+                endif
+                if t == 'household'
+                  assign matched_cats = matched_cats | append: 'household '
+                endif
+                if t == 'health-beauty' or t == 'health & beauty' or t == 'health and beauty'
+                  assign matched_cats = matched_cats | append: 'health-beauty '
+                endif
+              endfor
+
+              assign rating = product.metafields.reviews.rating.value | default: 0
+            -%}
+            <div
+              class="rb-shop-card rb-product-card product-item"
+              data-shop-card
+              data-categories="{{ matched_cats | strip }}"
+              data-price="{{ variant.price }}"
+              data-available="{{ product.available }}"
+              data-title="{{ product.title | downcase | escape }}"
+              data-rating="{{ rating }}"
+            >
+              <button class="rb-btn-wish" aria-label="Add to wishlist" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1b1a16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+
+              <a href="{{ product.url }}" style="display:block; text-decoration:none;">
+                <div class="rb-shop-card__imgwrap" style="position:relative; height:190px; border-radius:14px; background:#efece6; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:14px;">
+                  {%- if product.featured_image -%}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 400 }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                      style="max-height:86%; max-width:86%; object-fit:contain; filter:drop-shadow(0 14px 16px rgba(0,0,0,0.2));"
+                      loading="lazy"
+                      width="400"
+                    >
+                  {%- endif -%}
+                  {%- unless product.available -%}
+                    <div class="rb-shop-oos-overlay"><span class="rb-shop-oos-chip">Out of stock</span></div>
+                  {%- endunless -%}
+                </div>
+              </a>
+
+              <a href="{{ product.url }}" style="text-decoration:none; color:#1b1a16;">
+                <p style="font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:16.5px; font-weight:700; margin:0; line-height:1.25;">
+                  {{ product.title }}
+                </p>
+              </a>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:10px;">
+                <span>
+                  {%- if price_mode == 'case' -%}
+                    <span style="font-family:'Anton',sans-serif; font-size:22px; font-weight:400; color:#1b1a16;">{{ variant.price | money }}</span>
+                    <span class="rb-shop-case-label">/ case of {{ case_size }}</span>
+                  {%- else -%}
+                    <span style="font-family:'Anton',sans-serif; font-size:22px; font-weight:400; color:#1b1a16;">{{ variant.price | money }}</span>
+                  {%- endif -%}
+                </span>
+
+                {%- if product.available -%}
+                  {%- form 'product', product, class: 'rb-product-card__add-form', data-shop-add-form: true -%}
+                    <input type="hidden" name="id" value="{{ variant.id }}">
+                    <input type="hidden" name="quantity" value="{% if price_mode == 'case' %}{{ case_size }}{% else %}1{% endif %}">
+                    <button type="submit" class="rb-btn-sm-outline" data-shop-add-btn>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                      </svg>
+                      <span data-shop-add-label>{% if price_mode == 'case' %}Add case{% else %}Add to cart{% endif %}</span>
+                    </button>
+                  {%- endform -%}
+                {%- else -%}
+                  <a href="{{ product.url }}" class="rb-btn-sm-outline">Notify me</a>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-shop-root]');
+  if (!root) return;
+
+  var grid = root.querySelector('[data-shop-grid]');
+  var cards = Array.prototype.slice.call(root.querySelectorAll('[data-shop-card]'));
+  var originalOrder = cards.slice();
+
+  var countNum = root.querySelector('[data-shop-count-num]');
+  var countWord = root.querySelector('[data-shop-count-word]');
+  var searchInput = root.querySelector('[data-shop-search]');
+  var catChecks = Array.prototype.slice.call(root.querySelectorAll('[data-shop-cat-check]'));
+  var catNavLinks = Array.prototype.slice.call(root.querySelectorAll('[data-shop-catnav-link]'));
+  var priceRadios = Array.prototype.slice.call(root.querySelectorAll('[data-shop-price-radio]'));
+  var priceRows = Array.prototype.slice.call(root.querySelectorAll('[data-shop-price-row]'));
+  var stockToggle = root.querySelector('[data-shop-instock]');
+  var clearBtn = root.querySelector('[data-shop-clear]');
+  var sortSelect = root.querySelector('[data-shop-sort]');
+  var showButtons = Array.prototype.slice.call(root.querySelectorAll('[data-shop-show]'));
+  var densityButtons = Array.prototype.slice.call(root.querySelectorAll('[data-shop-density]'));
+
+  var state = {
+    search: '',
+    cats: [],
+    price: root.getAttribute('data-default-price') || 'all',
+    inStock: false,
+    sort: 'featured',
+    show: 60
+  };
+
+  // category counts (static, whole-collection totals)
+  function initCategoryCounts() {
+    var counts = {};
+    cards.forEach(function (c) {
+      (c.getAttribute('data-categories') || '').trim().split(' ').forEach(function (cat) {
+        if (!cat) return;
+        counts[cat] = (counts[cat] || 0) + 1;
+      });
+    });
+    root.querySelectorAll('[data-shop-cat-count]').forEach(function (el) {
+      var key = el.getAttribute('data-shop-cat-count');
+      el.textContent = counts[key] || 0;
+    });
+  }
+
+  function matchesFilters(card) {
+    if (state.inStock && card.getAttribute('data-available') !== 'true') return false;
+
+    if (state.cats.length) {
+      var cardCats = (card.getAttribute('data-categories') || '').trim().split(' ');
+      var any = state.cats.some(function (c) { return cardCats.indexOf(c) !== -1; });
+      if (!any) return false;
+    }
+
+    if (state.price !== 'all') {
+      var price = parseInt(card.getAttribute('data-price'), 10) || 0;
+      if (state.price === 'under2' && !(price < 200)) return false;
+      if (state.price === '2to4' && !(price >= 200 && price < 400)) return false;
+      if (state.price === '4plus' && !(price >= 400)) return false;
+    }
+
+    if (state.search) {
+      var title = card.getAttribute('data-title') || '';
+      if (title.indexOf(state.search) === -1) return false;
+    }
+
+    return true;
+  }
+
+  function sortCards(list) {
+    var arr = list.slice();
+    if (state.sort === 'price-asc') {
+      arr.sort(function (a, b) { return (+a.getAttribute('data-price')) - (+b.getAttribute('data-price')); });
+    } else if (state.sort === 'price-desc') {
+      arr.sort(function (a, b) { return (+b.getAttribute('data-price')) - (+a.getAttribute('data-price')); });
+    } else if (state.sort === 'rating') {
+      arr.sort(function (a, b) { return (+b.getAttribute('data-rating')) - (+a.getAttribute('data-rating')); });
+    } else if (state.sort === 'name') {
+      arr.sort(function (a, b) { return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title')); });
+    } else {
+      arr.sort(function (a, b) { return originalOrder.indexOf(a) - originalOrder.indexOf(b); });
+    }
+    return arr;
+  }
+
+  function render() {
+    var matched = cards.filter(matchesFilters);
+    var sorted = sortCards(matched);
+    var visible = sorted.slice(0, state.show);
+    var visibleSet = visible.reduce(function (set, c) { set[c] = true; return set; }, {});
+
+    sorted.forEach(function (c) {
+      grid.appendChild(c);
+      c.style.display = visibleSet[c] !== undefined ? '' : 'none';
+    });
+    cards.forEach(function (c) {
+      if (matched.indexOf(c) === -1) c.style.display = 'none';
+    });
+    visible.forEach(function (c) { c.style.display = ''; });
+
+    if (countNum) countNum.textContent = matched.length;
+    if (countWord) countWord.textContent = matched.length === 1 ? 'product' : 'products';
+  }
+
+  searchInput && searchInput.addEventListener('input', function () {
+    state.search = this.value.trim().toLowerCase();
+    render();
+  });
+
+  function setCatsFromCheckboxes() {
+    state.cats = catChecks.filter(function (c) { return c.checked; }).map(function (c) { return c.value; });
+    catNavLinks.forEach(function (link) {
+      var cat = link.getAttribute('data-cat');
+      link.classList.toggle('is-active', state.cats.length === 1 && state.cats[0] === cat);
+    });
+  }
+
+  catChecks.forEach(function (chk) {
+    chk.addEventListener('change', function () {
+      setCatsFromCheckboxes();
+      render();
+    });
+  });
+
+  catNavLinks.forEach(function (link) {
+    link.addEventListener('click', function () {
+      var cat = link.getAttribute('data-cat');
+      var alreadyOnlyThis = state.cats.length === 1 && state.cats[0] === cat;
+      catChecks.forEach(function (chk) {
+        chk.checked = !alreadyOnlyThis && chk.value === cat;
+      });
+      setCatsFromCheckboxes();
+      render();
+    });
+  });
+
+  function setPriceRowHighlight() {
+    priceRows.forEach(function (row) {
+      row.classList.toggle('is-selected', row.getAttribute('data-shop-price-row') === state.price);
+    });
+  }
+
+  priceRadios.forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (this.checked) {
+        state.price = this.value;
+        setPriceRowHighlight();
+        render();
+      }
+    });
+  });
+
+  stockToggle && stockToggle.addEventListener('change', function () {
+    state.inStock = this.checked;
+    render();
+  });
+
+  sortSelect && sortSelect.addEventListener('change', function () {
+    state.sort = this.value;
+    render();
+  });
+
+  showButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showButtons.forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      state.show = parseInt(btn.getAttribute('data-shop-show'), 10);
+      render();
+    });
+  });
+
+  densityButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      densityButtons.forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var cols = btn.getAttribute('data-shop-density');
+      grid.className = 'rb-grid-' + cols;
+      grid.setAttribute('data-shop-grid', '');
+    });
+  });
+
+  clearBtn && clearBtn.addEventListener('click', function () {
+    state = { search: '', cats: [], price: 'all', inStock: false, sort: 'featured', show: 60 };
+    if (searchInput) searchInput.value = '';
+    catChecks.forEach(function (c) { c.checked = false; });
+    priceRadios.forEach(function (r) { r.checked = r.value === 'all'; });
+    if (stockToggle) stockToggle.checked = false;
+    if (sortSelect) sortSelect.value = 'featured';
+    showButtons.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-shop-show') === '60'); });
+    catNavLinks.forEach(function (l) { l.classList.remove('is-active'); });
+    setPriceRowHighlight();
+    render();
+  });
+
+  // add-to-cart (AJAX)
+  root.addEventListener('submit', function (e) {
+    var form = e.target.closest('[data-shop-add-form]');
+    if (!form) return;
+    e.preventDefault();
+
+    var btn = form.querySelector('[data-shop-add-btn]');
+    var label = btn.querySelector('[data-shop-add-label]');
+    var originalText = label ? label.textContent : '';
+    var formData = new FormData(form);
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (res) { return res.json(); })
+      .then(function () {
+        btn.classList.add('is-added');
+        if (label) label.textContent = 'Added ✓';
+        setTimeout(function () {
+          btn.classList.remove('is-added');
+          if (label) label.textContent = originalText;
+        }, 1600);
+        return fetch('/cart.js');
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (cart) {
+        document.querySelectorAll('[data-cart-count-label]').forEach(function (el) {
+          el.textContent = 'Cart' + (cart.item_count > 0 ? ' · ' + cart.item_count : '');
+        });
+      })
+      .catch(function (err) { console.error('Add to cart failed', err); });
+  });
+
+  // init
+  initCategoryCounts();
+  (function applyDefaultPrice() {
+    priceRadios.forEach(function (r) { r.checked = r.value === state.price; });
+    setPriceRowHighlight();
+  })();
+  render();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop Listing",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to list"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_label",
+      "label": "Breadcrumb label",
+      "default": "Shop"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro / subhead (optional)"
+    },
+    {
+      "type": "select",
+      "id": "default_price_filter",
+      "label": "Default price filter",
+      "options": [
+        { "value": "all", "label": "All prices" },
+        { "value": "under2", "label": "Under $2" },
+        { "value": "2to4", "label": "$2 – $4" },
+        { "value": "4plus", "label": "$4 & up" }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "select",
+      "id": "price_mode",
+      "label": "Pricing mode",
+      "options": [
+        { "value": "unit", "label": "Per unit (Add to cart)" },
+        { "value": "case", "label": "Per case (Add case) — Wholesale" }
+      ],
+      "default": "unit"
+    },
+    {
+      "type": "number",
+      "id": "case_size",
+      "label": "Units per case (wholesale only)",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search snacks"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wholesale_cta",
+      "label": "Show wholesale CTA button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "wholesale_cta_text",
+      "label": "Wholesale CTA text",
+      "default": "Request a wholesale account"
+    },
+    {
+      "type": "url",
+      "id": "wholesale_cta_url",
+      "label": "Wholesale CTA link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop Listing"
+    }
+  ]
+}
+{% endschema %}

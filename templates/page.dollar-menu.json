@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "shop-listing",
+      "settings": {
+        "collection": "all",
+        "heading": "Dollar Menu",
+        "breadcrumb_label": "Dollar Menu",
+        "default_price_filter": "under2",
+        "price_mode": "unit",
+        "search_placeholder": "Search snacks",
+        "show_wholesale_cta": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

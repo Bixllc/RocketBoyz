@@ -14,7 +14,7 @@
     "layout_footer": "full",
     "footer_custom_width_size": 1600,
     "mobile_menu": "default",
-    "header_layout": "05",
+    "header_layout": "01",
     "enable_tab_categories": false,
     "footer_layout": "01",
     "type_font_1": "google_fonts",
@@ -403,54 +403,30 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
-          "announcement_RwnfUa": {
+          "announcement_FcT9E7": {
             "type": "announcement",
-            "disabled": true,
             "settings": {
-              "text": "",
+              "text": "Free shipping on orders over $60",
               "btn_color": "#f84248",
               "btn_border_color": "#ffffff",
               "btn_bg_color": "#ffffff",
               "btn_bg_color_gradient": ""
             }
           },
-          "countdown_9ftNEP": {
-            "type": "countdown",
-            "disabled": true,
-            "settings": {
-              "top_message_text": "Limited-time Offer!",
-              "annou_countdown": "Dec 31, 2022 18:00:00",
-              "color_countdown_text": "#06142e",
-              "border_color_countdown": "#f7f8fa",
-              "bg_color_countdown": "#f7f8fa"
-            }
-          },
-          "announcement-bar-0": {
+          "announcement_zFkWyw": {
             "type": "announcement",
             "settings": {
-              "text": "&#9679;&nbsp;&nbsp;Free shipping on orders over $60",
+              "text": "Insure your packages",
               "btn_color": "#ffffff",
               "btn_border_color": "#ffffff",
-              "btn_bg_color": "#ffffff",
-              "btn_bg_color_gradient": ""
-            }
-          },
-          "announcement_QiMWRk": {
-            "type": "announcement",
-            "settings": {
-              "text": "&#9679;&nbsp;&nbsp;Don't forget to add ShipInsure package protection",
-              "btn_color": "#ffffff",
-              "btn_border_color": "#ffffff",
-              "btn_bg_color": "#ffffff",
+              "btn_bg_color": "#042f2e",
               "btn_bg_color_gradient": ""
             }
           }
         },
         "block_order": [
-          "announcement_RwnfUa",
-          "countdown_9ftNEP",
-          "announcement-bar-0",
-          "announcement_QiMWRk"
+          "announcement_FcT9E7",
+          "announcement_zFkWyw"
         ],
         "settings": {
           "enable_announcement": true,
@@ -458,214 +434,72 @@
           "arrow_active": false,
           "enable_close": false,
           "color_text": "#ffffff",
-          "bg_color_text": "#0A5F5F",
+          "bg_color_text": "#042f2e",
           "bg_color_text_gradient": "",
           "font_size_text": 14,
           "font_style_text": "normal",
           "font_weight_text": "500",
-          "padding_top": 0,
-          "padding_bottom": 0
+          "padding_top": 8,
+          "padding_bottom": 8
         }
       },
       "header": {
         "type": "header",
         "blocks": {
-          "d3131109-9329-42fa-bbb5-d25d01fd698b": {
-            "type": "megamenu_style_1",
+          "dropdown_item_g4GXWY": {
+            "type": "dropdown_item",
             "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "item": "new in",
-              "column": 3,
-              "show_banner_1": true,
-              "banner_url_1": "shopify://collections/blazero",
-              "show_product": true,
-              "product_title": "Featured Products",
-              "product_collection": "naminos-dementus-a-dincidunto-5"
+              "title": "Snack Box",
+              "subtitle": "",
+              "url": ""
             }
           },
-          "0e4cbbf3-fe5e-4e10-a837-c7651f114767": {
-            "type": "megamenu_style_2",
+          "dropdown_item_UtABhj": {
+            "type": "dropdown_item",
             "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "item": "trend",
-              "column": 3,
-              "show_banner_1": true,
-              "banner_url_1": "shopify://collections/congue",
-              "show_banner_2": true,
-              "banner_url_2": "shopify://collections/cosmopolis",
-              "show_banner_3": true,
-              "banner_url_3": "shopify://collections/cosmopolitan"
+              "title": "Wholesale",
+              "subtitle": "",
+              "url": ""
             }
           },
-          "4d022900-5ec2-41b0-89c1-edea75a13c28": {
-            "type": "megamenu_style_3",
+          "dropdown_item_My4yVw": {
+            "type": "dropdown_item",
             "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "mega_tyle": "style1",
-              "item": "collections",
-              "column": 5,
-              "show_banner_1": true,
-              "banner_url_1": "shopify://products/dempus-lortis-cosmo-sapiendo",
-              "show_banner_2": true,
-              "banner_url_2": "shopify://products/dempus-lortis-cosmo-sapiendo-1",
-              "show_banner_3": true,
-              "banner_url_3": "shopify://products/dempus-lortis-cosmo-sapiendo-2",
-              "show_banner_4": true,
-              "banner_url_4": "shopify://products/dempus-lortis-cosmo-sapiendo-3",
-              "show_banner_5": true,
-              "banner_url_5": "shopify://products/dempus-an-lortis-tempus-sapiendos"
-            }
-          },
-          "23b6fa6d-4f30-4a97-8dc1-2c516f8a7f0e": {
-            "type": "megamenu_style_1",
-            "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "item": "demo",
-              "column": 5,
-              "show_banner_1": false,
-              "banner_url_1": "shopify://products/dempus-lortis-cosmo-sapiendo-4",
-              "show_product": false,
-              "product_title": "On Sale Products",
-              "product_collection": "dempus-an-lortis-tempus-sapiendos"
-            }
-          },
-          "3d2520ed-30fc-4694-a7bd-8479ad2d6892": {
-            "type": "megamenu_style_1",
-            "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "item": "Theme Demo",
-              "column": 5,
-              "show_banner_1": false,
-              "banner_url_1": "",
-              "show_product": false,
-              "product_title": "Featured Products",
-              "product_collection": ""
-            }
-          },
-          "01014ccc-ffe5-4c78-b814-da3ff7d8b45c": {
-            "type": "megamenu_style_1",
-            "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "item": "Shop",
-              "column": 4,
-              "show_banner_1": false,
-              "banner_url_1": "",
-              "show_product": false,
-              "product_title": "Featured Products",
-              "product_collection": ""
-            }
-          },
-          "ec0f7e9f-1012-463e-a1fd-f9225f7f1cc3": {
-            "type": "megamenu_style_1",
-            "settings": {
-              "layout_block": "custom_width",
-              "header_custom_width_size": 1200,
-              "item": "Product",
-              "column": 5,
-              "show_banner_1": false,
-              "banner_url_1": "",
-              "show_product": false,
-              "product_title": "Featured Products",
-              "product_collection": ""
+              "title": "Dollar Menu",
+              "subtitle": "",
+              "url": ""
             }
           }
         },
         "block_order": [
-          "d3131109-9329-42fa-bbb5-d25d01fd698b",
-          "0e4cbbf3-fe5e-4e10-a837-c7651f114767",
-          "4d022900-5ec2-41b0-89c1-edea75a13c28",
-          "23b6fa6d-4f30-4a97-8dc1-2c516f8a7f0e",
-          "3d2520ed-30fc-4694-a7bd-8479ad2d6892",
-          "01014ccc-ffe5-4c78-b814-da3ff7d8b45c",
-          "ec0f7e9f-1012-463e-a1fd-f9225f7f1cc3"
+          "dropdown_item_g4GXWY",
+          "dropdown_item_UtABhj",
+          "dropdown_item_My4yVw"
         ],
         "settings": {
-          "menu": "header-nav",
-          "show_megamenu": true,
-          "enable_sticky_header": true,
-          "hide_scroll": true,
-          "show_search": true,
-          "show_cart": true,
-          "show_wishlist": true,
-          "show_customer": true,
-          "display_customer_service": true,
-          "customer_service_text": "Customer Service <a href=\"tel:091%20234-ELLA\">091 234-ELLA</a>",
-          "display_free_shipping": true,
-          "free_shipping_text": "Free shipping on all orders. No minimum purchase",
-          "header_top_color": "#323232",
-          "header_top_color_2": "#232323",
-          "header_top_bg": "#ffffff",
-          "header_top_bg_gradient": "",
-          "bg_search_color": "#fafafa",
-          "search_color": "#323232",
-          "search_icon_color": "#323232",
-          "search_border_color": "#e7e7e7",
-          "cart_bg_item": "#ffe5e8",
-          "cart_color_item": "#323232",
-          "header_bottom_bg": "#000000",
-          "header_bottom_bg_gradient": "",
-          "header_mobile_bg": "#ffffff",
-          "header_mobile_color": "#232323",
-          "header_icon_mobile_spacing": 30,
-          "logo_text": "",
-          "logo_width": 90,
-          "logo_width_mobile": 65,
-          "logo_width_fixed": 50,
-          "logo_font_size": 30,
-          "logo_font_weight": "900",
-          "logo_text_transform": "uppercase",
-          "logo_color": "#ffffff",
-          "lv_1_color": "#ffffff",
-          "lv_1_color_hover": "#ffffff",
-          "lv_1_color_mb": "#000000",
-          "lv_2_color": "#232323",
-          "lv_2_color_hover": "#232323",
-          "lv_2_color_mb": "#000000",
-          "lv_3_color": "#3c3c3c",
-          "lv_3_color_hover": "#3c3c3c",
-          "lv_3_color_mb": "#000000",
-          "sale_item_1": "",
-          "sale_item_2": "",
-          "sale_item_3": "",
-          "sale_item_color": "#d12442",
-          "show_label": true,
-          "show_label_blink": true,
-          "new_label_1": "Theme Demo",
-          "new_label_2": "",
-          "new_label_3": "Home 21 - Yoga, Home 22 - Eyes Wears, Home 23 - Plant+ Garden, Home 24 - Bicycle, Mobile Sticky Toolbar",
-          "new_label_color": "#ffffff",
-          "new_label_bg": "#06bfe2",
-          "new_label_bg_gradient": "",
-          "sale_label_1": "Buy Ella",
-          "sale_label_2": "",
-          "sale_label_3": "",
-          "sale_label_color": "#ffffff",
-          "sale_label_bg": "#ef6454",
-          "sale_label_bg_gradient": "",
-          "hot_label_1": "Product",
-          "hot_label_2": "RTL Layout",
-          "hot_label_3": "Bundle - Upsell, Variant Image Grouped, Home 02 - Trendy Style, Home 04 - High Fashion, Home 06 - SuperMarket, Home 15 - Automotive 2, Home 09 - Pet Supplies, Different Mobile Menu, Custom Options, Variant Metafield, Notify Me (Out Of Stock), Color Comparison, Product Combo",
-          "hot_label_color": "#ffffff",
-          "hot_label_bg": "#ffbb49",
-          "hot_label_bg_gradient": "",
-          "bg_mega_menu": "#ffffff",
-          "bg_mega_menu_style_4": "#f8f8f8",
-          "az_brand_link_text_color": "#000000"
+          "logo": "shopify://shop_images/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp",
+          "logo_height": 46
         }
       },
       "footer": {
         "type": "footer",
         "blocks": {
+          "rb_footer_brand": {
+            "type": "text",
+            "settings": {
+              "custom_width": "25",
+              "layout_style": "style_1",
+              "border_block_style_2_color": "#000",
+              "heading": "",
+              "logo": "shopify://shop_images/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp",
+              "logo_margin_bottom": 16,
+              "subtext": "<p>Caribbean snacks, distributed with love and shipped with speed. Keep the culture in stock.</p>"
+            }
+          },
           "footer-0": {
             "type": "link_list",
             "settings": {
-              "custom_width": "20",
+              "custom_width": "25",
               "heading": "Quick Links",
               "menu": "main-menu"
             }
@@ -673,23 +507,15 @@
           "d214f3b2-0aee-43b9-9dfa-73991e36badc": {
             "type": "link_list",
             "settings": {
-              "custom_width": "20",
+              "custom_width": "25",
               "heading": "Customer Care",
               "menu": "footer"
-            }
-          },
-          "link_list_idLi67": {
-            "type": "link_list",
-            "settings": {
-              "custom_width": "20",
-              "heading": "Company",
-              "menu": "footer-1"
             }
           },
           "ece4468c-0331-4616-bca7-5e13eadbf9bb": {
             "type": "newsletter",
             "settings": {
-              "custom_width": "40",
+              "custom_width": "25",
               "enable_top": false,
               "background_color": "",
               "newsletter_style": "style1",
@@ -703,20 +529,20 @@
               "mg_bottom_des": 10,
               "spacing_input": 10,
               "newsletter_form_width": 420,
-              "newsletter_form_radius": 0,
+              "newsletter_form_radius": 50,
               "input_text": "enter your email address",
-              "input_color": "#232323",
-              "input_color_bg": "#ffffff",
-              "input_color_border": "#d3d3d3",
+              "input_color": "#1b1a16",
+              "input_color_bg": "transparent",
+              "input_color_border": "transparent",
               "button_text": "Submit",
               "button_width": 150,
-              "button_color": "#ffffff",
-              "button_color_border": "#000000",
-              "button_color_bg": "#000000",
+              "button_color": "#1b1a16",
+              "button_color_border": "rgba(27, 26, 22, 0.16)",
+              "button_color_bg": "#ffffff",
               "button_color_bg_gradient": "",
-              "button_color_hover": "#ffffff",
-              "button_color_border_hover": "#000000",
-              "button_color_bg_hover": "#da2516",
+              "button_color_hover": "#1b1a16",
+              "button_color_border_hover": "rgba(27, 26, 22, 0.16)",
+              "button_color_bg_hover": "#f3f1ec",
               "button_color_bg_gradient_hover": "",
               "check_text": "",
               "check_text_color": "#808080",
@@ -726,17 +552,17 @@
           }
         },
         "block_order": [
+          "rb_footer_brand",
           "footer-0",
           "d214f3b2-0aee-43b9-9dfa-73991e36badc",
-          "link_list_idLi67",
           "ece4468c-0331-4616-bca7-5e13eadbf9bb"
         ],
         "settings": {
           "enable_border_footer_top": false,
-          "border_footer_top_color": "#000000",
+          "border_footer_top_color": "#e4e1d8",
           "pdtop_footer_top": 35,
           "pdbottom_footer_top": 40,
-          "footer_top_bg": "#000000",
+          "footer_top_bg": "#ffffff",
           "footer_top_bg_gradient": "",
           "show_footer_top_bg_img": false,
           "footer_top_bg_position_x": "center",
@@ -745,9 +571,9 @@
           "footer_top_bg_attachment": "fixed",
           "footer_top_bg_size": "cover",
           "footer_top_text_align": "left",
-          "footer_top_title_color": "#f8f8f8",
-          "footer_top_color_link": "#f8f8f8",
-          "footer_top_color_link_hover": "#ffffff",
+          "footer_top_title_color": "#1b1a16",
+          "footer_top_color_link": "#33302b",
+          "footer_top_color_link_hover": "#E63946",
           "social_heading": "follow wi pon dem yah !",
           "show_social": true,
           "enable_bg_social": false,
@@ -756,17 +582,17 @@
           "social_icon_padding": 12,
           "social_icon_border_width": 0,
           "social_icon_margin_right": 15,
-          "social_position": "3",
+          "social_position": "1",
           "column_reverse": false,
-          "social_color": "#282828",
-          "social_border_color": "#ffffff",
+          "social_color": "#1b1a16",
+          "social_border_color": "#e4e1d8",
           "social_background_color": "#ffffff",
           "social_background_color_gradient": "",
-          "social_color_hover": "#282828",
-          "social_border_color_hover": "#ffffff",
-          "social_background_color_hover": "#ffffff",
+          "social_color_hover": "#ffffff",
+          "social_border_color_hover": "#1b1a16",
+          "social_background_color_hover": "#1b1a16",
           "social_background_color_gradient_hover": "",
-          "social_box_hover_color": "#ffffff",
+          "social_box_hover_color": "#1b1a16",
           "enable_trust": false,
           "margin_top_image_trust": 60,
           "trust_position": "full",
@@ -774,9 +600,9 @@
           "pdtop_footer_bottom": 20,
           "pdbottom_footer_bottom": 40,
           "border_top": true,
-          "footer_bottom_color": "#ffffff",
-          "border_top_color": "#000000",
-          "footer_bottom_bg": "#000000",
+          "footer_bottom_color": "#7a7567",
+          "border_top_color": "#e4e1d8",
+          "footer_bottom_bg": "#ffffff",
           "footer_bottom_bg_gradient": "",
           "show_copyright": true,
           "enable_layout_grid": true,
@@ -1517,13 +1343,13 @@
       "header-05": {
         "type": "header-05",
         "settings": {
-          "menu": "main-menu",
+          "menu": "header-nav",
           "show_megamenu": true,
           "enable_sticky_header": true,
           "hide_scroll": true,
           "show_search": true,
           "show_cart": true,
-          "show_wishlist": false,
+          "show_wishlist": true,
           "show_customer": true,
           "display_customer_service": false,
           "customer_service_text": "Customer Service 091 234-ELLA",

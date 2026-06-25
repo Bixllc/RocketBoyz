@@ -757,6 +757,97 @@
         }
     {%- endif -%}
 
+    {%- if section.settings.enable_rb_design -%}
+        .section-block-{{section.id}} .halo-block-header .title .text {
+            font-family: 'Anton', sans-serif !important;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: clamp(2rem, 3.6vw, 3.25rem);
+            line-height: 0.95;
+            color: #1b1a16;
+        }
+
+        .section-block-{{section.id}} .view_all {
+            font-family: 'Hanken Grotesk', sans-serif !important;
+            font-size: 13.5px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            text-decoration: none;
+            background: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            border-bottom: 1.5px solid transparent;
+            border-image: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+            border-image-slice: 1;
+        }
+
+        .section-block-{{section.id}} .view_all:hover {
+            opacity: 0.7;
+        }
+
+        .section-block-{{section.id}} .product-item {
+            background-color: #fbfaf7;
+            border: 2px solid transparent;
+            border-radius: 18px;
+            background-image: linear-gradient(#fbfaf7, #fbfaf7), linear-gradient(135deg, rgba(230,57,70,0) 0%, rgba(255,159,28,0) 100%);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            transition: background-image 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .section-block-{{section.id}} .product-item:hover {
+            background-image: linear-gradient(#fbfaf7, #fbfaf7), linear-gradient(135deg, #E63946 0%, #FF9F1C 100%);
+            box-shadow: 0 20px 36px -22px rgba(20, 22, 18, 0.4);
+        }
+
+        .section-block-{{section.id}} .card-title .text {
+            font-family: 'Hanken Grotesk', sans-serif !important;
+            font-size: 16.5px;
+            font-weight: 700;
+            color: #1b1a16;
+        }
+
+        .section-block-{{section.id}} .price-item--regular,
+        .section-block-{{section.id}} .price-item--sale {
+            font-family: 'Anton', sans-serif !important;
+            font-weight: 400;
+            font-size: 22px;
+            color: #1b1a16;
+        }
+
+        .section-block-{{section.id}} .button-ATC {
+            font-family: 'Hanken Grotesk', sans-serif !important;
+            background: transparent;
+            color: #1b1a16;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 9px 15px;
+            border-radius: 999px;
+            border: 1.5px solid rgba(27, 26, 22, 0.2);
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+
+        .section-block-{{section.id}} .button-ATC:hover {
+            background: #1b1a16;
+            border-color: #1b1a16;
+            color: #f3f0e9;
+        }
+
+        .section-block-{{section.id}} .wishlist-icon svg {
+            fill: none;
+            stroke: #1b1a16;
+            transition: fill 0.15s, stroke 0.15s;
+        }
+
+        .section-block-{{section.id}} .wishlist-icon:hover svg {
+            fill: url(#rb-heart-gradient);
+            stroke: url(#rb-heart-gradient);
+        }
+    {%- endif -%}
+
     {% if infinite_scroll %}
         .section-block-{{section.id}} .product-infinite-scroll {
             margin-top: {{ mg_bottom_button | append: 'px' }};
@@ -1243,6 +1334,17 @@
     "name": "t:sections.product_block.name",
     "class": "sections-product-block",
     "settings": [
+    {
+        "type": "header",
+        "content": "RocketBoyz design"
+    },
+    {
+        "type": "checkbox",
+        "id": "enable_rb_design",
+        "label": "Use RocketBoyz card design",
+        "info": "Restyles this section's heading, cards and buttons to match the new design system, without changing the products, layout or settings below.",
+        "default": false
+    },
     {
         "type": "header",
         "content": "t:sections.layout.content"

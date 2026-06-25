@@ -331,6 +331,27 @@
     --rb-font:        'Clash Display', sans-serif;
 }
 
+/* Apply Clash Display to announcement bar */
+.announcement-bar,
+.announcement-bar__message,
+.announcement-bar__message p,
+.announcement-bar__message .message {
+    font-family: var(--rb-font) !important;
+}
+
+/* Responsive font size for announcement bar */
+.announcement-bar__message,
+.announcement-bar__message p {
+    font-size: 14px;
+}
+
+@media (max-width: 767px) {
+    .announcement-bar__message,
+    .announcement-bar__message p {
+        font-size: 12px !important;
+    }
+}
+
 /* Apply Clash Display to the entire header */
 .header-05,
 .header-05 .menu-lv-1__action,

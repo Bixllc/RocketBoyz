@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "shop-listing",
+      "settings": {
+        "collection": "all",
+        "heading": "Shop",
+        "breadcrumb_label": "Shop",
+        "default_price_filter": "all",
+        "price_mode": "unit",
+        "search_placeholder": "Search snacks",
+        "show_wholesale_cta": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

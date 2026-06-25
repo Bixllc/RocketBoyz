@@ -1,0 +1,376 @@
+<style>
+  .spice-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    min-height: 88vh;
+    background: {{ section.settings.background_color }};
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .spice-{{ section.id }} .spice__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 34px 32px;
+    display: grid;
+    grid-template-columns: 0.96fr 1.04fr;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .spice-{{ section.id }} .spice__head {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(58px, 6.8vw, 112px);
+    line-height: 0.98;
+    text-transform: uppercase;
+    color: #1b1a16;
+    margin: 0;
+    will-change: transform, opacity;
+  }
+
+  .spice-{{ section.id }} .spice__head span {
+    background: linear-gradient(92deg, #E63946, #FF9F1C);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .spice-{{ section.id }} .spice__sub {
+    will-change: transform, opacity;
+  }
+
+  .spice-{{ section.id }} .spice__tag {
+    font-family: 'DM Mono', monospace;
+    font-style: italic;
+    font-size: 18px;
+    color: #E63946;
+    margin: 22px 0 0;
+  }
+
+  .spice-{{ section.id }} .spice__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 32px;
+    padding: 16px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #1b1a16;
+    border: 1.5px solid rgba(27, 26, 22, 0.22);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .spice-{{ section.id }} .spice__btn:hover {
+    background: #1b1a16;
+    color: #f3f0e9;
+    border-color: #1b1a16;
+    transform: translateY(-2px);
+  }
+
+  .spice-{{ section.id }} .stage {
+    position: relative;
+    height: 560px;
+  }
+
+  .spice-{{ section.id }} .stage__glow {
+    position: absolute;
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 58%;
+    border-radius: 50%;
+    filter: blur(8px);
+    pointer-events: none;
+    background: radial-gradient(closest-side, rgba(255, 210, 120, 0.45), rgba(255, 210, 120, 0) 72%);
+  }
+
+  .spice-{{ section.id }} .bagGroup {
+    position: absolute;
+    right: -11%;
+    bottom: -7%;
+    width: 82%;
+    aspect-ratio: 885 / 961;
+    transform-origin: 52% 88%;
+    transform: rotate({{ section.settings.bag_rotation }}deg);
+    will-change: transform, opacity;
+  }
+
+  .spice-{{ section.id }} .food {
+    position: absolute;
+    left: 50%;
+    top: {{ section.settings.food_top }}%;
+    width: {{ section.settings.food_width }}%;
+    transform: translateX(-50%);
+    z-index: 2;
+    will-change: transform, opacity;
+  }
+
+  .spice-{{ section.id }} .food img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 16px 16px rgba(31, 30, 24, 0.3));
+  }
+
+  .spice-{{ section.id }} .bag {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 3;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 26px 30px rgba(31, 30, 24, 0.16)) contrast(1.12) saturate(1.08);
+  }
+
+  .spice-{{ section.id }} .bag-sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.12) 28%,
+      rgba(255, 255, 255, 0) 48%,
+      rgba(20, 20, 20, 0.05) 72%,
+      rgba(20, 20, 20, 0.16) 100%);
+    mix-blend-mode: overlay;
+    -webkit-mask-image: var(--bag-mask);
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-image: var(--bag-mask);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  .spice-{{ section.id }} .stage__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 14px;
+    color: rgba(27, 26, 22, 0.35);
+    text-align: center;
+    padding: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .spice-{{ section.id }} .spice__inner {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .spice-{{ section.id }} {
+      min-height: auto;
+      padding: 56px 0;
+    }
+
+    .spice-{{ section.id }} .stage {
+      height: 380px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .spice-{{ section.id }} .spice__head {
+      font-size: clamp(40px, 13vw, 64px);
+    }
+  }
+</style>
+
+<section class="spice-{{ section.id }}">
+  <div class="spice__inner">
+    <div>
+      <h2 class="spice__head" data-spice-head>
+        {{ section.settings.headline_line1 | default: 'Introducing' }}<br>
+        <span>{{ section.settings.headline_line2 | default: 'Rocket Spice Bun' }}</span>
+      </h2>
+      <div class="spice__sub" data-spice-sub>
+        {%- if section.settings.tagline != blank -%}
+          <p class="spice__tag">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+        {%- if section.settings.button_text != blank -%}
+          <a class="spice__btn" href="{{ section.settings.button_url | default: '#' }}">
+            {{ section.settings.button_text }}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage__glow"></div>
+      {%- if section.settings.wrapper_image != blank -%}
+        <div class="bagGroup" data-spice-bag>
+          {%- if section.settings.food_image != blank -%}
+            <div class="food" data-spice-food>
+              <img
+                src="{{ section.settings.food_image | image_url: width: 600 }}"
+                width="{{ section.settings.food_image.width }}"
+                height="{{ section.settings.food_image.height }}"
+                alt="{{ section.settings.headline_line2 | default: 'Rocket Spice Bun' | escape }}"
+                loading="lazy"
+              >
+            </div>
+          {%- endif -%}
+          <img
+            class="bag"
+            src="{{ section.settings.wrapper_image | image_url: width: 900 }}"
+            width="{{ section.settings.wrapper_image.width }}"
+            height="{{ section.settings.wrapper_image.height }}"
+            alt="{{ section.settings.headline_line2 | default: 'Rocket Spice Bun' | escape }} wrapper"
+            loading="lazy"
+          >
+          <div class="bag-sheen" style="--bag-mask: url('{{ section.settings.wrapper_image | image_url: width: 900 }}');"></div>
+        </div>
+      {%- else -%}
+        <div class="stage__placeholder">Add a wrapper image and a bun + cheese image in the section settings</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'gsap.js' | asset_url }}" defer="defer"></script>
+<script defer="defer">
+  (function () {
+    function initSpiceReveal() {
+      var root = document.querySelector('.spice-{{ section.id }}');
+      if (!root || typeof gsap === 'undefined') return;
+
+      var head = root.querySelector('[data-spice-head]');
+      var sub = root.querySelector('[data-spice-sub]');
+      var bag = root.querySelector('[data-spice-bag]');
+      var food = root.querySelector('[data-spice-food]');
+      var restRotation = {{ section.settings.bag_rotation }};
+
+      var tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+
+      if (head) {
+        tl.from(head, { y: 70, opacity: 0, duration: 0.55 }, 0.05);
+      }
+      if (sub) {
+        tl.from(sub, { y: 40, opacity: 0, duration: 0.55 }, 0.28);
+      }
+      if (bag) {
+        // matches the "slideInUp" entrance: rise + fade, with a slight settle in rotation
+        tl.fromTo(bag,
+          { y: 60, rotation: restRotation - 6, opacity: 0 },
+          { y: 0, rotation: restRotation, opacity: 1, duration: 0.7 }, 0.2);
+      }
+      if (food) {
+        // food follows fast, slightly staggered after the bag (matches their "animated-fast" delay)
+        tl.from(food, { y: 40, opacity: 0, duration: 0.5 }, 0.45);
+      }
+
+      tl.play();
+    }
+
+    if (document.readyState === 'complete') {
+      initSpiceReveal();
+    } else {
+      window.addEventListener('load', initSpiceReveal);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Spice Bun Reveal",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f3f1ec"
+    },
+    {
+      "type": "text",
+      "id": "headline_line1",
+      "label": "Headline line 1",
+      "default": "Introducing"
+    },
+    {
+      "type": "text",
+      "id": "headline_line2",
+      "label": "Headline line 2 (gradient)",
+      "default": "Rocket Spice Bun"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "\"Squeeze me baby.\""
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Spice Bun"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "wrapper_image",
+      "label": "Bag / wrapper image (transparent PNG)"
+    },
+    {
+      "type": "image_picker",
+      "id": "food_image",
+      "label": "Bun + cheese image (transparent PNG)"
+    },
+    {
+      "type": "range",
+      "id": "food_width",
+      "label": "Food image width (%)",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "food_top",
+      "label": "Food image vertical offset (%)",
+      "info": "Negative values move the food higher, so it pokes above the bag's opening",
+      "min": -40,
+      "max": 40,
+      "step": 1,
+      "unit": "%",
+      "default": -8
+    },
+    {
+      "type": "range",
+      "id": "bag_rotation",
+      "label": "Bag resting rotation (deg)",
+      "min": -30,
+      "max": 30,
+      "step": 1,
+      "default": -13
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spice Bun Reveal"
+    }
+  ]
+}
+{% endschema %}

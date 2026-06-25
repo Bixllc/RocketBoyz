@@ -1,0 +1,96 @@
+<section class="py-6">
+  <div class="container">
+
+    <!-- Section Header -->
+    <div class="text-center mb-5">
+      <h2 class="gradient-heading" style="font-size: 2.5rem; margin-bottom: 1rem;">
+        {{ section.settings.section_heading | default: "Featured Products" }}
+      </h2>
+      {% if section.settings.section_description %}
+        <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto;">
+          {{ section.settings.section_description }}
+        </p>
+      {% endif %}
+    </div>
+
+    <!-- Products Grid -->
+    {% if section.settings.collection != blank %}
+      <div class="rb-grid rb-grid-2">
+        {% for product in collections[section.settings.collection].products limit: section.settings.products_to_show %}
+          {% render 'product-card', product_card_product: product %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="rb-grid rb-grid-2">
+        {% for product in collections.all.products limit: section.settings.products_to_show %}
+          {% render 'product-card', product_card_product: product %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- View All Button -->
+    {% if section.settings.show_view_all %}
+      <div class="text-center mt-5">
+        <a href="{{ section.settings.view_all_link | default: '/collections/all' }}" class="btn btn-primary">
+          {{ section.settings.view_all_text | default: "View All Products" }}
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "textarea",
+      "id": "section_description",
+      "label": "Section Description"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Number of products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "'View All' button text",
+      "default": "View All Products"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "'View All' button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}

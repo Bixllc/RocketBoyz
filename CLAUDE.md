@@ -56,8 +56,54 @@ The live site must never be touched — all work is on the duplicate theme only.
 - Standard: transition-colors duration-200
 - Dropdowns: fade in + slide down (opacity 0→1, y 8→0, 150ms)
 
+## Design Tokens v2 (reference only — not active, do not apply without explicit instruction)
+This is an alternate design token set under consideration. It conflicts with the active Brand Kit above
+(different fonts/colors) and must NOT be used in any file until the user explicitly says to switch to it.
+
+### Colors — Brand / accent
+- --brand-red: #E63946 — Gradient start, accents
+- --brand-orange: #FF9F1C — Gradient end, accents
+- --brand-gradient: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%) — Headlines, borders, CTAs
+- --accent-green: #27402F — Prop default accent / avatars
+
+### Colors — Ink & surface (warm neutrals)
+- --ink: #1b1a16 — Primary text, dark buttons
+- --ink-hero: #17150f / #16150f — Hero/video dark backgrounds
+- --text-muted: #54514a — Body copy
+- --text-soft: #6e6a60 — Footer/secondary
+- --text-faint: #8a857a / #7a7567 — Captions, meta labels
+- --cream: #f3f0e9 / #f6f2e8 — Light text on dark
+- --bg-white: #ffffff — Page background
+- --bg-card: #fbfaf7 — Product/review cards
+- --bg-section: #f3f1ec — Alt section (Spice Bun)
+- --bg-image-well: #efece6 / #f1ede4 — Image placeholders, inputs
+
+### Colors — Semantic / status
+- --success: #1f7a3a / #1f8a3a (trend up, checks)
+- --star: #c8a24b (review stars)
+- Border / hairline: rgba(27,26,22,0.1) default; 0.12 / 0.16 / 0.2 / 0.22 for stronger; rgba(243,240,233,0.4) on dark
+
+### Typography
+- --font-display: 'Anton', sans-serif — uppercase, weight 400, line-height ~0.9, tracking −0.005 to −0.01em
+- --font-body: 'Hanken Grotesk', system-ui, sans-serif — 400–800
+- --font-mono: 'DM Mono', monospace — labels, price meta, eyebrows (often uppercase, tracking 0.06–0.2em)
+- Type scale (fluid): H1 clamp(48px,5.6vw,90px) · H2 display clamp(40px,4.6vw,72px) → section clamp(32px,3.6vw,52px) · body 16.5–18px · small 13.5–15px · eyebrow/meta 11–12px
+
+### Radii
+14px (image wells) · 18–20px (cards) · 26px (large panels) · 30px (CTA blocks) · 999px (pills/buttons/avatars)
+
+### Spacing
+Section padding ~64–80px vertical, 32px horizontal. Container max-width 1280px. Grid gaps 14–18px (cards), 30–54px (layout columns).
+
+### Shadows
+- Card hover: 0 20px 36px -22px rgba(20,22,18,0.4)
+- Carousel panel: 0 24px 50px -34px rgba(20,22,18,0.4)
+- CTA block: 0 30px 70px -40px rgba(20,40,28,0.22)
+- Product drop-shadow: drop-shadow(0 14px 16px rgba(0,0,0,0.2))
+
 ## File Structure Notes
-- Header: sections/header-05.liquid (active header, controlled by settings.header_layout: "05")
+- Header: sections/header.liquid (active header, controlled by settings.header_layout: "01" — see snippets/wrapper-header.liquid for the layout switch)
+- Announcement bar: rendered via {% section 'announcement-bar' %} in snippets/wrapper-header.liquid (added — it wasn't being rendered anywhere before)
 - Announcement bar: sections/announcement-bar.liquid
 - CSS: assets/component-header-05.css, assets/base.css
 - Sections: sections/*.liquid
@@ -65,14 +111,14 @@ The live site must never be touched — all work is on the duplicate theme only.
 - Theme entry: layout/theme.liquid
 
 ## Theme IDs
-- Dev theme (work here): 161208828162
-- Backup/staging: 161208336642
+- Working theme (work here): "LIVE BACKUP - do not delete" — 161208336642
+- Old dev theme (no longer the default, theme editor settings panel had a stuck-cache bug for new sections): 161685602562
 - Live theme (DO NOT TOUCH): rocket 2023 — #136885895426
 
 ## Dev Commands
 - Start dev server: shopify theme dev --store snacks-by-rocket.myshopify.com
-- Push to dev: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208828162
-- Push single file: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208828162 --only <file>
+- Push to working theme: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208336642
+- Push single file: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208336642 --only <file>
 - Local preview: http://127.0.0.1:9292
 
 ## Navigation

@@ -1,0 +1,380 @@
+/* =============================================================
+   RocketBoyz Design System — rb-design.css
+   Matches Claude Design (Rocket Boyz.dc.html) exactly
+   ============================================================= */
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: #1b1a16; color: #f3f0e9; }
+
+/* ── Design tokens ──────────────────────────────────────────── */
+:root {
+  --rb-black:    #1b1a16;
+  --rb-cream:    #f3f1ec;
+  --rb-card-bg:  #fbfaf7;
+  --rb-red:      #E63946;
+  --rb-orange:   #FF9F1C;
+  --rb-gradient: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+  --rb-text-muted: #54514a;
+  --rb-border:   rgba(27,26,22,0.12);
+  --rb-teal:     #042f2e;
+  --rb-green:    #1f7a3a;
+  --rb-max-w:    1280px;
+  --rb-font-head: 'Anton', sans-serif;
+  --rb-font-body: 'Hanken Grotesk', system-ui, sans-serif;
+  --rb-font-mono: 'DM Mono', monospace;
+}
+
+/* ── Keyframe animations ────────────────────────────────────── */
+@keyframes rb-marquee  { 0% { transform: translateX(0); }    100% { transform: translateX(-50%); } }
+@keyframes rb-fadeUp   { 0% { opacity:0; transform: translateY(16px); } 100% { opacity:1; transform: translateY(0); } }
+@keyframes rb-popIn    { 0% { opacity:0; transform: translateY(22px) scale(.92); } 100% { opacity:1; transform: translateY(0) scale(1); } }
+@keyframes rb-bob      { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+
+/* ── Typography helpers ─────────────────────────────────────── */
+.rb-heading {
+  font-family: var(--rb-font-head) !important;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.95;
+  margin: 0;
+}
+.rb-mono {
+  font-family: var(--rb-font-mono) !important;
+}
+.rb-gradient-text {
+  background: var(--rb-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ── Layout helpers ─────────────────────────────────────────── */
+.rb-container {
+  max-width: var(--rb-max-w);
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+/* ── Product card hover effects ─────────────────────────────── */
+.rb-product-card {
+  position: relative;
+  background:
+    linear-gradient(#fbfaf7, #fbfaf7) padding-box,
+    linear-gradient(0deg, rgba(27,26,22,0.12), rgba(27,26,22,0.12)) border-box;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.rb-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 36px -22px rgba(20,22,18,0.4);
+  background:
+    linear-gradient(#fbfaf7, #fbfaf7) padding-box,
+    linear-gradient(90deg, #E63946, #FF9F1C) border-box;
+}
+
+/* ── Button helpers ─────────────────────────────────────────── */
+.rb-btn-outline {
+  font-family: var(--rb-font-body) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  color: var(--rb-black);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 16px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 1.5px solid rgba(27,26,22,0.22);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.rb-btn-outline:hover {
+  background: var(--rb-black);
+  color: #f3f0e9;
+  border-color: var(--rb-black);
+  transform: translateY(-2px);
+}
+.rb-btn-dark {
+  font-family: var(--rb-font-body) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--rb-black);
+  color: #f3f0e9;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 16px 9px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.rb-btn-dark:hover { background: #000; }
+
+.rb-btn-sm-outline {
+  font-family: var(--rb-font-body) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: var(--rb-black);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(27,26,22,0.2);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.rb-btn-sm-outline:hover {
+  background: var(--rb-black);
+  border-color: var(--rb-black);
+  color: #f3f0e9;
+}
+
+/* ── Add-to-cart icon button ────────────────────────────────── */
+.rb-btn-add {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid rgba(27,26,22,0.2);
+  color: var(--rb-black);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.rb-btn-add:hover {
+  background: var(--rb-black);
+  border-color: var(--rb-black);
+  color: #f3f0e9;
+}
+
+/* ── Wishlist button ────────────────────────────────────────── */
+.rb-btn-wish {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(27,26,22,0.12);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.rb-btn-wish svg path {
+  transition: fill 0.15s, stroke 0.15s;
+}
+.rb-btn-wish:hover svg path,
+.rb-btn-wish.is-wished svg path {
+  fill: url(#rb-heart-gradient);
+  stroke: url(#rb-heart-gradient);
+}
+
+/* ── Section title row ──────────────────────────────────────── */
+.rb-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.rb-section-link {
+  font-family: var(--rb-font-body) !important;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rb-black);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--rb-black);
+  padding-bottom: 3px;
+  transition: opacity 0.15s;
+}
+.rb-section-link:hover { opacity: 0.6; }
+
+/* ── 4-col product grid ─────────────────────────────────────── */
+.rb-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.rb-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.rb-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+.rb-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+/* ── Nav hover ──────────────────────────────────────────────── */
+.rb-nav-link {
+  position: relative;
+  font-family: var(--rb-font-body) !important;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--rb-black);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s;
+}
+.rb-nav-link:hover { background: rgba(27,26,22,0.06); }
+
+/* ── Icon button (search/account) ───────────────────────────── */
+.rb-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--rb-black);
+  transition: opacity 0.15s;
+}
+.rb-icon-btn:hover { opacity: 0.6; }
+
+/* ── Star rating ────────────────────────────────────────────── */
+.rb-stars { display: flex; gap: 2px; }
+.rb-stars svg { fill: #c8a24b; }
+
+/* ── Social icon circle ─────────────────────────────────────── */
+.rb-social-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(27,26,22,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.rb-social-icon:hover { background: rgba(27,26,22,0.05); }
+
+/* ── Footer newsletter input pill ───────────────────────────── */
+.rb-newsletter-pill {
+  display: flex;
+  align-items: center;
+  background: #f6f3ec;
+  border: 1px solid rgba(27,26,22,0.14);
+  border-radius: 999px;
+  padding: 4px 4px 4px 16px;
+}
+.rb-newsletter-pill input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--rb-black);
+  font-family: var(--rb-font-body) !important;
+  font-size: 14px;
+  width: 100%;
+}
+.rb-newsletter-pill button {
+  background: var(--rb-black);
+  color: #f3f0e9;
+  border: none;
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.rb-newsletter-pill button:hover { background: #000; }
+
+/* ── Wholesale email pill ───────────────────────────────────── */
+.rb-wholesale-pill {
+  display: flex;
+  align-items: center;
+  background: #f1ede4;
+  border: 1px solid rgba(27,26,22,0.16);
+  border-radius: 999px;
+  padding: 5px 5px 5px 20px;
+}
+.rb-wholesale-pill input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--rb-black);
+  font-family: var(--rb-font-body) !important;
+  font-size: 15px;
+  width: 220px;
+}
+
+/* ── Review card ────────────────────────────────────────────── */
+.rb-review-card {
+  background: var(--rb-card-bg);
+  border: 1px solid rgba(27,26,22,0.1);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Video card ─────────────────────────────────────────────── */
+.rb-video-card {
+  position: relative;
+  aspect-ratio: 9/16;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.rb-video-card:hover { transform: translateY(-5px); }
+
+/* ── Category card ──────────────────────────────────────────── */
+.rb-category-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  background: transparent;
+  font-family: var(--rb-font-body) !important;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--rb-black);
+  text-align: left;
+}
+.rb-category-pill:hover,
+.rb-category-pill.active { background: rgba(27,26,22,0.06); }
+.rb-category-pill.active { color: var(--rb-red); }

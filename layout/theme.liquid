@@ -65,6 +65,10 @@
         <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
         <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
         <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+        {{ 'rb-design.css' | asset_url | stylesheet_tag }}
         {% comment %}<title>
             {{ page_title }}
             {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -81,6 +85,7 @@
 
         {{ 'base.css' | asset_url | stylesheet_tag }}
         {{ 'pearl.css' | asset_url | stylesheet_tag }}
+        {{ 'theme.css' | asset_url | stylesheet_tag }}
 
         {%- if settings.use_custom_css -%}
             {{ 'custom.css' | asset_url | stylesheet_tag }}
@@ -216,6 +221,8 @@
         {%- if settings.use_custom_js -%}
             {{ 'custom.js' | asset_url | script_tag }}
         {%- endif -%}
+
+        {{ 'rb-judgeme-avatars.js' | asset_url | script_tag }}
         
         <div class="background-overlay">
             {% if settings.show_effect_close %}

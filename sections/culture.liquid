@@ -1,0 +1,164 @@
+<style>
+  .rb-culture {
+    background: #ffffff;
+    color: #1b1a16;
+    overflow: hidden;
+  }
+
+  .rb-culture__container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 80px 32px;
+  }
+
+  .rb-culture__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 54px;
+    align-items: center;
+  }
+
+  .rb-culture__frame {
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 1.12 / 1;
+    border: 1px solid rgba(27, 26, 22, 0.1);
+    box-shadow: 0 40px 80px -44px rgba(20, 22, 18, 0.5);
+  }
+
+  .rb-culture__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .rb-culture__eyebrow {
+    font-family: 'DM Mono', monospace !important;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #e0473a;
+    margin: 0 0 18px;
+  }
+
+  .rb-culture__heading {
+    font-family: 'Anton', sans-serif !important;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(34px, 4vw, 56px);
+    line-height: 0.9;
+    color: #1b1a16;
+    margin: 0;
+  }
+
+  .rb-culture__copy p {
+    font-family: 'Hanken Grotesk', sans-serif !important;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #54514a;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  .rb-culture__copy p:first-child {
+    margin-top: 24px;
+  }
+
+  .rb-culture__copy p + p {
+    margin-top: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .rb-culture__container {
+      padding: 48px 20px;
+    }
+
+    .rb-culture__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section class="rb-culture">
+  <div class="rb-culture__container">
+    <div class="rb-culture__grid">
+
+      <!-- Left: editorial photo -->
+      <div class="rb-culture__frame">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.image.alt | default: 'Caribbean snack cart at a Dandy Shandy event' | escape }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      <!-- Right: copy -->
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="rb-culture__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="rb-culture__heading">{{ section.settings.heading | newline_to_br }}</h2>
+        {%- endif -%}
+
+        <div class="rb-culture__copy">
+          {%- if section.settings.paragraph_1 != blank -%}
+            {{ section.settings.paragraph_1 }}
+          {%- endif -%}
+          {%- if section.settings.paragraph_2 != blank -%}
+            {{ section.settings.paragraph_2 }}
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Culture",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "More than just snacks"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Headline",
+      "default": "It's culture\nyou can taste"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "<p>Rocket Boyz started with a simple craving — the snacks we grew up on, the ones you couldn't find on a shelf abroad. So we built the bridge. Every box carries a little bit of home: the corner-shop nostalgia, the after-school crunch, the flavour that says <em>yard</em>.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph_2",
+      "label": "Paragraph 2",
+      "default": "<p>We work island-direct with the makers who've been doing it for generations — so the culture stays in the hands that built it.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Culture"
+    }
+  ]
+}
+{% endschema %}
