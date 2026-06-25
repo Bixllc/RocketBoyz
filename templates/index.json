@@ -23,6 +23,23 @@
         "cta2_url": "#snackbox"
       }
     },
+    "spice_bun_reveal_CjTK74": {
+      "type": "spice-bun-reveal",
+      "name": "Spice Bun Reveal",
+      "settings": {
+        "background_color": "#f3f1ec",
+        "headline_line1": "Introducing",
+        "headline_line2": "Rocket Spice Bun",
+        "tagline": "\"Squeeze me baby.\"",
+        "button_text": "Shop Spice Bun",
+        "button_url": "",
+        "wrapper_image": "shopify://shop_images/nobgwrapper.png",
+        "food_image": "shopify://shop_images/NBC-BunCheese_1.png",
+        "food_width": 48,
+        "food_top": -19,
+        "bag_rotation": -13
+      }
+    },
     "rb_categories": {
       "type": "categories-carousel",
       "blocks": {
@@ -389,6 +406,7 @@
   },
   "order": [
     "rb_hero",
+    "spice_bun_reveal_CjTK74",
     "rb_categories",
     "rb_new_arrivals",
     "rb_trending",
