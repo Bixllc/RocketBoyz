@@ -1,5 +1,3 @@
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
-
 #shopify-section-header-05{
 	position: relative;
     z-index: 3;
@@ -328,15 +326,16 @@
     --rb-gray-3:      #52525B;
     --rb-border:      #E4E4E7;
     --rb-red:         #DC2626;
-    --rb-font:        'Clash Display', sans-serif;
+    --rb-font:        'Manrope', sans-serif;
 }
 
-/* Apply Clash Display to announcement bar */
+/* Announcement bar — Manrope */
 .announcement-bar,
 .announcement-bar__message,
 .announcement-bar__message p,
 .announcement-bar__message .message {
     font-family: var(--rb-font) !important;
+    font-weight: 500;
 }
 
 /* Responsive font size for announcement bar */
@@ -352,12 +351,14 @@
     }
 }
 
-/* Apply Clash Display to the entire header */
+/* Header nav — Manrope 600, 15px */
 .header-05,
 .header-05 .menu-lv-1__action,
 .header-05 .menu-lv-2__action,
 .header__contact-btn {
     font-family: var(--rb-font);
+    font-weight: 600;
+    font-size: 15px;
 }
 
 /* Hide the old top bar; header-bottom is now the primary row */
@@ -425,12 +426,12 @@
     cursor: pointer;
 }
 
-/* Yellow rounded Contact button — brand yellow #FFD400 */
+/* Header CTA button — outline, no fill */
 .header__contact-btn {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: var(--rb-yellow);
+    background: transparent;
     color: var(--rb-black);
     font-family: var(--rb-font);
     font-weight: 600;
@@ -439,15 +440,15 @@
     border-radius: 50px;
     text-decoration: none;
     white-space: nowrap;
-    border: 2px solid var(--rb-yellow);
-    transition: background 0.2s, border-color 0.2s;
+    border: 1.5px solid var(--rb-black);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
     line-height: 1;
 }
 
 .header__contact-btn:hover {
-    background: var(--rb-yellow-hover);
-    border-color: var(--rb-yellow-hover);
-    color: var(--rb-black);
+    background: var(--rb-black);
+    border-color: var(--rb-black);
+    color: #fff;
     text-decoration: none;
 }
 

@@ -2,13 +2,13 @@
 
 <style>
   .rb-trending-now .rb-section-link {
-    background: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+    background: #105020;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
     border-bottom: 1.5px solid transparent;
-    border-image: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+    border-image: #105020;
     border-image-slice: 1;
   }
   .rb-trending-now .rb-section-link:hover {
@@ -16,18 +16,21 @@
   }
 </style>
 
-<section class="rb-trending-now" style="background:#ffffff; color:#1b1a16; margin-top:40px;">
-  <div style="max-width:1280px; margin:0 auto; padding:64px 32px;">
+{%- assign trending_collection = collections[section.settings.collection] -%}
 
-    {% if section.blocks.size > 0 %}
+<section class="rb-trending-now" style="background:#ffffff; color:#1b1a16; margin-top:40px;">
+  <div class="rb-section-inner" style="max-width:1280px; margin:0 auto; padding:64px 32px;">
+
+    {%- if trending_collection != empty and trending_collection.products_count > 0 -%}
 
       <!-- Section Header -->
       <div class="rb-section-header">
         <h2 class="rb-heading" style="font-size:clamp(34px,4vw,56px); line-height:0.95;">
           {{ section.settings.heading }}
         </h2>
-        {%- if section.settings.view_all_url != blank -%}
-          <a href="{{ section.settings.view_all_url }}" class="rb-section-link">
+        {%- assign view_url = section.settings.view_all_url | default: trending_collection.url -%}
+        {%- if view_url != blank -%}
+          <a href="{{ view_url }}" class="rb-section-link">
             {{ section.settings.view_all_text }}
           </a>
         {%- endif -%}
@@ -35,14 +38,16 @@
 
       <!-- Product Grid -->
       <div class="rb-grid-4">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'product' -%}
-            {%- render 'rb-product-card', product: block.settings.product, badge_text: block.settings.badge_text, block_attributes: block.shopify_attributes -%}
-          {%- endif -%}
+        {%- for product in trending_collection.products limit: section.settings.products_to_show -%}
+          {%- render 'rb-product-card', product: product -%}
         {%- endfor -%}
       </div>
 
-    {% endif %}
+    {%- elsif section.settings.collection == blank -%}
+      <p style="font-family:'Manrope',sans-serif; color:#71717A; text-align:center; padding:40px 0;">
+        Select a collection in the section settings to auto-populate products.
+      </p>
+    {%- endif -%}
 
   </div>
 </section>
@@ -58,45 +63,35 @@
       "default": "Trending Now"
     },
     {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Products auto-populate from this collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Maximum products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
       "type": "text",
       "id": "view_all_text",
       "label": "View all link text",
-      "default": "Shop"
+      "default": "Shop all"
     },
     {
       "type": "url",
       "id": "view_all_url",
-      "label": "View all link URL"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "product",
-      "name": "Product",
-      "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        },
-        {
-          "type": "text",
-          "id": "badge_text",
-          "label": "Badge text (optional)",
-          "info": "e.g. New, Restocked"
-        }
-      ]
+      "label": "View all link URL (overrides collection URL)"
     }
   ],
   "presets": [
     {
-      "name": "Trending Now",
-      "blocks": [
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" }
-      ]
+      "name": "Trending Now"
     }
   ]
 }

@@ -1,0 +1,1010 @@
+<style>
+  .recipes-grid-section {
+    background: #fff;
+    padding: 0 32px 96px;
+  }
+
+  .recipes-grid-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* ── Card ── */
+  .recipe-card {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 520px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  /* ── Left: full-bleed photo only ── */
+  .recipe-left {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .recipe-left-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Right panel: two stacked sections ── */
+  .recipe-right {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Top: recipe info ── */
+  .recipe-right-info {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid #E4E4E7;
+    flex-shrink: 0;
+  }
+
+  /* ── Tags row ── */
+  .recipe-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .recipe-tag {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: #F4F4F5;
+    color: #52525B;
+    border-radius: 999px;
+    padding: 5px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #E4E4E7;
+  }
+
+  .recipe-tag svg { flex-shrink: 0; }
+
+  /* ── Title ── */
+  .recipe-title {
+    font-family: 'Big Shoulders Display', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: clamp(26px, 2.6vw, 42px);
+    text-transform: uppercase;
+    color: #030213;
+    margin: 0 0 10px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .recipe-desc {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #52525B;
+    margin: 0 0 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Stars ── */
+  .recipe-stars-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .recipe-stars { display: flex; gap: 2px; }
+  .recipe-stars svg { flex-shrink: 0; }
+
+  .recipe-stars-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: #71717A;
+  }
+
+  /* ── Meta row ── */
+  .recipe-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .recipe-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: #52525B;
+  }
+
+  .recipe-meta-item svg { flex-shrink: 0; stroke: #71717A; }
+
+  .recipe-meta-dot { color: #D4D4D8; font-size: 10px; }
+
+  /* ── View full recipe button ── */
+  .recipe-view-btn {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #030213;
+    background: transparent;
+    border: 1.5px solid #030213;
+    border-radius: 999px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: fit-content;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .recipe-view-btn:hover {
+    background: #105020;
+    border-color: transparent;
+    color: #fff;
+  }
+
+  /* ── Bottom: ingredients panel ── */
+  .recipe-right-ings {
+    padding: 22px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .recipe-ing-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  .recipe-ing-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #71717A;
+    text-transform: uppercase;
+  }
+
+  .recipe-ing-label__gradient {
+    background: #105020;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+  }
+
+  .recipe-ingredients {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 220px;
+    padding-right: 2px;
+    margin-bottom: 14px;
+  }
+
+  .recipe-ing-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid #E4E4E7;
+    border-radius: 14px;
+    padding: 11px 14px;
+    flex-shrink: 0;
+  }
+
+  .recipe-ing-thumb {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #F4F4F5;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .recipe-ing-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+  }
+
+  .recipe-ing-info { flex: 1; min-width: 0; }
+
+  .recipe-ing-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #030213;
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .recipe-ing-note {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    color: #71717A;
+    margin: 0;
+  }
+
+  .recipe-ing-price {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #030213;
+    flex-shrink: 0;
+    margin: 0 6px;
+  }
+
+  .recipe-ing-add {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid #E4E4E7;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #030213;
+    flex-shrink: 0;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .recipe-ing-add:hover {
+    background: #030213;
+    color: #fff;
+    border-color: #030213;
+  }
+
+  /* ── Add all to cart — gradient ── */
+  .recipe-add-all-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 16px;
+    border: none;
+    border-radius: 999px;
+    background: #105020;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 4px 14px rgba(220,38,38,0.28);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+  }
+
+  .recipe-add-all-btn:hover {
+    background: linear-gradient(to right, #ef4444, #fde047);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(220,38,38,0.38);
+  }
+
+  .recipe-add-all-btn:disabled {
+    opacity: 0.7;
+    cursor: default;
+    transform: none;
+  }
+
+  .recipe-add-all-btn svg {
+    stroke: #fff;
+    flex-shrink: 0;
+  }
+
+  /* ── Modal ── */
+  .recipe-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3,2,19,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .recipe-modal-overlay.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .recipe-modal-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .recipe-modal {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    width: 100%;
+    max-height: 88vh;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    transform: translateY(20px);
+    transition: transform 0.25s ease;
+  }
+
+  .recipe-modal-overlay.is-open .recipe-modal {
+    transform: translateY(0);
+  }
+
+  .recipe-modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid #E4E4E7;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #030213;
+    z-index: 10;
+    transition: background 0.15s;
+  }
+
+  .recipe-modal-close:hover {
+    background: #030213;
+    color: #fff;
+    border-color: #030213;
+  }
+
+  .recipe-modal-left {
+    background: #111;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+  }
+
+  .recipe-modal-left-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .recipe-modal-left-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(to top,
+        rgba(3,2,19,0.97) 0%,
+        rgba(3,2,19,0.85) 45%,
+        rgba(3,2,19,0.0)  80%),
+      rgba(3,2,19,0.40);
+  }
+
+  .recipe-modal-left-bg { z-index: 0; }
+
+  .recipe-modal-left > *:not(.recipe-modal-left-bg):not(.recipe-modal-left-overlay) {
+    position: relative;
+    z-index: 2;
+  }
+
+  .recipe-modal-spacer { flex: 1; }
+
+  .recipe-modal-title {
+    font-family: 'Big Shoulders Display', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0 0 8px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .recipe-modal-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .recipe-modal-right {
+    padding: 32px 36px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .recipe-modal-section-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717A;
+    margin: 0 0 12px;
+  }
+
+  .recipe-modal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .recipe-modal-list li {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #27272A;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .recipe-modal-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: #DC2626;
+    font-weight: 700;
+  }
+
+  .recipe-modal-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    counter-reset: steps;
+  }
+
+  .recipe-modal-steps li {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #27272A;
+    padding-left: 36px;
+    position: relative;
+    counter-increment: steps;
+  }
+
+  .recipe-modal-steps li::before {
+    content: counter(steps);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 24px;
+    height: 24px;
+    background: #030213;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 860px) {
+    .recipes-grid-section { padding: 0 16px 64px; }
+    .recipe-card { grid-template-columns: 1fr; border-radius: 18px; }
+    .recipe-left { min-height: 260px; }
+    .recipe-right-info { padding: 18px 18px 16px; }
+    .recipe-right-ings { padding: 14px 18px 18px; }
+    .recipe-modal { grid-template-columns: 1fr; }
+    .recipe-modal-left { min-height: 220px; }
+    .recipe-ingredients { max-height: 200px; }
+  }
+
+  @media (max-width: 520px) {
+    .recipes-grid-section { padding: 0 16px 48px; }
+    .recipe-title { font-size: clamp(22px, 7.5vw, 32px); }
+    .recipe-card { min-height: unset; border-radius: 14px; }
+    .recipe-right-info { padding: 14px 14px 12px; }
+    .recipe-right-ings { padding: 12px 14px 16px; }
+  }
+</style>
+
+<!-- Modal shell -->
+<div class="recipe-modal-overlay" id="recipeModal" role="dialog" aria-modal="true">
+  <div class="recipe-modal-wrap">
+    <button class="recipe-modal-close" id="recipeModalClose" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <div class="recipe-modal">
+      <div class="recipe-modal-left">
+        <img id="recipeModalBg" class="recipe-modal-left-bg" src="" alt="" style="display:none">
+        <div class="recipe-modal-left-overlay"></div>
+        <div class="recipe-modal-meta" id="recipeModalMeta"></div>
+        <div class="recipe-modal-spacer"></div>
+        <h2 class="recipe-modal-title" id="recipeModalTitle"></h2>
+        <p class="recipe-desc" id="recipeModalDesc" style="margin:0;-webkit-line-clamp:unset;"></p>
+      </div>
+      <div class="recipe-modal-right">
+        <div>
+          <p class="recipe-modal-section-label">Ingredients</p>
+          <ul class="recipe-modal-list" id="recipeModalIngredients"></ul>
+        </div>
+        <div>
+          <p class="recipe-modal-section-label">Instructions</p>
+          <ol class="recipe-modal-steps" id="recipeModalSteps"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="recipes-grid-section">
+  <div class="recipes-grid-inner">
+    {%- for block in section.blocks -%}
+
+      {%- comment -%}Collect all ingredient products for this recipe (up to 8){%- endcomment -%}
+      {%- assign ing_count = 0 -%}
+      {%- for i in (1..8) -%}
+        {%- assign prod_key = 'ing_' | append: i | append: '_product' -%}
+        {%- if block.settings[prod_key] != blank -%}
+          {%- assign ing_count = ing_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="recipe-card" {{ block.shopify_attributes }}>
+
+        <!-- Embedded data for modal -->
+        <script type="application/json" class="recipe-data">
+          {
+            "title": {{ block.settings.title | json }},
+            "category": {{ block.settings.category | json }},
+            "cook_time": {{ block.settings.cook_time | json }},
+            "description": {{ block.settings.description | json }},
+            "hero_image": {{ block.settings.hero_image | image_url: width: 800 | json }},
+            "ingredients": {{ block.settings.full_ingredients | json }},
+            "instructions": {{ block.settings.instructions | json }}
+          }
+        </script>
+
+        <!-- Left: full-bleed photo -->
+        <div class="recipe-left">
+          {%- if block.settings.hero_image != blank -%}
+            <img class="recipe-left-bg"
+              src="{{ block.settings.hero_image | image_url: width: 1000 }}"
+              alt="{{ block.settings.title | escape }}"
+              loading="lazy">
+          {%- endif -%}
+        </div>
+
+        <!-- Right: info + ingredients -->
+        <div class="recipe-right">
+
+          <!-- Top: recipe info -->
+          <div class="recipe-right-info">
+
+            <!-- Tags -->
+            <div class="recipe-tags">
+              {%- if block.settings.category != blank -%}
+                <span class="recipe-tag">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {{ block.settings.category }}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.cook_time != blank -%}
+                <span class="recipe-tag">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {{ block.settings.cook_time }}
+                </span>
+              {%- endif -%}
+            </div>
+
+            <h2 class="recipe-title">{{ block.settings.title }}</h2>
+
+            {%- if block.settings.description != blank -%}
+              <p class="recipe-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.rating_value != blank -%}
+              <div class="recipe-stars-row">
+                <div class="recipe-stars">
+                  {%- assign rating = block.settings.rating_value | times: 1.0 -%}
+                  {%- for star in (1..5) -%}
+                    {%- assign star_float = star | times: 1.0 -%}
+                    {%- assign half_threshold = star_float | minus: 0.5 -%}
+                    {%- if rating >= star_float -%}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#FACC15" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {%- elsif rating >= half_threshold -%}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><defs><linearGradient id="half{{ forloop.index }}"><stop offset="50%" stop-color="#FACC15"/><stop offset="50%" stop-color="#E5E7EB"/></linearGradient></defs><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="url(#half{{ forloop.index }})"/></svg>
+                    {%- else -%}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#E5E7EB" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+                <span class="recipe-stars-text">
+                  {{ block.settings.rating_value }}
+                  {%- if block.settings.rating_count != blank -%}&nbsp;({{ block.settings.rating_count }} reviews){%- endif -%}
+                </span>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.cook_time != blank or block.settings.difficulty != blank or block.settings.serves != blank -%}
+              <div class="recipe-meta-row">
+                {%- if block.settings.cook_time != blank -%}
+                  <span class="recipe-meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {{ block.settings.cook_time }}
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.difficulty != blank -%}
+                  <span class="recipe-meta-dot">·</span>
+                  <span class="recipe-meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    {{ block.settings.difficulty }}
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.serves != blank -%}
+                  <span class="recipe-meta-dot">·</span>
+                  <span class="recipe-meta-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    {{ block.settings.serves }}
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            <button class="recipe-view-btn" data-recipe-open>
+              View full recipe
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+
+          </div>
+
+          <!-- Bottom: ingredients -->
+          <div class="recipe-right-ings">
+            <div class="recipe-ing-header">
+              <span class="recipe-ing-label">IN STOCK · <span class="recipe-ing-label__gradient">INGREDIENTS</span></span>
+            </div>
+
+            <div class="recipe-ingredients">
+            {%- for i in (1..8) -%}
+              {%- assign prod_key = 'ing_' | append: i | append: '_product' -%}
+              {%- assign note_key = 'ing_' | append: i | append: '_note' -%}
+              {%- assign handle = block.settings[prod_key] -%}
+              {%- if handle != blank -%}
+                {%- assign prod = all_products[handle] -%}
+                {%- if prod.id -%}
+                  {%- assign first_variant = prod.variants.first -%}
+                  <div class="recipe-ing-row" data-ing-variant="{{ first_variant.id }}" data-ing-available="{{ first_variant.available }}">
+                    <div class="recipe-ing-thumb">
+                      {%- if prod.featured_image -%}
+                        <img src="{{ prod.featured_image | image_url: width: 96 }}" alt="{{ prod.title | escape }}" loading="lazy">
+                      {%- endif -%}
+                    </div>
+                    <div class="recipe-ing-info">
+                      <p class="recipe-ing-name">{{ prod.title }}</p>
+                      {%- if block.settings[note_key] != blank -%}
+                        <p class="recipe-ing-note">{{ block.settings[note_key] }}</p>
+                      {%- endif -%}
+                    </div>
+                    <span class="recipe-ing-price">{{ prod.price | money }}</span>
+                    {%- if first_variant.available -%}
+                      <button
+                        class="recipe-ing-add"
+                        data-add-one="{{ first_variant.id }}"
+                        aria-label="Add {{ prod.title | escape }} to cart"
+                        title="Add to cart"
+                      >+</button>
+                    {%- else -%}
+                      <span class="recipe-ing-add" style="opacity:0.4;cursor:default;" title="Out of stock">–</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+            <!-- Add all to cart -->
+            {%- if ing_count > 0 -%}
+              <button class="recipe-add-all-btn" data-add-all-card>
+                Add all ingredients to cart
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              </button>
+            {%- endif -%}
+          </div><!-- /recipe-right-ings -->
+
+        </div><!-- /recipe-right -->
+
+      </div><!-- /recipe-card -->
+    {%- endfor -%}
+  </div>
+</section>
+
+<script>
+(function () {
+  /* ── Modal ── */
+  var overlay = document.getElementById('recipeModal');
+  var closeBtn = document.getElementById('recipeModalClose');
+
+  function openModal(data) {
+    document.getElementById('recipeModalTitle').textContent = data.title || '';
+    var descEl = document.getElementById('recipeModalDesc');
+    descEl.textContent = data.description || '';
+
+    var meta = document.getElementById('recipeModalMeta');
+    meta.innerHTML = '';
+    ['category', 'cook_time'].forEach(function (key) {
+      if (data[key]) {
+        var s = document.createElement('span');
+        s.className = 'recipe-tag';
+        s.textContent = data[key];
+        meta.appendChild(s);
+      }
+    });
+
+    var bg = document.getElementById('recipeModalBg');
+    if (data.hero_image) {
+      bg.src = data.hero_image;
+      bg.alt = data.title || '';
+      bg.style.display = '';
+    } else {
+      bg.style.display = 'none';
+    }
+
+    var ingList = document.getElementById('recipeModalIngredients');
+    ingList.innerHTML = '';
+    if (data.ingredients) {
+      data.ingredients.split('\n').forEach(function (line) {
+        line = line.trim();
+        if (!line) return;
+        var li = document.createElement('li');
+        li.textContent = line;
+        ingList.appendChild(li);
+      });
+    }
+
+    var stepsList = document.getElementById('recipeModalSteps');
+    stepsList.innerHTML = '';
+    if (data.instructions) {
+      data.instructions.split('\n').forEach(function (line) {
+        line = line.trim();
+        if (!line) return;
+        var li = document.createElement('li');
+        li.textContent = line;
+        stepsList.appendChild(li);
+      });
+    }
+
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-recipe-open]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.recipe-card');
+      var dataEl = card.querySelector('.recipe-data');
+      if (!dataEl) return;
+      try { openModal(JSON.parse(dataEl.textContent)); } catch (e) {}
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+  /* ── Add single ingredient ── */
+  document.querySelectorAll('[data-add-one]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var variantId = btn.getAttribute('data-add-one');
+      if (!variantId) return;
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: parseInt(variantId, 10), quantity: 1 })
+      })
+      .then(function () {
+        btn.textContent = '✓';
+        btn.style.background = '#030213';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#030213';
+        btn.style.opacity = '1';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      });
+    });
+  });
+
+  /* ── Add all ingredients to cart ── */
+  document.querySelectorAll('[data-add-all-card]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.recipe-card');
+      var rows = card.querySelectorAll('[data-ing-variant]');
+      var items = [];
+      rows.forEach(function (row) {
+        var available = row.getAttribute('data-ing-available');
+        var variantId = parseInt(row.getAttribute('data-ing-variant'), 10);
+        if (variantId && available === 'true') {
+          items.push({ id: variantId, quantity: 1 });
+        }
+      });
+      if (!items.length) return;
+
+      btn.disabled = true;
+      var originalHTML = btn.innerHTML;
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Adding…';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ items: items })
+      })
+      .then(function () {
+        btn.disabled = false;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Added to cart!';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        setTimeout(function () {
+          btn.innerHTML = originalHTML;
+        }, 2500);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.innerHTML = originalHTML;
+      });
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Recipes Grid",
+  "blocks": [
+    {
+      "type": "recipe",
+      "name": "Recipe",
+      "settings": [
+        { "type": "text",         "id": "title",            "label": "Recipe title",                "default": "Jerk Chicken" },
+        { "type": "text",         "id": "category",         "label": "Category tag",                "default": "CHICKEN" },
+        { "type": "text",         "id": "cook_time",        "label": "Cook time",                   "default": "45 min" },
+        { "type": "text",         "id": "difficulty",       "label": "Difficulty",                  "default": "Easy" },
+        { "type": "text",         "id": "serves",           "label": "Serves",                      "default": "Serves 4" },
+        { "type": "text",         "id": "rating_value",     "label": "Star rating (e.g. 4.6)" },
+        { "type": "text",         "id": "rating_count",     "label": "Review count (e.g. 128)" },
+        { "type": "textarea",     "id": "description",      "label": "Short description" },
+        { "type": "image_picker", "id": "hero_image",       "label": "Background photo" },
+        { "type": "header",       "content": "Full Recipe (popup)" },
+        { "type": "textarea",     "id": "full_ingredients", "label": "Full ingredients (one per line)" },
+        { "type": "textarea",     "id": "instructions",     "label": "Instructions (one step per line)" },
+        { "type": "header",       "content": "Store Product 1" },
+        { "type": "product",      "id": "ing_1_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_1_note",       "label": "Recipe note (e.g. 3 oz)" },
+        { "type": "header",       "content": "Store Product 2" },
+        { "type": "product",      "id": "ing_2_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_2_note",       "label": "Recipe note" },
+        { "type": "header",       "content": "Store Product 3" },
+        { "type": "product",      "id": "ing_3_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_3_note",       "label": "Recipe note" },
+        { "type": "header",       "content": "Store Product 4" },
+        { "type": "product",      "id": "ing_4_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_4_note",       "label": "Recipe note" },
+        { "type": "header",       "content": "Store Product 5" },
+        { "type": "product",      "id": "ing_5_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_5_note",       "label": "Recipe note" },
+        { "type": "header",       "content": "Store Product 6" },
+        { "type": "product",      "id": "ing_6_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_6_note",       "label": "Recipe note" },
+        { "type": "header",       "content": "Store Product 7" },
+        { "type": "product",      "id": "ing_7_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_7_note",       "label": "Recipe note" },
+        { "type": "header",       "content": "Store Product 8" },
+        { "type": "product",      "id": "ing_8_product",    "label": "Product" },
+        { "type": "text",         "id": "ing_8_note",       "label": "Recipe note" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recipes Grid",
+      "blocks": [
+        {
+          "type": "recipe",
+          "settings": {
+            "title": "Jerk Chicken",
+            "category": "CHICKEN",
+            "cook_time": "45 min",
+            "difficulty": "Easy",
+            "serves": "Serves 4",
+            "rating_value": "4.6",
+            "rating_count": "128",
+            "description": "Marinated in Walkerswood Jerk Seasoning and slow-grilled to perfection — a true Jamaican classic.",
+            "full_ingredients": "1 whole 3 lb. chicken\n3 oz. Walkerswood Jerk Seasoning\n1 tbsp. Old Bay Seasoning\n1 tbsp. garlic powder\n1 tbsp. onion, granulated\n1 tbsp. fresh garlic\n1 tsp. fresh thyme leaf\n1 oz. olive oil\n1 tbsp. liquid smoke\n1 tbsp. Gravy Master\n6 pimento leaves\nSalt and pepper, to taste",
+            "instructions": "Cut chicken in half and wash, then put inside of a bowl and set aside.\nIn a separate bowl combine all remaining ingredients and mix with a whisk or spoon.\nPlace chicken on a cutting board and make holes with a sharp knife. Rub the marinade thoroughly. Refrigerate for 1 hour.\nGrill on medium flame, nice and slow. Or bake at 350°F for about 45 minutes.\nCut into small pieces and serve with Walkerswood Jerk BBQ sauce on the side.",
+            "ing_1_note": "3 oz, marinade",
+            "ing_2_note": "1 whole, 3 lb",
+            "ing_3_note": "1 tbsp",
+            "ing_4_note": "1 tbsp"
+          }
+        },
+        {
+          "type": "recipe",
+          "settings": {
+            "title": "Jamaican Oats Porridge",
+            "category": "BREAKFAST",
+            "cook_time": "15 min",
+            "difficulty": "Easy",
+            "serves": "Serves 2",
+            "rating_value": "4.8",
+            "rating_count": "64",
+            "description": "Creamy island-style oats sweetened with condensed milk, scented with vanilla and nutmeg.",
+            "full_ingredients": "65g quick or porridge oats\n¾ cup unsweetened milk\n¼ cup water\n3 tbsp condensed milk, to sweeten\n½ tsp vanilla extract\n⅛ tsp nutmeg\nPinch of cinnamon\nPinch of salt",
+            "instructions": "In a pot, add the water, unsweetened milk and salt and bring to a boil on medium heat.\nAdd the oats and whisk until the oats start getting thick.\nAs the oats thicken, turn heat to low and continue whisking.\nAdd the vanilla, cinnamon and nutmeg. Cook for a minute or two.\nSweeten to taste with condensed milk and serve.",
+            "ing_1_note": "65g porridge oats",
+            "ing_2_note": "3 tbsp, to sweeten",
+            "ing_3_note": "½ tsp",
+            "ing_4_note": "pinch each"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

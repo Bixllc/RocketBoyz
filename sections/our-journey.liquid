@@ -1,0 +1,409 @@
+<style>
+  .journey-section {
+    background: #fff;
+    padding: 96px 32px;
+  }
+
+  .journey-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .journey-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .journey-eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #030213;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .journey-heading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 56px);
+    color: #030213;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease 0.05s, transform 0.5s ease 0.05s;
+  }
+
+  .journey-eyebrow.is-visible,
+  .journey-heading.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Timeline track */
+  .journey-track {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Center vertical line */
+  .journey-track::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #105020;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  /* Each row */
+  .journey-item {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: center;
+    min-height: 160px;
+    position: relative;
+    padding: 24px 0;
+  }
+
+  /* Dot on the line */
+  .journey-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #DC2626;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #DC2626;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    /* Start hidden, animate in alongside card */
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+  }
+
+  .journey-dot.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .journey-item:hover .journey-dot.is-visible {
+    transform: scale(1.35);
+    box-shadow: 0 0 0 3px rgba(220,38,38,0.45);
+  }
+
+  /* Cards */
+  .journey-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #E4E4E7;
+    border-radius: 16px;
+    padding: 24px 28px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s ease;
+  }
+
+  .journey-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Gradient border on hover via ::before */
+  .journey-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: #105020;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .journey-card > * { position: relative; z-index: 1; }
+
+  .journey-card:hover {
+    background: #FFF8F0;
+    border-color: transparent;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  }
+
+  .journey-card:hover::before { opacity: 1; }
+
+  /* Left card: sits in col 1, col 3 is empty */
+  .journey-item--left .journey-card {
+    grid-column: 1;
+    margin-right: 32px;
+  }
+
+  .journey-item--left .journey-dot {
+    grid-column: 2;
+  }
+
+  .journey-item--left .journey-spacer {
+    grid-column: 3;
+  }
+
+  /* Right card: col 1 is empty, card in col 3 */
+  .journey-item--right .journey-spacer {
+    grid-column: 1;
+  }
+
+  .journey-item--right .journey-dot {
+    grid-column: 2;
+  }
+
+  .journey-item--right .journey-card {
+    grid-column: 3;
+    margin-left: 32px;
+  }
+
+  /* Card content */
+  .journey-card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .journey-year {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: #030213;
+    border-radius: 999px;
+    padding: 3px 10px;
+    flex-shrink: 0;
+  }
+
+  .journey-card-title {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 14px;
+    font-weight: 500 !important;
+    color: #030213;
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .journey-card-body {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #52525B;
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .journey-section {
+      padding: 64px 20px;
+    }
+
+    .journey-track::before {
+      left: 20px;
+    }
+
+    .journey-item {
+      grid-template-columns: 40px 1fr;
+      padding: 16px 0;
+    }
+
+    .journey-item--left .journey-card,
+    .journey-item--right .journey-card {
+      grid-column: 2;
+      margin-left: 20px;
+      margin-right: 0;
+    }
+
+    .journey-item--left .journey-dot,
+    .journey-item--right .journey-dot {
+      grid-column: 1;
+    }
+
+    .journey-item--left .journey-spacer,
+    .journey-item--right .journey-spacer {
+      display: none;
+    }
+  }
+</style>
+
+<section class="journey-section">
+  <div class="journey-inner">
+
+    <div class="journey-header">
+      <span class="journey-eyebrow" data-journey-animate>{{ section.settings.eyebrow | default: 'Our Journey' }}</span>
+      <h2 class="journey-heading" data-journey-animate>{{ section.settings.heading | default: 'From Kingston to Your Door' }}</h2>
+    </div>
+
+    <div class="journey-track">
+      {%- for block in section.blocks -%}
+        {%- assign side = 'left' -%}
+        {%- if forloop.index0 == 1 or forloop.index0 == 3 -%}
+          {%- assign side = 'right' -%}
+        {%- endif -%}
+
+        <div class="journey-item journey-item--{{ side }}">
+          {%- if side == 'left' -%}
+            <div class="journey-card" data-journey-card data-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+              <div class="journey-card-title-row">
+                <span class="journey-year">{{ block.settings.year }}</span>
+                <h3 class="journey-card-title">{{ block.settings.title }}</h3>
+              </div>
+              <p class="journey-card-body">{{ block.settings.body }}</p>
+            </div>
+            <div class="journey-dot"></div>
+            <div class="journey-spacer"></div>
+          {%- else -%}
+            <div class="journey-spacer"></div>
+            <div class="journey-dot"></div>
+            <div class="journey-card" data-journey-card data-delay="{{ forloop.index0 | times: 100 }}" {{ block.shopify_attributes }}>
+              <div class="journey-card-title-row">
+                <span class="journey-year">{{ block.settings.year }}</span>
+                <h3 class="journey-card-title">{{ block.settings.title }}</h3>
+              </div>
+              <p class="journey-card-body">{{ block.settings.body }}</p>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var delay = parseInt(el.dataset.delay || 0);
+      setTimeout(function () {
+        el.classList.add('is-visible');
+        if (el.hasAttribute('data-journey-card')) {
+          var item = el.closest('.journey-item');
+          var dot = item ? item.querySelector('.journey-dot') : null;
+          if (dot) setTimeout(function () { dot.classList.add('is-visible'); }, 120);
+        }
+      }, delay);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('[data-journey-animate]').forEach(function (el) {
+    observer.observe(el);
+  });
+
+  document.querySelectorAll('[data-journey-card]').forEach(function (el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Our Journey",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Our Journey"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From Kingston to Your Door"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Timeline milestone",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year",
+          "default": "2018"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "The Craving That Started It All"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Description",
+          "default": "Wayne missed the snacks he grew up on in Jamaica. After searching everywhere and coming up empty, he decided to fix the problem himself."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Journey",
+      "blocks": [
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2018",
+            "title": "The Craving That Started It All",
+            "body": "Wayne missed the snacks he grew up on in Jamaica. After searching everywhere and coming up empty, he decided to fix the problem himself."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2019",
+            "title": "First Shipment Lands",
+            "body": "The first crate of authentic Jamaican snacks arrived stateside. Word spread fast through the Caribbean diaspora community."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2021",
+            "title": "RocketBoyz Goes Online",
+            "body": "The brand launched its e-commerce platform, making Caribbean snacks accessible to anyone across the country with a few clicks."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2023",
+            "title": "Wholesale & Beyond",
+            "body": "RocketBoyz expanded into wholesale, partnering with corner stores, Caribbean restaurants, and cultural shops nationwide."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2026",
+            "title": "Still Growing, Still Authentic",
+            "body": "Today RocketBoyz carries hundreds of products from across the Caribbean — and we are just getting started."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

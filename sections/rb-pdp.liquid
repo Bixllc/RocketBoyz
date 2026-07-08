@@ -1,0 +1,642 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'rb-pdp-form-' | append: section.id
+  assign first_col = product.collections.first
+-%}
+
+<style>
+/* ── RB PDP ────────────────────────────────────────────────── */
+.rb-pdp {
+  font-family: 'Clash Display', sans-serif;
+  color: #030213;
+  background: #fff;
+  padding: 48px 0 80px;
+}
+.rb-pdp__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ── Gallery ─────────────────────────────────────────────── */
+.rb-pdp__gallery { position: sticky; top: 100px; }
+
+.rb-pdp__img-main-wrap {
+  position: relative;
+  background: #fff;
+  border: 1px solid #E4E4E7;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rb-pdp__img-main {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+.rb-pdp__img-main-wrap:hover .rb-pdp__img-main { transform: scale(1.03); }
+
+.rb-pdp__heart {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid #E4E4E7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  z-index: 2;
+}
+.rb-pdp__heart:hover { transform: scale(1.1); }
+.rb-pdp__heart svg path { fill: none; stroke: #71717A; transition: fill 0.2s, stroke 0.2s; }
+.rb-pdp__heart:hover svg path { stroke: #DC2626; }
+.rb-pdp__heart.is-saved svg path { fill: none; stroke: #DC2626; }
+
+.rb-pdp__thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.rb-pdp__thumb {
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid #E4E4E7;
+  background: #fff;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rb-pdp__thumb img { width: 80%; height: 80%; object-fit: contain; }
+.rb-pdp__thumb.is-active { border-color: #030213; }
+
+/* ── Details ──────────────────────────────────────────────── */
+.rb-pdp__details { padding-top: 4px; }
+
+.rb-pdp__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #DC2626;
+  margin: 0 0 10px;
+}
+.rb-pdp__title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  background: #105020;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rb-pdp__price {
+  font-size: 34px;
+  font-weight: 700;
+  color: #030213;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.rb-pdp__price .was { font-size: 18px; color: #A1A1AA; text-decoration: line-through; margin-left: 8px; font-weight: 500; }
+
+.rb-pdp__desc { font-size: 15px; line-height: 1.65; color: #52525B; margin-bottom: 22px; }
+
+.rb-pdp__divider { border: none; border-top: 1px solid #E4E4E7; margin: 0 0 22px; }
+
+/* ── Option groups ────────────────────────────────────────── */
+.rb-pdp__option-group { margin-bottom: 20px; }
+
+.rb-pdp__option-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #030213;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.rb-pdp__option-label .val { color: #71717A; font-weight: 500; }
+
+.rb-pdp__pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.rb-pdp__pill {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #E4E4E7;
+  background: #fff;
+  color: #030213;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  line-height: 1;
+}
+.rb-pdp__pill:hover:not(.is-active):not(.is-soldout) { border-color: #030213; }
+.rb-pdp__pill.is-active {
+  background: #105020;
+  border-color: transparent;
+  color: #fff;
+}
+.rb-pdp__pill.is-soldout { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+
+/* ── Quantity stepper ─────────────────────────────────────── */
+.rb-pdp__qty-row { margin-bottom: 22px; }
+
+.rb-pdp__qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid #E4E4E7;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  height: 48px;
+}
+.rb-pdp__qty-btn {
+  width: 48px;
+  height: 100%;
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: 400;
+  color: #030213;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  font-family: 'Clash Display', sans-serif;
+  flex-shrink: 0;
+}
+.rb-pdp__qty-btn:hover { background: #F4F4F5; }
+.rb-pdp__qty-val {
+  width: 44px;
+  text-align: center;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #030213;
+  user-select: none;
+  border-left: 1px solid #E4E4E7;
+  border-right: 1px solid #E4E4E7;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── ATC ──────────────────────────────────────────────────── */
+.rb-pdp__atc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 32px;
+  border-radius: 999px;
+  border: none;
+  background: #105020;
+  color: #fff;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  margin-bottom: 16px;
+}
+.rb-pdp__atc:hover { opacity: 0.92; transform: translateY(-1px); }
+.rb-pdp__atc:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.rb-pdp__atc.is-added { background: linear-gradient(90deg, #1f8a3a, #22c55e); }
+
+/* ── Dynamic checkout (Shop Pay etc.) ────────────────────── */
+.rb-pdp__dynamic-checkout { margin-bottom: 16px; }
+.rb-pdp__dynamic-checkout .shopify-payment-button__button {
+  border-radius: 999px !important;
+  font-family: 'Clash Display', sans-serif !important;
+  font-weight: 700 !important;
+  min-height: 52px !important;
+}
+.rb-pdp__dynamic-checkout .shopify-payment-button__button--unbranded {
+  background: #030213 !important;
+  color: #fff !important;
+}
+
+/* ── Pickup ───────────────────────────────────────────────── */
+.rb-pdp__pickup {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fbfaf7;
+  border: 1px solid #E4E4E7;
+  border-radius: 16px;
+  padding: 16px;
+}
+.rb-pdp__pickup-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #1f8a3a;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.rb-pdp__pickup-check svg { width: 12px; height: 12px; }
+.rb-pdp__pickup-text strong { display: block; font-size: 13px; font-weight: 700; color: #030213; margin-bottom: 2px; }
+.rb-pdp__pickup-text span { font-size: 12px; color: #52525B; }
+
+/* ── Recommendations ──────────────────────────────────────── */
+.rb-pdp__recs {
+  max-width: 1280px;
+  margin: 64px auto 0;
+  padding: 0 32px;
+  border-top: 1px solid #E4E4E7;
+  padding-top: 48px;
+}
+.rb-pdp__recs-heading {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 700;
+  color: #030213;
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+}
+.rb-pdp__recs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ── Mobile ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .rb-pdp { padding: 24px 0 48px; }
+  .rb-pdp__inner { grid-template-columns: 1fr; gap: 24px; padding: 0 16px; }
+  .rb-pdp__gallery { position: static; }
+  .rb-pdp__title { font-size: 26px; }
+  .rb-pdp__price { font-size: 26px; }
+  .rb-pdp__recs {
+    margin: 32px 0 0;
+    padding: 24px 16px 0;
+    border-top: 1px solid #E4E4E7;
+  }
+  .rb-pdp__recs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+</style>
+
+<div class="rb-pdp" data-section-id="{{ section.id }}">
+  <div class="rb-pdp__inner">
+
+    <!-- LEFT: Gallery -->
+    <div class="rb-pdp__gallery">
+      <div class="rb-pdp__img-main-wrap">
+        <button class="rb-pdp__heart" type="button" aria-label="Save" data-pdp-heart>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        {%- if product.featured_image -%}
+          <img id="rb-pdp-main-img" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" class="rb-pdp__img-main" width="800">
+        {%- else -%}
+          <svg width="100" height="100" viewBox="0 0 80 80" fill="none"><rect x="20" y="16" width="40" height="40" rx="4" stroke="#C4C4C4" stroke-width="2"/><circle cx="33" cy="29" r="4" stroke="#C4C4C4" stroke-width="2"/><path d="M20 46l12-10 8 8 6-5 14 11" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {%- endif -%}
+      </div>
+
+      {%- if product.images.size > 1 -%}
+        <div class="rb-pdp__thumbs">
+          {%- for image in product.images limit: 4 -%}
+            <button class="rb-pdp__thumb{% if forloop.first %} is-active{% endif %}" data-pdp-thumb="{{ image | image_url: width: 800 }}" type="button">
+              <img src="{{ image | image_url: width: 120 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- RIGHT: Details -->
+    <div class="rb-pdp__details">
+
+      {%- if product.type != blank -%}
+        <p class="rb-pdp__eyebrow">{{ product.type }}</p>
+      {%- elsif product.vendor != blank -%}
+        <p class="rb-pdp__eyebrow">{{ product.vendor }}</p>
+      {%- endif -%}
+
+      <h1 class="rb-pdp__title">{{ product.title }}</h1>
+
+      <div class="rb-pdp__price" id="rb-pdp-price">
+        {{ current_variant.price | money }}
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="was">{{ current_variant.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="rb-pdp__desc">{{ product.description | strip_html | truncate: 200 }}</div>
+      {%- endif -%}
+
+      <hr class="rb-pdp__divider">
+
+      {%- form 'product', product, id: form_id, class: 'rb-pdp__form' -%}
+        <input type="hidden" name="id" id="rb-pdp-variant-id" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" id="rb-pdp-qty-hidden" value="1">
+
+        <!-- Variant pills -->
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="rb-pdp__option-group">
+              <p class="rb-pdp__option-label">
+                {{ option.name }}:&nbsp;<span class="val" data-option-val="{{ forloop.index0 }}">{{ option.selected_value }}</span>
+              </p>
+              <div class="rb-pdp__pills" data-opt-group="{{ forloop.index0 }}">
+                {%- for value in option.values -%}
+                  <button type="button"
+                    class="rb-pdp__pill{% if option.selected_value == value %} is-active{% endif %}"
+                    data-opt-i="{{ forloop.parentloop.index0 }}"
+                    data-opt-v="{{ value | escape }}">{{ value }}</button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <!-- Quantity -->
+        <div class="rb-pdp__qty-row">
+          <p class="rb-pdp__option-label">Quantity:</p>
+          <div class="rb-pdp__qty">
+            <button type="button" class="rb-pdp__qty-btn" data-delta="-1" aria-label="Decrease">−</button>
+            <div class="rb-pdp__qty-val" id="rb-pdp-qty-display">1</div>
+            <button type="button" class="rb-pdp__qty-btn" data-delta="1" aria-label="Increase">+</button>
+          </div>
+        </div>
+
+        <!-- ATC -->
+        <button type="submit" class="rb-pdp__atc" id="rb-pdp-atc">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
+            <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span id="rb-pdp-atc-label">Add to Cart · <span id="rb-pdp-atc-price">{{ current_variant.price | money }}</span></span>
+        </button>
+
+        <!-- Dynamic checkout (Buy with Shop Pay etc.) -->
+        <div class="rb-pdp__dynamic-checkout">
+          {{ form | payment_button }}
+        </div>
+
+      {%- endform -%}
+
+      <div class="rb-pdp__pickup">
+        <div class="rb-pdp__pickup-check">
+          <svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l3 3 5-5"/></svg>
+        </div>
+        <div class="rb-pdp__pickup-text">
+          <strong>Pickup available at Rocket HQ</strong>
+          <span>Usually ready in 24 hours</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- You might also like -->
+  {%- if first_col != blank -%}
+    {%- assign shown = 0 -%}
+    {%- assign has_recs = false -%}
+    {%- for rec in first_col.products -%}
+      {%- if rec.id != product.id and shown < 4 -%}{%- assign has_recs = true -%}{%- assign shown = shown | plus: 1 -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if has_recs -%}
+      <div class="rb-pdp__recs">
+        <h2 class="rb-pdp__recs-heading">You might also like</h2>
+        <div class="rb-pdp__recs-grid">
+          {%- assign shown = 0 -%}
+          {%- for rec in first_col.products -%}
+            {%- if rec.id != product.id and shown < 4 -%}
+              {%- assign shown = shown | plus: 1 -%}
+              {%- render 'rb-product-card', product: rec -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+<script>
+(function () {
+  /* Pre-rendered variant data — prices already formatted by Liquid */
+  var variants = [
+    {%- for v in product.variants -%}
+    {
+      id: {{ v.id }},
+      price_money: {{ v.price | money | json }},
+      price_cents: {{ v.price }},
+      compare_money: {{ v.compare_at_price | money | json }},
+      has_compare: {{ v.compare_at_price | json }} > {{ v.price | json }} ? true : false,
+      available: {{ v.available | json }},
+      o1: {{ v.option1 | json }},
+      o2: {{ v.option2 | json }},
+      o3: {{ v.option3 | json }},
+      img: {{ v.featured_image.src | default: '' | json }}
+    }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+
+  var numOpts = {{ product.options.size }};
+  var qty = 1;
+
+  var selected = [
+    {%- for opt in product.options_with_values -%}
+      {{ opt.selected_value | json }}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ];
+
+  function findVariant() {
+    return variants.find(function (v) {
+      if (selected[0] != null && v.o1 !== selected[0]) return false;
+      if (numOpts > 1 && selected[1] != null && v.o2 !== selected[1]) return false;
+      if (numOpts > 2 && selected[2] != null && v.o3 !== selected[2]) return false;
+      return true;
+    });
+  }
+
+  function formatTotal(cents, q) {
+    /* Use Shopify.formatMoney if the theme exposes it, else build from unit money string */
+    if (window.Shopify && typeof Shopify.formatMoney === 'function' && window.theme && window.theme.moneyFormat) {
+      return Shopify.formatMoney(cents * q, window.theme.moneyFormat);
+    }
+    /* Safe fallback: dollar symbol + simple division */
+    var symbol = (window.Shopify && Shopify.currency && Shopify.currency.active) ? '' : '$';
+    return symbol + (cents * q / 100).toFixed(2);
+  }
+
+  function updateUI() {
+    var v = findVariant();
+    if (!v) return;
+
+    /* Variant hidden input */
+    document.getElementById('rb-pdp-variant-id').value = v.id;
+
+    /* Price display */
+    var priceEl = document.getElementById('rb-pdp-price');
+    var html = v.price_money;
+    if (v.has_compare) html += '<span class="was">' + v.compare_money + '</span>';
+    priceEl.innerHTML = html;
+
+    /* ATC button price (total = unit × qty) */
+    var atcPrice = document.getElementById('rb-pdp-atc-price');
+    if (atcPrice) atcPrice.textContent = formatTotal(v.price_cents, qty);
+
+    /* ATC availability */
+    var atcBtn = document.getElementById('rb-pdp-atc');
+    atcBtn.disabled = !v.available;
+
+    /* Swap main image if variant has one */
+    if (v.img) {
+      var mainImg = document.getElementById('rb-pdp-main-img');
+      if (mainImg) mainImg.src = v.img;
+    }
+
+    /* Sold-out pill states */
+    document.querySelectorAll('.rb-pdp__pill').forEach(function (pill) {
+      var i = parseInt(pill.dataset.optI);
+      var val = pill.dataset.optV;
+      var test = selected.slice();
+      test[i] = val;
+      var avail = variants.some(function (vv) {
+        if (test[0] != null && vv.o1 !== test[0]) return false;
+        if (numOpts > 1 && test[1] != null && vv.o2 !== test[1]) return false;
+        if (numOpts > 2 && test[2] != null && vv.o3 !== test[2]) return false;
+        return vv.available;
+      });
+      pill.classList.toggle('is-soldout', !avail);
+    });
+  }
+
+  /* Pill clicks */
+  document.querySelectorAll('.rb-pdp__pill').forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      if (pill.classList.contains('is-soldout')) return;
+      var i = parseInt(pill.dataset.optI);
+      selected[i] = pill.dataset.optV;
+
+      document.querySelectorAll('.rb-pdp__pill[data-opt-i="' + i + '"]').forEach(function (p) {
+        p.classList.toggle('is-active', p.dataset.optV === selected[i]);
+      });
+
+      var valDisplay = document.querySelector('[data-option-val="' + i + '"]');
+      if (valDisplay) valDisplay.textContent = selected[i];
+
+      updateUI();
+    });
+  });
+
+  /* Quantity stepper */
+  var qtyDisplay = document.getElementById('rb-pdp-qty-display');
+  var qtyHidden  = document.getElementById('rb-pdp-qty-hidden');
+  document.querySelectorAll('.rb-pdp__qty-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      qty = Math.max(1, qty + parseInt(btn.dataset.delta));
+      qtyDisplay.textContent = qty;
+      qtyHidden.value = qty;
+      var v = findVariant();
+      if (v) {
+        var atcPrice = document.getElementById('rb-pdp-atc-price');
+        if (atcPrice) atcPrice.textContent = formatTotal(v.price_cents, qty);
+      }
+    });
+  });
+
+  /* Thumbnails */
+  document.querySelectorAll('[data-pdp-thumb]').forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      document.querySelectorAll('[data-pdp-thumb]').forEach(function (t) { t.classList.remove('is-active'); });
+      thumb.classList.add('is-active');
+      var img = document.getElementById('rb-pdp-main-img');
+      if (img) img.src = thumb.dataset.pdpThumb;
+    });
+  });
+
+  /* Heart / wishlist */
+  var heartBtn = document.querySelector('[data-pdp-heart]');
+  if (heartBtn) {
+    var pid = '{{ product.id }}';
+    var saved = localStorage.getItem('rb_saved_' + pid) === '1';
+    heartBtn.classList.toggle('is-saved', saved);
+    heartBtn.addEventListener('click', function () {
+      saved = !saved;
+      heartBtn.classList.toggle('is-saved', saved);
+      localStorage.setItem('rb_saved_' + pid, saved ? '1' : '0');
+    });
+  }
+
+  /* AJAX Add to Cart */
+  var form   = document.getElementById('{{ form_id }}');
+  var atcBtn = document.getElementById('rb-pdp-atc');
+  var atcLabel = document.getElementById('rb-pdp-atc-label');
+
+  if (form && atcBtn) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (atcBtn.disabled) return;
+      atcBtn.disabled = true;
+      var originalHTML = atcLabel.innerHTML;
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        atcBtn.classList.add('is-added');
+        atcLabel.innerHTML = 'Added to cart ✓';
+
+        var count = parseInt(localStorage.getItem('rb_cart') || '0') + (data.quantity || qty);
+        localStorage.setItem('rb_cart', count);
+        window.dispatchEvent(new CustomEvent('rb-cart', { detail: { count: count } }));
+
+        setTimeout(function () {
+          atcBtn.classList.remove('is-added');
+          atcLabel.innerHTML = originalHTML;
+          atcBtn.disabled = false;
+        }, 1300);
+      })
+      .catch(function () { form.submit(); });
+    });
+  }
+
+  /* Initial state */
+  updateUI();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "RB Product Detail",
+  "tag": "section",
+  "class": "rb-pdp-section"
+}
+{% endschema %}

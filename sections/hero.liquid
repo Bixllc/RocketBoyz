@@ -103,29 +103,80 @@
   }
 
   @media (max-width: 768px) {
+    /* Hero sized to portrait image (1024×1536 = 2:3) */
     .rb-hero {
-      min-height: 520px;
+      aspect-ratio: 2 / 3;
+      min-height: unset;
     }
 
+    /* Image fills the portrait hero, no cropping */
+    .rb-hero__bg-img {
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    /* Overlay: dark at top (text zone), clear in middle (snacks), dark at bottom (buttons) */
+    .rb-hero__overlay {
+      background: linear-gradient(
+        to bottom,
+        rgba(9,8,6,0.82) 0%,
+        rgba(9,8,6,0.55) 38%,
+        rgba(9,8,6,0.05) 55%,
+        rgba(9,8,6,0.55) 82%,
+        rgba(9,8,6,0.82) 100%
+      );
+    }
+
+    /* Container: full hero height, relative so buttons can be absolute */
     .rb-hero__container {
-      min-height: 520px;
-      padding: 0 20px;
-      align-items: flex-end;
-      padding-bottom: 48px;
-    }
-
-    .rb-hero__content {
-      max-width: 100%;
-    }
-
-    .rb-hero__subtext {
-      max-width: 100%;
-      font-size: 16px;
-    }
-
-    .rb-hero__buttons {
+      aspect-ratio: 2 / 3;
+      min-height: unset;
+      padding: 44px 20px 104px;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
+      justify-content: flex-start;
+      text-align: center;
+    }
+
+    /* Block layout so children naturally fill full width */
+    .rb-hero__content {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .rb-hero__heading {
+      font-size: clamp(32px, 9vw, 52px);
+      text-shadow: 0 2px 16px rgba(0,0,0,0.9);
+      text-align: center;
+    }
+
+    /* Reset desktop max-width so text wraps within the container */
+    .rb-hero__subtext {
+      max-width: none;
+      font-size: 15px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Buttons: pinned to the bottom of the container */
+    .rb-hero__buttons {
+      position: absolute;
+      bottom: 40px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      margin-top: 0;
+    }
+
+    .rb-hero__btn {
+      flex: 1;
+      justify-content: center;
+      font-size: 13px;
+      padding: 12px 14px;
+      white-space: nowrap;
     }
   }
 </style>
@@ -133,15 +184,22 @@
 <section class="rb-hero">
 
   {%- if section.settings.image != blank -%}
-    <img
-      class="rb-hero__bg-img"
-      src="{{ section.settings.image | image_url: width: 1920 }}"
-      alt="{{ section.settings.image.alt | escape }}"
-      loading="eager"
-      fetchpriority="high"
-      width="1920"
-      height="660"
-    >
+    <picture>
+      {%- if section.settings.mobile_image != blank -%}
+        <source media="(max-width: 767px)" srcset="{{ section.settings.mobile_image | image_url: width: 900 }}">
+      {%- else -%}
+        <source media="(max-width: 767px)" srcset="{{ 'hero-mobile.png' | asset_url }}">
+      {%- endif -%}
+      <img
+        class="rb-hero__bg-img"
+        src="{{ section.settings.image | image_url: width: 1920 }}"
+        alt="{{ section.settings.image.alt | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="1920"
+        height="660"
+      >
+    </picture>
   {%- endif -%}
 
   <div class="rb-hero__overlay"></div>
@@ -191,7 +249,13 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Hero background image"
+      "label": "Hero background image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Hero background image (mobile)",
+      "info": "Used on screens ≤767px. Falls back to hero-mobile.png asset if blank."
     },
     {
       "type": "text",

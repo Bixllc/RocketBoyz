@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "snack_box_product": {
+      "type": "snack-box-product",
+      "settings": {
+        "product_handle": "snack-box"
+      }
+    }
+  },
+  "order": ["snack_box_product"]
+}

@@ -1,0 +1,273 @@
+<style>
+/* ── Cart Page ────────────────────────────────────────────── */
+.rbc { font-family: 'Hanken Grotesk', sans-serif; background: #fff; padding: 40px 0 80px; min-height: 60vh; }
+.rbc__wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.rbc__crumb { font-size: 11px; color: #9a9488; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+.rbc__crumb a { color: #9a9488; text-decoration: none; }
+.rbc__crumb a:hover { color: #1b1a16; }
+
+.rbc__head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; }
+.rbc__title { font-family: 'Anton', sans-serif; font-size: clamp(52px, 8vw, 88px); font-weight: 400; text-transform: uppercase; color: #1b1a16; line-height: 0.92; margin: 0; }
+.rbc__count { font-size: 17px; color: #7a7567; font-weight: 500; }
+
+.rbc__grid { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
+
+/* Table header */
+.rbc__thead {
+  display: grid; grid-template-columns: 1fr 160px 120px 36px;
+  gap: 16px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(27,26,22,0.1);
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #9a9488;
+}
+
+/* Line items */
+.rbc__item {
+  display: grid; grid-template-columns: 1fr 160px 120px 36px;
+  gap: 16px; align-items: center;
+  padding: 22px 0; border-bottom: 1px solid rgba(27,26,22,0.07);
+}
+.rbc__product { display: flex; align-items: center; gap: 16px; }
+.rbc__thumb {
+  width: 92px; height: 92px; border-radius: 14px;
+  background: #f4f1ea; object-fit: contain; padding: 8px; flex-shrink: 0;
+}
+.rbc__item-name { font-size: 15px; font-weight: 700; color: #1b1a16; margin: 0 0 3px; }
+.rbc__item-sub  { font-size: 12px; color: #7a7567; margin: 0 0 5px; }
+.rbc__item-unit { font-size: 12px; color: #9a9488; margin: 0; }
+
+/* Stepper */
+.rbc__stepper { display: inline-flex; align-items: center; border: 1.5px solid rgba(27,26,22,0.14); border-radius: 999px; overflow: hidden; }
+.rbc__step-btn { background: none; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 17px; color: #1b1a16; transition: background 0.15s; }
+.rbc__step-btn:hover { background: #f4f1ea; }
+.rbc__step-qty { min-width: 30px; text-align: center; font-size: 14px; font-weight: 700; color: #1b1a16; border-left: 1.5px solid rgba(27,26,22,0.12); border-right: 1.5px solid rgba(27,26,22,0.12); line-height: 36px; }
+
+.rbc__line-total { font-size: 16px; font-weight: 800; color: #1b1a16; }
+.rbc__remove { background: none; border: none; cursor: pointer; color: #9a9488; padding: 4px; display: flex; align-items: center; transition: color 0.15s; }
+.rbc__remove:hover { color: #E63946; }
+
+/* Shipping protection */
+.rbc__protect {
+  display: flex; align-items: center; gap: 12px;
+  background: #fbfaf7; border: 1px solid rgba(27,26,22,0.09);
+  border-radius: 16px; padding: 14px 16px; margin: 20px 0 0;
+}
+.rbc__protect-icon { width: 36px; height: 36px; background: #1b1a16; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rbc__protect-body { flex: 1; }
+.rbc__protect-name { font-size: 13px; font-weight: 700; color: #1b1a16; margin: 0 0 2px; }
+.rbc__protect-sub  { font-size: 11px; color: #7a7567; margin: 0; }
+.rbc__protect-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.rbc__protect-price { font-size: 14px; font-weight: 700; color: #1b1a16; }
+
+/* Terms + continue */
+.rbc__terms { display: flex; align-items: center; gap: 9px; margin: 16px 0 20px; font-size: 13px; color: #54514a; cursor: pointer; }
+.rbc__terms a { color: #1b1a16; text-decoration: underline; }
+.rbc__continue { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; color: #54514a; text-decoration: none; transition: color 0.15s; }
+.rbc__continue:hover { color: #1b1a16; }
+
+/* Order summary card */
+.rbc__summary { background: #fbfaf7; border-radius: 20px; border: 1px solid rgba(27,26,22,0.08); padding: 28px 24px; position: sticky; top: 100px; }
+.rbc__sum-title { font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase; color: #1b1a16; margin: 0 0 22px; letter-spacing: 0.02em; }
+.rbc__sum-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #54514a; padding: 7px 0; }
+.rbc__sum-row strong { font-weight: 700; color: #1b1a16; }
+.rbc__sum-hr { border: none; border-top: 1px solid rgba(27,26,22,0.1); margin: 10px 0 16px; }
+.rbc__sum-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.rbc__sum-total-label { font-size: 17px; font-weight: 700; color: #1b1a16; }
+.rbc__sum-total-val { font-family: 'Anton', sans-serif; font-size: 34px; color: #1b1a16; }
+.rbc__sum-tax { font-size: 11px; color: #9a9488; margin-bottom: 20px; }
+
+/* CTA buttons shared */
+.rb-cta-gradient { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 999px; border: none; background: #105020; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; text-decoration: none; transition: opacity 0.15s; margin-bottom: 10px; }
+.rb-cta-gradient:hover { opacity: 0.9; color: #1b1a16; }
+.rb-secure { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: #9a9488; margin-top: 10px; }
+
+.rb-toggle { width: 44px; height: 26px; background: #d1d5db; border-radius: 999px; position: relative; cursor: pointer; border: none; transition: background 0.2s; flex-shrink: 0; }
+.rb-toggle.is-on { background: #2563eb; }
+.rb-toggle::after { content: ''; position: absolute; width: 20px; height: 20px; background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.18); }
+.rb-toggle.is-on::after { left: 21px; }
+.rb-check { width: 18px; height: 18px; border: 1.5px solid rgba(27,26,22,0.28); border-radius: 4px; appearance: none; -webkit-appearance: none; cursor: pointer; flex-shrink: 0; background: #fff; position: relative; transition: background 0.15s; }
+.rb-check:checked { background: #1b1a16; border-color: #1b1a16; }
+.rb-check:checked::after { content: ''; position: absolute; left: 4px; top: 1px; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg); }
+
+/* Empty state */
+.rbc__empty { text-align: center; padding: 80px 20px; }
+.rbc__empty-title { font-family: 'Anton', sans-serif; font-size: 48px; text-transform: uppercase; color: #1b1a16; margin: 20px 0 8px; }
+.rbc__empty-sub { font-size: 16px; color: #7a7567; margin-bottom: 32px; }
+.rbc__empty-cta { background: #105020; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; padding: 16px 44px; border-radius: 999px; text-decoration: none; display: inline-block; }
+
+@media (max-width: 960px) {
+  .rbc__grid { grid-template-columns: 1fr; }
+  .rbc__summary { position: static; }
+  .rbc__thead { display: none; }
+  .rbc__item { grid-template-columns: 1fr auto auto; grid-template-rows: auto auto; gap: 10px 12px; }
+  .rbc__product { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .rbc__wrap { padding: 0 16px; }
+  .rbc__title { font-size: 52px; }
+}
+</style>
+
+<div class="rbc">
+  <div class="rbc__wrap">
+    <nav class="rbc__crumb"><a href="/">Home</a> / Cart</nav>
+
+    <div class="rbc__head">
+      <h1 class="rbc__title">Your Cart</h1>
+      <span class="rbc__count" id="rbc-count"></span>
+    </div>
+
+    <!-- Empty state -->
+    <div class="rbc__empty" id="rbc-empty" hidden>
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#d1cdc7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <p class="rbc__empty-title">Your Cart is Empty</p>
+      <p class="rbc__empty-sub">Time to load up on Caribbean snacks</p>
+      <a href="/collections/all" class="rbc__empty-cta">Shop Now</a>
+    </div>
+
+    <!-- Cart layout -->
+    <div class="rbc__grid" id="rbc-grid">
+
+      <!-- LEFT: items -->
+      <div>
+        <div class="rbc__thead">
+          <span>Product</span><span>Quantity</span><span>Total</span><span></span>
+        </div>
+
+        <div id="rbc-items"></div>
+
+        <!-- Shipping protection -->
+        <div class="rbc__protect">
+          <div class="rbc__protect-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="rbc__protect-body">
+            <p class="rbc__protect-name">Shipping Protection 🌿</p>
+            <p class="rbc__protect-sub">Package Protection, Taste Guarantee + $2.50 Cashback</p>
+          </div>
+          <div class="rbc__protect-right">
+            <span class="rbc__protect-price">$1.55</span>
+            <button class="rb-toggle is-on" id="rbc-protect" type="button" aria-label="Toggle shipping protection"></button>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <label class="rbc__terms">
+          <input type="checkbox" class="rb-check" id="rbc-terms">
+          Mi Understand Di <a href="/policies/terms-of-service" onclick="event.stopPropagation()">Terms And Conditions!</a>
+        </label>
+
+        <a href="/collections/all" class="rbc__continue">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Continue shopping
+        </a>
+      </div>
+
+      <!-- RIGHT: order summary -->
+      <div class="rbc__summary">
+        <h2 class="rbc__sum-title">Order Summary</h2>
+        <div class="rbc__sum-row"><span>Items</span><strong id="rbc-sum-items">0 items</strong></div>
+        <div class="rbc__sum-row" id="rbc-sum-prot-row"><span>Shipping Protection</span><strong>$1.55</strong></div>
+        <div class="rbc__sum-row"><span>Shipping</span><strong>At checkout</strong></div>
+        <hr class="rbc__sum-hr">
+        <div class="rbc__sum-total">
+          <span class="rbc__sum-total-label">Subtotal</span>
+          <span class="rbc__sum-total-val" id="rbc-subtotal">$0.00</span>
+        </div>
+        <p class="rbc__sum-tax">Tax included and shipping calculated at checkout</p>
+        <a href="/pages/checkout" class="rb-cta-gradient">Checkout →</a>
+        <div class="rb-secure">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Secure checkout · encrypted payment
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  function fmt(c) { return '$' + (c / 100).toFixed(2); }
+
+  function render() {
+    var cart    = window.RBCart;
+    var items   = cart ? cart.getItems() : [];
+    var protect = cart ? cart.getProtect() : true;
+    var terms   = cart ? cart.getTerms()   : false;
+    var count   = items.reduce(function (s, i) { return s + i.qty; }, 0);
+    var base    = items.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+    var total   = base + (protect ? 155 : 0);
+
+    document.getElementById('rbc-count').textContent        = count + (count === 1 ? ' item' : ' items');
+    document.getElementById('rbc-sum-items').textContent    = count + ' items';
+    document.getElementById('rbc-subtotal').textContent     = fmt(total);
+    document.getElementById('rbc-empty').hidden             = items.length > 0;
+    document.getElementById('rbc-grid').style.display       = items.length ? '' : 'none';
+    document.getElementById('rbc-sum-prot-row').style.display = protect ? '' : 'none';
+
+    var protBtn = document.getElementById('rbc-protect');
+    var termsEl = document.getElementById('rbc-terms');
+    if (protBtn) protBtn.classList.toggle('is-on', protect);
+    if (termsEl) termsEl.checked = terms;
+
+    document.getElementById('rbc-items').innerHTML = items.map(function (item) {
+      return '<div class="rbc__item" data-key="' + item.key + '">'
+        + '<div class="rbc__product">'
+        +   '<img class="rbc__thumb" src="' + (item.img || '') + '" alt="' + item.name + '" onerror="this.style.visibility=\'hidden\'">'
+        +   '<div>'
+        +     '<p class="rbc__item-name">' + item.name + '</p>'
+        +     (item.sub ? '<p class="rbc__item-sub">' + item.sub + '</p>' : '')
+        +     '<p class="rbc__item-unit">' + fmt(item.price) + ' each</p>'
+        +   '</div>'
+        + '</div>'
+        + '<div class="rbc__stepper">'
+        +   '<button class="rbc__step-btn" data-act="dec" data-key="' + item.key + '" type="button">−</button>'
+        +   '<span class="rbc__step-qty">' + item.qty + '</span>'
+        +   '<button class="rbc__step-btn" data-act="inc" data-key="' + item.key + '" type="button">+</button>'
+        + '</div>'
+        + '<span class="rbc__line-total">' + fmt(item.price * item.qty) + '</span>'
+        + '<button class="rbc__remove" data-act="del" data-key="' + item.key + '" type="button" aria-label="Remove">'
+        +   '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>'
+        + '</button>'
+        + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('rbc-items').addEventListener('click', async function (e) {
+    var btn = e.target.closest('[data-act]');
+    if (!btn || !window.RBCart) return;
+    var key  = btn.dataset.key;
+    var act  = btn.dataset.act;
+    var item = window.RBCart.getItems().find(function (i) { return i.key === key; });
+    if (act === 'inc') await window.RBCart.updateQty(key, item.qty + 1);
+    else if (act === 'dec') await window.RBCart.updateQty(key, Math.max(0, item.qty - 1));
+    else if (act === 'del') await window.RBCart.removeItem(key);
+    render();
+  });
+
+  document.getElementById('rbc-protect').addEventListener('click', function () {
+    if (window.RBCart) { window.RBCart.setProtect(!window.RBCart.getProtect()); render(); }
+  });
+  document.getElementById('rbc-terms').addEventListener('change', function () {
+    if (window.RBCart) window.RBCart.setTerms(this.checked);
+  });
+
+  document.addEventListener('rb-cart', render);
+
+  function tryRender() {
+    if (window.RBCart) render();
+    else setTimeout(tryRender, 40);
+  }
+  tryRender();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Cart Page",
+  "settings": []
+}
+{% endschema %}

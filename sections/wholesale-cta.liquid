@@ -19,7 +19,7 @@
     position: absolute;
     right: -30px;
     bottom: -50px;
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
     font-size: 220px;
     color: rgba(27, 26, 22, 0.04);
     line-height: 0.8;
@@ -36,19 +36,16 @@
   }
 
   .rb-wholesale-heading {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
     font-size: clamp(34px, 4vw, 56px);
     line-height: 0.92;
     text-transform: uppercase;
-    background: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #030213;
     margin: 0 0 22px;
   }
 
   .rb-wholesale-sub {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 17px;
     line-height: 1.55;
     color: #54514a;
@@ -58,51 +55,45 @@
 
   .rb-wholesale-cta-wrap {
     margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
-  .rb-wholesale-pill {
+  .rb-wholesale-btn {
+    font-family: 'Manrope', sans-serif;
     display: inline-flex;
     align-items: center;
-    background: #f3f1ec;
-    border-radius: 999px;
-    padding: 6px 6px 6px 22px;
     gap: 8px;
-    border: 1px solid rgba(27, 26, 22, 0.1);
-  }
-
-  .rb-wholesale-pill input[type="email"] {
-    background: transparent;
-    border: none;
-    outline: none;
-    font-family: 'Hanken Grotesk', sans-serif;
+    border-radius: 999px;
+    padding: 14px 28px;
     font-size: 15px;
-    color: #1b1a16;
-    min-width: 200px;
-  }
-
-  .rb-wholesale-pill input[type="email"]::placeholder {
-    color: #9a958d;
-  }
-
-  .rb-wholesale-pill-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #fbfaf7;
-    color: #1b1a16;
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-size: 14.5px;
     font-weight: 700;
-    border: 1px solid rgba(27, 26, 22, 0.16);
-    border-radius: 999px;
-    padding: 12px 22px;
-    cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.2s ease;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
 
-  .rb-wholesale-pill-btn:hover {
-    background: #f3f1ec;
+  .rb-wholesale-btn--primary {
+    background: transparent;
+    color: #030213;
+    border: 2px solid #030213;
+  }
+
+  .rb-wholesale-btn--primary:hover {
+    background: #030213;
+    color: #fff;
+  }
+
+  .rb-wholesale-btn--secondary {
+    background: transparent;
+    color: #030213;
+    border: 2px solid #030213;
+  }
+
+  .rb-wholesale-btn--secondary:hover {
+    background: #030213;
+    color: #fff;
   }
 
   .rb-wholesale-badges {
@@ -117,7 +108,7 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 13.5px;
     color: #54514a;
   }
@@ -151,14 +142,9 @@
   }
 </style>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <div class="rb-wholesale-section">
   <div class="rb-wholesale-card">
-    <div class="rb-wholesale-watermark" aria-hidden="true">96</div>
-
-    <div class="rb-wholesale-content">
+<div class="rb-wholesale-content">
       <h2 class="rb-wholesale-heading">
         {{ section.settings.heading_line1 }}<br>
         {{ section.settings.heading_line2 }}
@@ -167,37 +153,20 @@
       <p class="rb-wholesale-sub">{{ section.settings.description }}</p>
 
       <div class="rb-wholesale-cta-wrap">
-        <div class="rb-wholesale-pill">
-          <input type="email" placeholder="Business email" aria-label="Business email">
-          <a href="{{ section.settings.cta_url }}" class="rb-wholesale-pill-btn">
-            {{ section.settings.cta_text }}
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
+        <a href="{{ section.settings.retail_url | default: '/collections/all' }}" class="rb-wholesale-btn rb-wholesale-btn--primary">
+          Shop Retail
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="{{ section.settings.wholesale_url | default: '/pages/wholesale' }}" class="rb-wholesale-btn rb-wholesale-btn--secondary">
+          Shop Wholesale
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
       </div>
 
-      <div class="rb-wholesale-badges">
-        <div class="rb-wholesale-badge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f8a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 6 9 17l-5-5"/>
-          </svg>
-          No minimum first order
-        </div>
-        <div class="rb-wholesale-badge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f8a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 6 9 17l-5-5"/>
-          </svg>
-          Net-30 terms available
-        </div>
-        <div class="rb-wholesale-badge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f8a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 6 9 17l-5-5"/>
-          </svg>
-          Dedicated rep
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -212,13 +181,13 @@
       "type": "text",
       "id": "heading_line1",
       "label": "Heading line 1",
-      "default": "Stock Rocket Boyz"
+      "default": "Bring the Caribbean"
     },
     {
       "type": "text",
       "id": "heading_line2",
       "label": "Heading line 2",
-      "default": "by the case"
+      "default": "to your doorstep"
     },
     {
       "type": "textarea",
@@ -228,14 +197,13 @@
     },
     {
       "type": "url",
-      "id": "cta_url",
-      "label": "CTA URL"
+      "id": "retail_url",
+      "label": "Shop Retail URL"
     },
     {
-      "type": "text",
-      "id": "cta_text",
-      "label": "CTA button text",
-      "default": "Apply now"
+      "type": "url",
+      "id": "wholesale_url",
+      "label": "Shop Wholesale URL"
     }
   ],
   "presets": [

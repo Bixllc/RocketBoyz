@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "checkout": {
+      "type": "checkout-page",
+      "settings": {}
+    }
+  },
+  "order": ["checkout"]
+}

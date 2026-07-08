@@ -6,14 +6,14 @@
         "collection": "wholesale",
         "heading": "Wholesale",
         "breadcrumb_label": "Wholesale",
-        "intro_text": "<p>Bulk case pricing for retailers, restaurants, and resellers — mixed pallets and 48-hour nationwide shipping.</p>",
+        "intro_text": "",
         "default_price_filter": "all",
         "price_mode": "case",
         "case_size": 24,
         "search_placeholder": "Search wholesale items",
-        "show_wholesale_cta": true,
-        "wholesale_cta_text": "Request a wholesale account",
-        "wholesale_cta_url": "/pages/wholesale"
+        "show_wholesale_cta": false,
+        "wholesale_cta_text": "",
+        "wholesale_cta_url": ""
       }
     }
   },

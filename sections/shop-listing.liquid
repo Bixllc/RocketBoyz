@@ -16,7 +16,7 @@
   .rb-shop-header { padding: 36px 0 0; }
 
   .rb-shop-breadcrumb {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Manrope', sans-serif;
     font-size: 11.5px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
@@ -27,8 +27,8 @@
   .rb-shop-breadcrumb a:hover { color: #1b1a16; }
 
   .rb-shop-h1 {
-    font-family: 'Anton', sans-serif;
-    font-weight: 400;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
     text-transform: uppercase;
     color: #1b1a16;
     font-size: clamp(54px, 8vw, 116px);
@@ -45,7 +45,7 @@
     margin: 18px 0 0;
   }
   .rb-shop-intro-text {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 16px;
     color: #54514a;
     margin: 0;
@@ -65,7 +65,7 @@
   .rb-shop-catnav::-webkit-scrollbar { display: none; }
 
   .rb-shop-catnav__link {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.045em;
@@ -115,7 +115,7 @@
   .rb-shop-search input {
     width: 100%;
     box-sizing: border-box;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 14.5px;
     color: #1b1a16;
     background: #f3f1ec;
@@ -126,7 +126,7 @@
   .rb-shop-search input::placeholder { color: #9a9488; }
 
   .rb-shop-filter-label {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Manrope', sans-serif;
     font-size: 11.5px;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -156,12 +156,12 @@
     display: flex;
     align-items: center;
     gap: 11px;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 15px;
     color: #1b1a16;
   }
   .rb-shop-check-row__count {
-    font-family: 'DM Mono', monospace;
+    font-family: 'Manrope', sans-serif;
     font-size: 13px;
     color: #9a9488;
   }
@@ -202,7 +202,7 @@
     padding: 10px 10px;
     border-radius: 10px;
     cursor: pointer;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 15px;
     color: #1b1a16;
   }
@@ -241,7 +241,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 15px;
     font-weight: 700;
     color: #1b1a16;
@@ -279,7 +279,7 @@
   }
 
   .rb-shop-clear {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 13.5px;
     font-weight: 700;
     color: #E63946;
@@ -305,7 +305,7 @@
     margin-bottom: 22px;
   }
   .rb-shop-count {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 16px;
     color: #1b1a16;
   }
@@ -324,7 +324,7 @@
     gap: 8px;
   }
   .rb-shop-sortby-label {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
@@ -346,7 +346,7 @@
     -webkit-appearance: none;
     background: none;
     border: none;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 14px;
     font-weight: 800;
     text-transform: uppercase;
@@ -361,7 +361,7 @@
     gap: 10px;
   }
   .rb-shop-show-label {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
@@ -376,7 +376,7 @@
     gap: 2px;
   }
   .rb-shop-show-btn {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 13.5px;
     font-weight: 700;
     color: #7a7567;
@@ -423,8 +423,61 @@
   .rb-shop-density-btn[data-cols="4"] span { height: 16px; }
   .rb-shop-density-btn[data-cols="5"] span { height: 16px; }
 
+  /* ── Card layout — consistent across all grid densities ── */
+  .rb-shop-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rb-shop-card__title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1b1a16;
+    line-height: 1.35;
+    margin: 0;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(15px * 1.35 * 2);
+  }
+
+  .rb-shop-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* 5-col: stack price above button for narrow cards */
+  .rb-grid-5 .rb-shop-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .rb-grid-5 .rb-shop-card__footer .rb-btn-sm-outline,
+  .rb-grid-5 .rb-shop-card__footer .rb-product-card__add-form {
+    width: 100%;
+  }
+
+  .rb-grid-5 .rb-shop-card__footer .rb-btn-sm-outline {
+    justify-content: center;
+  }
+
+  .rb-grid-5 .rb-shop-card__footer .rb-product-card__add-form button {
+    width: 100%;
+    justify-content: center;
+  }
+
   /* ── Out of stock + add-state ── */
-  .rb-shop-card { position: relative; }
+  .rb-shop-card__imgwrap { height: 190px; }
   .rb-shop-card[data-available="false"] .rb-shop-card__imgwrap { position: relative; }
   .rb-shop-oos-overlay {
     position: absolute;
@@ -436,7 +489,7 @@
     justify-content: center;
   }
   .rb-shop-oos-chip {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 12.5px;
     font-weight: 700;
     text-transform: uppercase;
@@ -454,39 +507,290 @@
   }
 
   .rb-shop-case-label {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 12px;
     color: #7a7567;
     display: block;
     margin-top: 2px;
   }
 
+  /* ── Mobile filter bar (hidden on desktop) ── */
+  .rb-shop-mobile-bar { display: none; }
+
   /* ── Responsive ── */
   @media (max-width: 900px) {
+    /* Restore horizontal padding that the shorthand rules strip */
+    .rb-shop-header { padding-left: 16px; padding-right: 16px; }
     .rb-shop-body {
       grid-template-columns: 1fr;
+      gap: 0;
+      padding-top: 0;
+      padding-bottom: 64px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
-    .rb-shop-sidebar {
-      position: static;
-      order: 2;
+    .rb-shop-sidebar { display: none; }
+    .rb-shop-grid-wrap { width: 100%; }
+    .rb-shop-toolbar { display: none; }
+    .rb-shop-catnav { display: none; }
+
+    /* Mobile filter bar */
+    .rb-shop-mobile-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0 10px;
     }
-    .rb-shop-grid-wrap { order: 1; }
-    .rb-shop-grid-wrap .rb-grid-3,
-    .rb-shop-grid-wrap .rb-grid-4,
-    .rb-shop-grid-wrap .rb-grid-5 {
+
+    /* Product grid — default 2 cols, overridden by data-mobile-cols */
+    .rb-shop-grid-wrap [data-shop-grid] {
       grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
-  }
-  @media (max-width: 640px) {
-    .rb-shop-toolbar-right { gap: 14px; }
-  }
-  @media (max-width: 460px) {
-    .rb-shop-grid-wrap .rb-grid-3,
-    .rb-shop-grid-wrap .rb-grid-4,
-    .rb-shop-grid-wrap .rb-grid-5 {
-      grid-template-columns: 1fr;
+    .rb-shop-grid-wrap [data-shop-grid][data-mobile-cols="1"] { grid-template-columns: 1fr; }
+    .rb-shop-grid-wrap [data-shop-grid][data-mobile-cols="2"] { grid-template-columns: repeat(2, 1fr); }
+    .rb-shop-grid-wrap [data-shop-grid][data-mobile-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+
+    /* Compact image on narrow cards */
+    .rb-shop-card__imgwrap { height: 130px; }
+
+    /* Stack card footer */
+    .rb-shop-card__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
     }
+    .rb-shop-card__footer .rb-btn-sm-outline,
+    .rb-shop-card__footer .rb-product-card__add-form { width: 100%; }
+    .rb-shop-card__footer .rb-btn-sm-outline { justify-content: center; }
+    .rb-shop-card__footer .rb-product-card__add-form button { width: 100%; justify-content: center; }
   }
+
+  /* ── Filter & Sort button ── */
+  .rb-shop-filterbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1b1a16;
+    background: #fff;
+    border: 1.5px solid rgba(27,26,22,0.22);
+    border-radius: 999px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .rb-shop-filterbar-btn:hover,
+  .rb-shop-filterbar-btn.has-filters {
+    background: #1b1a16;
+    color: #fff;
+    border-color: #1b1a16;
+  }
+  .rb-shop-filterbar-btn.has-filters svg,
+  .rb-shop-filterbar-btn:hover svg { stroke: #fff; }
+
+  /* ── Mobile density buttons ── */
+  .rb-shop-mobile-density {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .rb-shop-mobile-density .rb-shop-density-btn {
+    display: grid;
+    place-items: center;
+    gap: 2px;
+    grid-auto-flow: column;
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 6px;
+    transition: background 0.15s;
+  }
+  .rb-shop-mobile-density .rb-shop-density-btn span {
+    display: block;
+    height: 100%;
+    background: rgba(27,26,22,0.25);
+    border-radius: 2px;
+    min-width: 3px;
+  }
+  .rb-shop-mobile-density .rb-shop-density-btn.is-active span { background: #1b1a16; }
+  .rb-shop-mobile-density .rb-shop-density-btn:hover { background: rgba(27,26,22,0.06); }
+
+  /* ── Filter drawer ── */
+  .rb-filter-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .rb-filter-drawer.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .rb-filter-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    cursor: pointer;
+  }
+  .rb-filter-drawer.is-open .rb-filter-drawer__backdrop { opacity: 1; }
+  .rb-filter-drawer__panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 88vh;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+    overflow: hidden;
+  }
+  .rb-filter-drawer.is-open .rb-filter-drawer__panel { transform: translateY(0); }
+  .rb-filter-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(27,26,22,0.1);
+    flex-shrink: 0;
+  }
+  .rb-filter-drawer__title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #1b1a16;
+    text-transform: uppercase;
+  }
+  .rb-filter-drawer__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #1b1a16;
+    border-radius: 50%;
+    transition: background 0.15s;
+  }
+  .rb-filter-drawer__close:hover { background: rgba(27,26,22,0.08); }
+  .rb-filter-drawer__body {
+    overflow-y: auto;
+    padding: 0 24px 32px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .rb-filter-section {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(27,26,22,0.08);
+  }
+  .rb-filter-section:last-child { border-bottom: none; }
+  .rb-filter-section--inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rb-filter-section__head {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1b1a16;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .rb-filter-section__dash { color: rgba(27,26,22,0.4); font-weight: 400; }
+  .rb-filter-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rb-filter-pill {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1b1a16;
+    background: #fff;
+    border: 1.5px solid rgba(27,26,22,0.18);
+    border-radius: 999px;
+    padding: 9px 18px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .rb-filter-pill:hover { border-color: #1b1a16; }
+  .rb-filter-pill.is-active { background: #1b1a16; color: #fff; border-color: #1b1a16; }
+  .rb-filter-drawer__actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 4px;
+  }
+  .rb-filter-drawer__clear-btn {
+    flex: 1;
+    padding: 14px;
+    border: 1.5px solid rgba(27,26,22,0.22);
+    border-radius: 999px;
+    background: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1b1a16;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .rb-filter-drawer__clear-btn:hover { background: rgba(27,26,22,0.05); }
+  .rb-filter-drawer__apply-btn {
+    flex: 2;
+    padding: 14px;
+    border: none;
+    border-radius: 999px;
+    background: #1b1a16;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .rb-filter-drawer__apply-btn:hover { background: #2d2c26; }
+  .rb-filter-drawer__switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .rb-filter-drawer__switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .rb-filter-drawer__switch-track {
+    position: absolute;
+    inset: 0;
+    background: rgba(27,26,22,0.2);
+    border-radius: 999px;
+    transition: background 0.2s;
+  }
+  .rb-filter-drawer__switch input:checked + .rb-filter-drawer__switch-track { background: #1b1a16; }
+  .rb-filter-drawer__switch-track::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .rb-filter-drawer__switch input:checked + .rb-filter-drawer__switch-track::after { transform: translateX(20px); }
 </style>
 
 <div
@@ -512,6 +816,19 @@
         {%- endif -%}
       </div>
     {%- endif -%}
+
+    <!-- Mobile filter bar (hidden on desktop) -->
+    <div class="rb-shop-mobile-bar">
+      <button type="button" class="rb-shop-filterbar-btn" data-rb-open-filter aria-expanded="false" aria-controls="rb-filter-drawer-{{ section.id }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Filter &amp; Sort
+      </button>
+      <div class="rb-shop-mobile-density">
+        <button type="button" class="rb-shop-density-btn" data-mobile-density="1" aria-label="1 column"><span></span></button>
+        <button type="button" class="rb-shop-density-btn is-active" data-mobile-density="2" aria-label="2 columns"><span></span><span></span></button>
+        <button type="button" class="rb-shop-density-btn" data-mobile-density="3" aria-label="3 columns"><span></span><span></span><span></span></button>
+      </div>
+    </div>
 
     <nav class="rb-shop-catnav" aria-label="Shop categories">
       <button type="button" class="rb-shop-catnav__link" data-shop-catnav-link data-cat="snacks">{{ cat_snacks }}</button>
@@ -618,7 +935,8 @@
                 <option value="featured">Featured</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
+                <option value="rating">Best Sellers</option>
+                <option value="newest">Newest Arrivals</option>
                 <option value="name">Name A–Z</option>
               </select>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -689,6 +1007,7 @@
               data-available="{{ product.available }}"
               data-title="{{ product.title | downcase | escape }}"
               data-rating="{{ rating }}"
+              data-original-idx="{{ forloop.index }}"
             >
               <button class="rb-btn-wish" aria-label="Add to wishlist" type="button">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1b1a16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -697,7 +1016,7 @@
               </button>
 
               <a href="{{ product.url }}" style="display:block; text-decoration:none;">
-                <div class="rb-shop-card__imgwrap" style="position:relative; height:190px; border-radius:14px; background:#efece6; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:14px;">
+                <div class="rb-shop-card__imgwrap" style="position:relative; border-radius:14px; background:#efece6; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:14px;">
                   {%- if product.featured_image -%}
                     <img
                       src="{{ product.featured_image | image_url: width: 400 }}"
@@ -714,18 +1033,16 @@
               </a>
 
               <a href="{{ product.url }}" style="text-decoration:none; color:#1b1a16;">
-                <p style="font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:16.5px; font-weight:700; margin:0; line-height:1.25;">
-                  {{ product.title }}
-                </p>
+                <p class="rb-shop-card__title">{{ product.title }}</p>
               </a>
 
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:10px;">
+              <div class="rb-shop-card__footer">
                 <span>
                   {%- if price_mode == 'case' -%}
-                    <span style="font-family:'Anton',sans-serif; font-size:22px; font-weight:400; color:#1b1a16;">{{ variant.price | money }}</span>
+                    <span style="font-family:'Manrope', sans-serif; font-size:22px; font-weight:700; color:#1b1a16;">{{ variant.price | money }}</span>
                     <span class="rb-shop-case-label">/ case of {{ case_size }}</span>
                   {%- else -%}
-                    <span style="font-family:'Anton',sans-serif; font-size:22px; font-weight:400; color:#1b1a16;">{{ variant.price | money }}</span>
+                    <span style="font-family:'Manrope', sans-serif; font-size:22px; font-weight:700; color:#1b1a16;">{{ variant.price | money }}</span>
                   {%- endif -%}
                 </span>
 
@@ -747,6 +1064,68 @@
             </div>
           {%- endfor -%}
         {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter & Sort drawer (mobile) -->
+  <div class="rb-filter-drawer" id="rb-filter-drawer-{{ section.id }}" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Filter and Sort">
+    <div class="rb-filter-drawer__backdrop"></div>
+    <div class="rb-filter-drawer__panel">
+      <div class="rb-filter-drawer__header">
+        <span class="rb-filter-drawer__title">Filter &amp; Sort</span>
+        <button type="button" class="rb-filter-drawer__close" data-rb-close-filter aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="rb-filter-drawer__body">
+
+        <div class="rb-filter-section">
+          <div class="rb-filter-section__head">Sort by <span class="rb-filter-section__dash">—</span></div>
+          <div class="rb-filter-pills">
+            <button type="button" class="rb-filter-pill is-active" data-drawer-sort="featured">Featured</button>
+            <button type="button" class="rb-filter-pill" data-drawer-sort="rating">Best Sellers</button>
+            <button type="button" class="rb-filter-pill" data-drawer-sort="price-asc">Price: Low to High</button>
+            <button type="button" class="rb-filter-pill" data-drawer-sort="price-desc">Price: High to Low</button>
+            <button type="button" class="rb-filter-pill" data-drawer-sort="newest">Newest Arrivals</button>
+          </div>
+        </div>
+
+        <div class="rb-filter-section">
+          <div class="rb-filter-section__head">Category <span class="rb-filter-section__dash">—</span></div>
+          <div class="rb-filter-pills">
+            <button type="button" class="rb-filter-pill" data-drawer-cat="snacks">{{ cat_snacks }}</button>
+            <button type="button" class="rb-filter-pill" data-drawer-cat="beverages">{{ cat_beverages }}</button>
+            <button type="button" class="rb-filter-pill" data-drawer-cat="sweets">{{ cat_sweets }}</button>
+            <button type="button" class="rb-filter-pill" data-drawer-cat="groceries">{{ cat_groceries }}</button>
+            <button type="button" class="rb-filter-pill" data-drawer-cat="household">{{ cat_household }}</button>
+            <button type="button" class="rb-filter-pill" data-drawer-cat="health-beauty">{{ cat_health }}</button>
+          </div>
+        </div>
+
+        <div class="rb-filter-section">
+          <div class="rb-filter-section__head">Price <span class="rb-filter-section__dash">—</span></div>
+          <div class="rb-filter-pills">
+            <button type="button" class="rb-filter-pill is-active" data-drawer-price="all">All prices</button>
+            <button type="button" class="rb-filter-pill" data-drawer-price="under2">Under $2</button>
+            <button type="button" class="rb-filter-pill" data-drawer-price="2to4">$2 – $4</button>
+            <button type="button" class="rb-filter-pill" data-drawer-price="4plus">$4 &amp; up</button>
+          </div>
+        </div>
+
+        <div class="rb-filter-section rb-filter-section--inline">
+          <span class="rb-filter-section__head" style="margin-bottom:0;">In stock only</span>
+          <label class="rb-filter-drawer__switch">
+            <input type="checkbox" data-drawer-instock>
+            <span class="rb-filter-drawer__switch-track"></span>
+          </label>
+        </div>
+
+        <div class="rb-filter-drawer__actions">
+          <button type="button" class="rb-filter-drawer__clear-btn" data-rb-drawer-clear>Clear all</button>
+          <button type="button" class="rb-filter-drawer__apply-btn" data-rb-close-filter>View results</button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -832,6 +1211,8 @@
       arr.sort(function (a, b) { return (+b.getAttribute('data-rating')) - (+a.getAttribute('data-rating')); });
     } else if (state.sort === 'name') {
       arr.sort(function (a, b) { return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title')); });
+    } else if (state.sort === 'newest') {
+      arr.sort(function (a, b) { return (+b.getAttribute('data-original-idx') || 0) - (+a.getAttribute('data-original-idx') || 0); });
     } else {
       arr.sort(function (a, b) { return originalOrder.indexOf(a) - originalOrder.indexOf(b); });
     }
@@ -989,6 +1370,136 @@
     setPriceRowHighlight();
   })();
   render();
+})();
+</script>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-shop-root]');
+  if (!root) return;
+
+  var grid      = root.querySelector('[data-shop-grid]');
+  var sortSel   = root.querySelector('[data-shop-sort]');
+  var catChecks = Array.prototype.slice.call(root.querySelectorAll('[data-shop-cat-check]'));
+  var priceRads = Array.prototype.slice.call(root.querySelectorAll('[data-shop-price-radio]'));
+  var stockTgl  = root.querySelector('[data-shop-instock]');
+  var clearBtn  = root.querySelector('[data-shop-clear]');
+
+  var drawer    = document.getElementById('rb-filter-drawer-{{ section.id }}');
+  var openBtn   = root.querySelector('[data-rb-open-filter]');
+
+  /* ── Open / close ── */
+  function openDrawer() {
+    if (!drawer) return;
+    syncToState();
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeDrawer() {
+    if (!drawer) return;
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+    updateFilterBadge();
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openDrawer);
+
+  if (drawer) {
+    drawer.querySelector('.rb-filter-drawer__backdrop').addEventListener('click', closeDrawer);
+    Array.prototype.slice.call(drawer.querySelectorAll('[data-rb-close-filter]')).forEach(function (el) {
+      el.addEventListener('click', closeDrawer);
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer && drawer.classList.contains('is-open')) closeDrawer();
+  });
+
+  /* ── Sort pills ── */
+  var sortPills = drawer ? Array.prototype.slice.call(drawer.querySelectorAll('[data-drawer-sort]')) : [];
+  sortPills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      sortPills.forEach(function (p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      if (sortSel) { sortSel.value = pill.getAttribute('data-drawer-sort'); sortSel.dispatchEvent(new Event('change')); }
+    });
+  });
+
+  /* ── Category pills (multi-select) ── */
+  var catPills = drawer ? Array.prototype.slice.call(drawer.querySelectorAll('[data-drawer-cat]')) : [];
+  catPills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pill.classList.toggle('is-active');
+      var chk = catChecks.filter(function (c) { return c.value === pill.getAttribute('data-drawer-cat'); })[0];
+      if (chk) { chk.checked = pill.classList.contains('is-active'); chk.dispatchEvent(new Event('change')); }
+    });
+  });
+
+  /* ── Price pills (single-select) ── */
+  var pricePills = drawer ? Array.prototype.slice.call(drawer.querySelectorAll('[data-drawer-price]')) : [];
+  pricePills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pricePills.forEach(function (p) { p.classList.remove('is-active'); });
+      pill.classList.add('is-active');
+      var radio = priceRads.filter(function (r) { return r.value === pill.getAttribute('data-drawer-price'); })[0];
+      if (radio) { radio.checked = true; radio.dispatchEvent(new Event('change')); }
+    });
+  });
+
+  /* ── In-stock toggle ── */
+  var drawerStock = drawer ? drawer.querySelector('[data-drawer-instock]') : null;
+  if (drawerStock && stockTgl) {
+    drawerStock.addEventListener('change', function () {
+      stockTgl.checked = drawerStock.checked;
+      stockTgl.dispatchEvent(new Event('change'));
+    });
+  }
+
+  /* ── Clear all ── */
+  var drawerClear = drawer ? drawer.querySelector('[data-rb-drawer-clear]') : null;
+  if (drawerClear && clearBtn) {
+    drawerClear.addEventListener('click', function () {
+      clearBtn.click();
+      sortPills.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-drawer-sort') === 'featured'); });
+      catPills.forEach(function (p) { p.classList.remove('is-active'); });
+      pricePills.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-drawer-price') === 'all'); });
+      if (drawerStock) drawerStock.checked = false;
+      updateFilterBadge();
+    });
+  }
+
+  /* ── Sync drawer pills to current filter state ── */
+  function syncToState() {
+    var curSort = sortSel ? sortSel.value : 'featured';
+    sortPills.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-drawer-sort') === curSort); });
+    var activeCats = catChecks.filter(function (c) { return c.checked; }).map(function (c) { return c.value; });
+    catPills.forEach(function (p) { p.classList.toggle('is-active', activeCats.indexOf(p.getAttribute('data-drawer-cat')) !== -1); });
+    var activePrice = 'all';
+    priceRads.forEach(function (r) { if (r.checked) activePrice = r.value; });
+    pricePills.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-drawer-price') === activePrice); });
+    if (drawerStock && stockTgl) drawerStock.checked = stockTgl.checked;
+  }
+
+  function updateFilterBadge() {
+    var activeCats = catChecks.filter(function (c) { return c.checked; });
+    var activePrice = priceRads.filter(function (r) { return r.checked && r.value !== 'all'; });
+    var hasFilters = activeCats.length > 0 || activePrice.length > 0 || (stockTgl && stockTgl.checked);
+    if (openBtn) openBtn.classList.toggle('has-filters', hasFilters);
+  }
+
+  /* ── Mobile density ── */
+  var mobileDensityBtns = Array.prototype.slice.call(root.querySelectorAll('[data-mobile-density]'));
+  mobileDensityBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      mobileDensityBtns.forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      if (grid) grid.setAttribute('data-mobile-cols', btn.getAttribute('data-mobile-density'));
+    });
+  });
 })();
 </script>
 

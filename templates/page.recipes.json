@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "recipes_hero": {
+      "type": "recipes-hero",
+      "settings": {
+        "heading": "Cook With The Snacks You Love",
+        "subheading": "Every recipe uses snacks we keep in stock. See what you'll need, then add the whole ingredient list to your cart in one tap."
+      }
+    },
+    "recipes_grid": {
+      "type": "recipes-grid",
+      "blocks": {
+        "recipe_1": {
+          "type": "recipe",
+          "settings": {
+            "title": "Jerk Chicken",
+            "category": "CHICKEN",
+            "cook_time": "45 MIN",
+            "description": "Marinated in Walkerswood Jerk Seasoning and slow-grilled to perfection — a true Jamaican classic.",
+            "ing_1_name": "Walkerswood Jerk Seasoning",
+            "ing_1_note": "3 oz, marinade",
+            "ing_2_name": "Whole Chicken",
+            "ing_2_note": "1 whole, 3 lb",
+            "ing_3_name": "Old Bay Seasoning",
+            "ing_3_note": "1 tbsp",
+            "ing_4_name": "Gravy Master",
+            "ing_4_note": "1 tbsp"
+          }
+        },
+        "recipe_2": {
+          "type": "recipe",
+          "settings": {
+            "title": "Jamaican Oats Porridge",
+            "category": "BREAKFAST",
+            "cook_time": "15 MIN",
+            "description": "Creamy island-style oats sweetened with condensed milk, scented with vanilla and nutmeg.",
+            "ing_1_name": "Foska Quick Oats",
+            "ing_1_note": "65g porridge oats",
+            "ing_2_name": "Condensed Milk",
+            "ing_2_note": "3 tbsp, to sweeten",
+            "ing_3_name": "Vanilla Extract",
+            "ing_3_note": "½ tsp",
+            "ing_4_name": "Nutmeg & Cinnamon",
+            "ing_4_note": "pinch each"
+          }
+        }
+      },
+      "block_order": ["recipe_1", "recipe_2"]
+    }
+  },
+  "order": ["recipes_hero", "recipes_grid"]
+}

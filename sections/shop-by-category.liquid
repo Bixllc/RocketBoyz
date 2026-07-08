@@ -5,20 +5,61 @@
     padding: 64px 32px 30px;
   }
 
+  /* ── Header row ── */
+  .rb-shop-cat__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
   .rb-shop-cat__heading {
-    font-family: 'Anton', sans-serif !important;
-    font-weight: 400;
+    font-family: 'Big Shoulders Display', sans-serif !important;
+    font-weight: 800;
     text-transform: uppercase;
     font-size: clamp(34px, 4vw, 56px);
     line-height: 0.95;
     color: #1b1a16;
-    margin: 0 0 32px;
+    margin: 0;
   }
 
-  .rb-shop-cat__carousel {
-    position: relative;
+  /* ── Pills ── */
+  .rb-shop-cat__pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
   }
 
+  .rb-shop-cat__pill {
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1.5px solid #E4E4E7;
+    background: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #52525B;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+    white-space: nowrap;
+  }
+
+  .rb-shop-cat__pill:hover {
+    border-color: #030213;
+    color: #030213;
+  }
+
+  .rb-shop-cat__pill.is-active {
+    background: #030213;
+    border-color: #030213;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* ── Card container ── */
   .rb-shop-cat__card {
     background: #fff;
     border: 1px solid rgba(27, 26, 22, 0.1);
@@ -49,12 +90,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation: rb-shop-cat-fadeUp 0.5s ease both;
+    animation: rb-shop-cat-fadeUp 0.4s ease both;
   }
 
   .rb-shop-cat__name {
-    font-family: 'Anton', sans-serif !important;
-    font-weight: 400;
+    font-family: 'Big Shoulders Display', sans-serif !important;
+    font-weight: 800;
     text-transform: uppercase;
     font-size: clamp(40px, 4.4vw, 64px);
     line-height: 0.94;
@@ -63,7 +104,7 @@
   }
 
   .rb-shop-cat__blurb {
-    font-family: 'Hanken Grotesk', sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
     font-size: 17px;
     line-height: 1.55;
     color: #54514a;
@@ -72,7 +113,7 @@
   }
 
   .rb-shop-cat__view-all {
-    font-family: 'Hanken Grotesk', sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -85,26 +126,20 @@
     text-decoration: none;
     border: none;
     border-bottom: 2px solid transparent;
-    border-image: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+    border-image: #105020;
     border-image-slice: 1;
     transition: gap 0.2s ease;
     width: fit-content;
   }
 
-  .rb-shop-cat__view-all:hover {
-    gap: 15px;
-  }
+  .rb-shop-cat__view-all:hover { gap: 15px; }
 
   .rb-shop-cat__view-all-text {
-    background: linear-gradient(90deg, #E63946 0%, #FF9F1C 100%);
+    background: #105020;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-  }
-
-  .rb-shop-cat__view-all svg {
-    flex-shrink: 0;
   }
 
   .rb-shop-cat__stage {
@@ -122,7 +157,7 @@
     height: 92%;
     object-fit: contain;
     filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.2));
-    animation: rb-shop-cat-popIn 0.6s cubic-bezier(.2, .8, .2, 1) both;
+    animation: rb-shop-cat-popIn 0.5s cubic-bezier(.2, .8, .2, 1) both;
   }
 
   .rb-shop-cat__can {
@@ -155,119 +190,70 @@
     animation: rb-shop-cat-canRight 0.72s cubic-bezier(.2, .85, .3, 1.05) both;
   }
 
+  /* ── Product panels below ── */
+  .rb-shop-cat__products-wrap {
+    margin-top: 32px;
+  }
+
+  .rb-shop-cat__product-panel {
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    animation: rb-shop-cat-fadeUp 0.35s ease both;
+  }
+
+  .rb-shop-cat__product-panel.is-active {
+    display: grid;
+  }
+
+  .rb-shop-cat__empty {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: #71717A;
+    text-align: center;
+    padding: 32px 0;
+    grid-column: 1 / -1;
+  }
+
+  /* ── Animations ── */
   @keyframes rb-shop-cat-fadeUp {
-    0% {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes rb-shop-cat-popIn {
-    0% {
-      opacity: 0;
-      transform: translateY(22px) scale(.92);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(22px) scale(.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   @keyframes rb-shop-cat-canCenter {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, calc(-50% + 26px)) scale(.9);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
+    from { opacity: 0; transform: translate(-50%, calc(-50% + 26px)) scale(.9); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   }
 
   @keyframes rb-shop-cat-canLeft {
-    0% {
-      opacity: 0;
-      transform: translate(calc(-50% + 82%), calc(-50% - 2%)) rotate(0deg) scale(.82);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, calc(-50% + 7%)) rotate(-9deg) scale(1);
-    }
+    from { opacity: 0; transform: translate(calc(-50% + 82%), calc(-50% - 2%)) rotate(0deg) scale(.82); }
+    to   { opacity: 1; transform: translate(-50%, calc(-50% + 7%)) rotate(-9deg) scale(1); }
   }
 
   @keyframes rb-shop-cat-canRight {
-    0% {
-      opacity: 0;
-      transform: translate(calc(-50% - 82%), calc(-50% - 2%)) rotate(0deg) scale(.82);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, calc(-50% + 7%)) rotate(9deg) scale(1);
-    }
+    from { opacity: 0; transform: translate(calc(-50% - 82%), calc(-50% - 2%)) rotate(0deg) scale(.82); }
+    to   { opacity: 1; transform: translate(-50%, calc(-50% + 7%)) rotate(9deg) scale(1); }
   }
 
-  .rb-shop-cat__arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 6;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(27, 26, 22, 0.16);
-    background: rgba(255, 255, 255, 0.85);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 0;
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-
-  .rb-shop-cat__arrow svg {
-    stroke: #1b1a16;
-    transition: stroke 0.2s ease;
-  }
-
-  .rb-shop-cat__arrow:hover {
-    background: #1b1a16;
-    border-color: #1b1a16;
-  }
-
-  .rb-shop-cat__arrow:hover svg {
-    stroke: #fff;
-  }
-
-  .rb-shop-cat__arrow--prev {
-    left: -21px;
-  }
-
-  .rb-shop-cat__arrow--next {
-    right: -21px;
-  }
-
+  /* ── Mobile ── */
   @media (max-width: 900px) {
-    .rb-shop-cat {
-      padding: 48px 20px 24px;
+    .rb-shop-cat { padding: 48px 20px 24px; }
+
+    .rb-shop-cat__pills { gap: 8px; }
+
+    .rb-shop-cat__pill {
+      padding: 8px 16px;
+      font-size: 13px;
     }
 
-    .rb-shop-cat__heading {
-      margin-bottom: 20px;
-    }
-
-    .rb-shop-cat__card {
-      height: auto;
-    }
-
-    .rb-shop-cat__track {
-      height: auto;
-    }
+    .rb-shop-cat__card { height: auto; }
+    .rb-shop-cat__track { height: auto; }
 
     .rb-shop-cat__slide {
       grid-template-columns: 1fr;
@@ -284,51 +270,63 @@
       order: 1;
     }
 
-    .rb-shop-cat__arrow {
-      width: 36px;
-      height: 36px;
+    .rb-shop-cat__product-panel {
+      grid-template-columns: repeat(2, 1fr);
     }
+  }
 
-    .rb-shop-cat__arrow--prev {
-      left: -14px;
-    }
-
-    .rb-shop-cat__arrow--next {
-      right: -14px;
+  @media (max-width: 480px) {
+    .rb-shop-cat__product-panel {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
   }
 </style>
 
-<div class="rb-shop-cat">
-  <h2 class="rb-shop-cat__heading">{{ section.settings.heading }}</h2>
+{{ 'rb-design.css' | asset_url | stylesheet_tag }}
 
-  <div class="rb-shop-cat__carousel" data-shop-cat-carousel>
-    {%- if section.blocks.size > 1 -%}
-      <button type="button" class="rb-shop-cat__arrow rb-shop-cat__arrow--prev" data-shop-cat-prev aria-label="Previous category">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <button type="button" class="rb-shop-cat__arrow rb-shop-cat__arrow--next" data-shop-cat-next aria-label="Next category">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-    {%- endif -%}
+<div class="rb-shop-cat" data-shop-cat-root>
 
-    <div class="rb-shop-cat__card">
-      <div class="rb-shop-cat__track" data-shop-cat-track>
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'category' -%}
-            <div class="rb-shop-cat__slide{% if forloop.first %} is-active{% endif %}" data-shop-cat-slide {{ block.shopify_attributes }}>
-              <div class="rb-shop-cat__text">
-                <h3 class="rb-shop-cat__name">{{ block.settings.name }}</h3>
-                {%- if block.settings.blurb != blank -%}
-                  <p class="rb-shop-cat__blurb">{{ block.settings.blurb }}</p>
-                {%- endif -%}
-                {%- if block.settings.link != blank -%}
-                  <a href="{{ block.settings.link }}" class="rb-shop-cat__view-all">
-                    <span class="rb-shop-cat__view-all-text">View all {{ block.settings.name }}</span>
-                  </a>
-                {%- endif -%}
-              </div>
-              <div class="rb-shop-cat__stage">
+  <div class="rb-shop-cat__header">
+    <h2 class="rb-shop-cat__heading">{{ section.settings.heading }}</h2>
+  </div>
+
+  <!-- Pills -->
+  {%- if section.blocks.size > 0 -%}
+    <div class="rb-shop-cat__pills" role="tablist">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category' -%}
+          <button
+            type="button"
+            class="rb-shop-cat__pill{% if forloop.first %} is-active{% endif %}"
+            data-shop-cat-pill="{{ forloop.index0 }}"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          >{{ block.settings.name }}</button>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <!-- Card container -->
+  <div class="rb-shop-cat__card">
+    <div class="rb-shop-cat__track" data-shop-cat-track>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'category' -%}
+          <div class="rb-shop-cat__slide{% if forloop.first %} is-active{% endif %}" data-shop-cat-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <div class="rb-shop-cat__text">
+              <h3 class="rb-shop-cat__name">{{ block.settings.name }}</h3>
+              {%- if block.settings.blurb != blank -%}
+                <p class="rb-shop-cat__blurb">{{ block.settings.blurb }}</p>
+              {%- endif -%}
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" class="rb-shop-cat__view-all">
+                  <span class="rb-shop-cat__view-all-text">View all {{ block.settings.name }}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              {%- endif -%}
+            </div>
+            <div class="rb-shop-cat__stage">
               {%- if block.settings.image_left != blank and block.settings.image_center != blank and block.settings.image_right != blank -%}
                 <img class="rb-shop-cat__can rb-shop-cat__can--left" src="{{ block.settings.image_left | image_url: width: 500 }}" alt="" loading="lazy">
                 <img class="rb-shop-cat__can rb-shop-cat__can--center" src="{{ block.settings.image_center | image_url: width: 600 }}" alt="{{ block.settings.name | escape }}" loading="lazy">
@@ -340,12 +338,65 @@
           </div>
         {%- endif -%}
       {%- endfor -%}
-      </div>
     </div>
   </div>
+
+  <!-- Product panels -->
+  <div class="rb-shop-cat__products-wrap">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'category' -%}
+        {%- assign cat_collection = collections[block.settings.collection] -%}
+        <div class="rb-shop-cat__product-panel{% if forloop.first %} is-active{% endif %}" data-shop-cat-panel="{{ forloop.index0 }}">
+          {%- if cat_collection != empty and cat_collection.products_count > 0 -%}
+            {%- for product in cat_collection.products limit: 4 -%}
+              {%- render 'rb-product-card', product: product -%}
+            {%- endfor -%}
+          {%- else -%}
+            <p class="rb-shop-cat__empty">
+              {%- if block.settings.collection == blank -%}
+                Assign a collection to this category in the section settings.
+              {%- else -%}
+                No products found in this collection.
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
 </div>
 
-{{ 'shop-by-category.js' | asset_url | script_tag }}
+<script>
+(function () {
+  var root = document.querySelector('[data-shop-cat-root]');
+  if (!root) return;
+
+  var pills  = root.querySelectorAll('[data-shop-cat-pill]');
+  var slides = root.querySelectorAll('[data-shop-cat-slide]');
+  var panels = root.querySelectorAll('[data-shop-cat-panel]');
+
+  function activate(idx) {
+    pills.forEach(function (p) {
+      var active = p.dataset.shopCatPill === String(idx);
+      p.classList.toggle('is-active', active);
+      p.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    slides.forEach(function (s) {
+      s.classList.toggle('is-active', s.dataset.shopCatSlide === String(idx));
+    });
+    panels.forEach(function (p) {
+      p.classList.toggle('is-active', p.dataset.shopCatPanel === String(idx));
+    });
+  }
+
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      activate(parseInt(this.dataset.shopCatPill, 10));
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
@@ -380,28 +431,34 @@
           "label": "View all link"
         },
         {
+          "type": "collection",
+          "id": "collection",
+          "label": "Products collection",
+          "info": "4 products auto-populate from this collection"
+        },
+        {
           "type": "image_picker",
           "id": "image",
           "label": "Image (single cut-out)"
         },
         {
           "type": "header",
-          "content": "Three-can layout (optional, used for Beverages)"
+          "content": "Three-image layout (optional)"
         },
         {
           "type": "image_picker",
           "id": "image_left",
-          "label": "Left can image"
+          "label": "Left image"
         },
         {
           "type": "image_picker",
           "id": "image_center",
-          "label": "Center can image"
+          "label": "Center image"
         },
         {
           "type": "image_picker",
           "id": "image_right",
-          "label": "Right can image"
+          "label": "Right image"
         }
       ]
     }

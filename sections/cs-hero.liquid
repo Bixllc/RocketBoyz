@@ -1,0 +1,179 @@
+<style>
+  .cs-hero-section {
+    background: #fff;
+    padding: 72px 32px 56px;
+    text-align: center;
+  }
+
+  .cs-hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .cs-hero-heading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(42px, 6vw, 80px);
+    text-transform: uppercase;
+    color: #030213;
+    margin: 0 0 48px;
+    line-height: 1.0;
+  }
+
+  .cs-divider {
+    border: none;
+    border-top: 1px solid #E4E4E7;
+    margin: 0 0 56px;
+  }
+
+  /* Topic cards */
+  .cs-topic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    text-align: left;
+  }
+
+  .cs-topic-card {
+    background: #F5F2ED;
+    border-radius: 18px;
+    padding: 28px 24px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: box-shadow 0.2s;
+  }
+
+  .cs-topic-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  .cs-topic-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #105020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .cs-topic-card:hover .cs-topic-icon {
+    transform: scale(1.05);
+  }
+
+  .cs-topic-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+    fill: none !important;
+    stroke: #ffffff !important;
+    stroke-width: 1.8px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cs-topic-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #030213;
+    margin: 0 0 6px;
+  }
+
+  .cs-topic-desc {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #71717A;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .cs-topic-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .cs-hero-section { padding: 48px 16px 40px; }
+    .cs-topic-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="cs-hero-section">
+  <div class="cs-hero-inner">
+    <h1 class="cs-hero-heading">{{ section.settings.heading | default: 'Customer Service' }}</h1>
+    <hr class="cs-divider">
+
+    <div class="cs-topic-grid">
+
+      <a href="{{ section.settings.card1_url | default: '#' }}" class="cs-topic-card">
+        <div class="cs-topic-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+        </div>
+        <div>
+          <p class="cs-topic-title">{{ section.settings.card1_title | default: 'Orders & Shipping' }}</p>
+          <p class="cs-topic-desc">{{ section.settings.card1_desc | default: 'Track a package, change an address, or check delivery times.' }}</p>
+        </div>
+      </a>
+
+      <a href="{{ section.settings.card2_url | default: '#' }}" class="cs-topic-card">
+        <div class="cs-topic-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+        </div>
+        <div>
+          <p class="cs-topic-title">{{ section.settings.card2_title | default: 'Returns & Refunds' }}</p>
+          <p class="cs-topic-desc">{{ section.settings.card2_desc | default: 'Something not right? Start a return within 30 days.' }}</p>
+        </div>
+      </a>
+
+      <a href="{{ section.settings.card3_url | default: '#' }}" class="cs-topic-card">
+        <div class="cs-topic-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <p class="cs-topic-title">{{ section.settings.card3_title | default: 'Wholesale' }}</p>
+          <p class="cs-topic-desc">{{ section.settings.card3_desc | default: 'Account setup, Net-30 terms, pallets and bulk pricing.' }}</p>
+        </div>
+      </a>
+
+      <a href="{{ section.settings.card4_url | default: '#' }}" class="cs-topic-card">
+        <div class="cs-topic-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <p class="cs-topic-title">{{ section.settings.card4_title | default: 'My Account' }}</p>
+          <p class="cs-topic-desc">{{ section.settings.card4_desc | default: 'Manage subscriptions, payment methods and the Snack Box.' }}</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CS Hero",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Service" },
+    { "type": "header", "content": "Card 1 — Orders" },
+    { "type": "text", "id": "card1_title", "label": "Title", "default": "Orders & Shipping" },
+    { "type": "textarea", "id": "card1_desc", "label": "Description", "default": "Track a package, change an address, or check delivery times." },
+    { "type": "url", "id": "card1_url", "label": "Link" },
+    { "type": "header", "content": "Card 2 — Returns" },
+    { "type": "text", "id": "card2_title", "label": "Title", "default": "Returns & Refunds" },
+    { "type": "textarea", "id": "card2_desc", "label": "Description", "default": "Something not right? Start a return within 30 days." },
+    { "type": "url", "id": "card2_url", "label": "Link" },
+    { "type": "header", "content": "Card 3 — Wholesale" },
+    { "type": "text", "id": "card3_title", "label": "Title", "default": "Wholesale" },
+    { "type": "textarea", "id": "card3_desc", "label": "Description", "default": "Account setup, Net-30 terms, pallets and bulk pricing." },
+    { "type": "url", "id": "card3_url", "label": "Link" },
+    { "type": "header", "content": "Card 4 — Account" },
+    { "type": "text", "id": "card4_title", "label": "Title", "default": "My Account" },
+    { "type": "textarea", "id": "card4_desc", "label": "Description", "default": "Manage subscriptions, payment methods and the Snack Box." },
+    { "type": "url", "id": "card4_url", "label": "Link" }
+  ],
+  "presets": [{ "name": "CS Hero" }]
+}
+{% endschema %}

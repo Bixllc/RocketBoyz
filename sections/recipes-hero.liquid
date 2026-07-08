@@ -1,0 +1,70 @@
+<style>
+  .recipes-hero-section {
+    background: #fff;
+    padding: 80px 32px 64px;
+    text-align: center;
+  }
+
+  .recipes-hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .recipes-hero-heading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1.0;
+    text-transform: uppercase;
+    color: #030213;
+    margin: 0 0 28px;
+  }
+
+  .recipes-hero-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: #52525B;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .recipes-hero-section {
+      padding: 56px 20px 48px;
+    }
+  }
+</style>
+
+<section class="recipes-hero-section">
+  <div class="recipes-hero-inner">
+    <h1 class="recipes-hero-heading">{{ section.settings.heading | default: 'Cook With The Snacks You Love' }}</h1>
+    {%- if section.settings.subheading != blank -%}
+      <p class="recipes-hero-sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Recipes Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cook With The Snacks You Love"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every recipe uses snacks we keep in stock. See what you'll need, then add the whole ingredient list to your cart in one tap."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recipes Hero"
+    }
+  ]
+}
+{% endschema %}

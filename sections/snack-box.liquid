@@ -1,93 +1,58 @@
 <style>
-  .snack-box-container {
-    max-width: 1280px;
-    margin: 0 auto;
+  .snack-box-section {
     padding: 72px 32px;
   }
 
-  .snack-box-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 18px;
-    align-items: stretch;
-  }
-
-  .snack-box-image-panel {
-    position: relative;
+  .snack-box-card {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: #ffffff;
     border-radius: 26px;
+    border: 1px solid #E4E4E7;
     overflow: hidden;
-    min-height: 480px;
-    background: linear-gradient(180deg, #f4f0e7 0%, #efe9dc 64%, #e6e0cf 100%);
-    border: 1px solid rgba(27, 26, 22, 0.1);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
-
-  .snack-box-image-shadow {
-    position: absolute;
-    left: 50%;
-    bottom: 40px;
-    width: 72%;
-    height: 60px;
-    transform: translateX(-50%);
-    background: radial-gradient(50% 50% at 50% 50%, rgba(31, 30, 24, 0.32), transparent 72%);
-    filter: blur(10px);
-    z-index: 1;
-  }
-
-  .snack-box-image-panel img {
-    position: relative;
-    z-index: 2;
-    width: 86%;
-    object-fit: contain;
-    margin-bottom: 34px;
-    filter: drop-shadow(0 20px 18px rgba(31, 30, 24, 0.24));
-  }
-
-  .snack-box-image-placeholder {
-    height: 300px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    justify-content: center;
-    color: rgba(27, 26, 22, 0.3);
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-size: 14px;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 4px 8px rgba(0, 0, 0, 0.06),
+      0 12px 24px rgba(0, 0, 0, 0.09),
+      0 28px 48px rgba(0, 0, 0, 0.11),
+      0 56px 88px -16px rgba(0, 0, 0, 0.13),
+      0 96px 128px -32px rgba(0, 0, 0, 0.10);
   }
 
-  .snack-box-copy-panel {
-    background: #fbfaf7;
-    border: 1px solid rgba(27, 26, 22, 0.1);
-    border-radius: 26px;
-    padding: 46px 48px;
+  /* ── Left: Copy ── */
+  .snack-box-copy {
+    padding: 56px 56px;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
   .snack-box-heading {
-    font-family: 'Anton', sans-serif !important;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-size: clamp(34px, 4vw, 56px);
-    line-height: 0.94;
-    color: #1b1a16;
-    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(34px, 3.2vw, 54px);
+    line-height: 1.05;
+    color: #030213;
+    margin: 0 0 16px;
   }
 
   .snack-box-body {
-    font-family: 'Hanken Grotesk', sans-serif !important;
-    font-size: 16.5px;
-    line-height: 1.55;
-    color: #54514a;
-    margin: 20px 0 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #52525B;
+    margin: 0 0 28px;
   }
 
+  /* ── Tier selector ── */
   .snack-box-tiers {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 26px 0;
+    margin-bottom: 28px;
   }
 
   .snack-box-tier {
@@ -95,16 +60,15 @@
     align-items: center;
     gap: 14px;
     padding: 14px 16px;
-    border: 1px solid rgba(27, 26, 22, 0.12);
+    border: 1.5px solid #E4E4E7;
     border-radius: 14px;
     cursor: pointer;
-    transition: border-color 0.15s, border-width 0.15s, background 0.15s;
+    transition: border-color 0.15s, background 0.15s;
   }
 
   .snack-box-tier.is-selected {
-    border-color: #1b1a16;
-    border-width: 1.5px;
-    background: rgba(27, 26, 22, 0.03);
+    border-color: #030213;
+    background: rgba(3, 2, 19, 0.03);
   }
 
   .snack-box-tier-radio {
@@ -114,15 +78,15 @@
   }
 
   .snack-box-tier-badge {
-    font-family: 'Anton', sans-serif !important;
-    font-weight: 400;
-    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
     width: 30px;
     height: 30px;
     flex-shrink: 0;
     border-radius: 7px;
-    background: #efece6;
-    color: #1b1a16;
+    background: #F4F4F5;
+    color: #030213;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -136,130 +100,150 @@
   }
 
   .snack-box-tier-name {
-    font-family: 'Hanken Grotesk', sans-serif !important;
+    font-family: 'Manrope', sans-serif;
     font-size: 15px;
-    font-weight: 700;
-    color: #1b1a16;
+    font-weight: 600;
+    color: #030213;
   }
 
   .snack-box-tier-items {
-    font-family: 'Hanken Grotesk', sans-serif !important;
+    font-family: 'Manrope', sans-serif;
     font-size: 13px;
-    color: #8a857a;
+    color: #71717A;
   }
 
   .snack-box-tier-price {
-    font-family: 'Anton', sans-serif !important;
-    font-weight: 400;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
     font-size: 18px;
-    color: #1b1a16;
+    color: #030213;
     flex-shrink: 0;
   }
 
+  /* ── CTA ── */
   .snack-box-cta {
-    font-family: 'Hanken Grotesk', sans-serif !important;
+    font-family: 'Manrope', sans-serif;
     display: inline-flex;
     align-items: center;
     gap: 10px;
     width: fit-content;
-    background: transparent;
-    color: #1b1a16;
-    border: 1.5px solid rgba(27, 26, 22, 0.2);
+    background: #105020;
+    color: #fff;
+    border: none;
     border-radius: 999px;
-    padding: 15px 26px;
+    padding: 15px 28px;
     font-size: 15px;
     font-weight: 700;
     text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .snack-box-cta svg {
+    stroke: #fff;
   }
 
   .snack-box-cta:hover {
-    background: #1b1a16;
-    color: #f3f0e9;
-    border-color: #1b1a16;
+    background: linear-gradient(to right, #ef4444, #fde047);
     transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.38);
   }
 
+  /* ── Right: Image ── */
+  .snack-box-image-side {
+    position: relative;
+    overflow: hidden;
+    align-self: stretch;
+    min-height: 480px;
+  }
+
+  .snack-box-image-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 900px) {
-    .snack-box-container {
-      padding: 48px 20px;
+    .snack-box-section {
+      padding: 40px 16px;
     }
 
-    .snack-box-grid {
+    .snack-box-card {
       grid-template-columns: 1fr;
     }
 
-    .snack-box-image-panel {
-      min-height: 360px;
+    .snack-box-copy {
+      padding: 36px 28px;
+      order: 2;
     }
 
-    .snack-box-copy-panel {
-      padding: 32px 28px;
+    .snack-box-image-side {
+      min-height: 300px;
+      order: 1;
     }
   }
 </style>
 
 <section class="snack-box-section">
-  <div class="snack-box-container">
-    <div class="snack-box-grid">
+  <div class="snack-box-card">
 
-      <!-- Left: Product Image Panel -->
-      <div class="snack-box-image-panel">
-        <div class="snack-box-image-shadow"></div>
-        {%- if section.settings.image != blank -%}
-          <img
-            src="{{ section.settings.image | image_url: width: 900 }}"
-            alt="{{ section.settings.heading_line1 | escape }} {{ section.settings.heading_line2 | escape }}"
-            loading="lazy"
-          >
-        {%- else -%}
-          <div class="snack-box-image-placeholder">Add a product image</div>
-        {%- endif -%}
-      </div>
+    <!-- Left: Copy -->
+    <div class="snack-box-copy">
+      <h2 class="snack-box-heading">
+        {{ section.settings.heading_line1 }}<br>
+        {{ section.settings.heading_line2 }}
+      </h2>
 
-      <!-- Right: Copy Panel -->
-      <div class="snack-box-copy-panel">
-        <h2 class="snack-box-heading">
-          {{ section.settings.heading_line1 }}<br>
-          {{ section.settings.heading_line2 }}
-        </h2>
+      {%- if section.settings.description != blank -%}
+        <p class="snack-box-body">{{ section.settings.description }}</p>
+      {%- endif -%}
 
-        {%- if section.settings.description != blank -%}
-          <p class="snack-box-body">{{ section.settings.description }}</p>
-        {%- endif -%}
+      {%- assign tier_blocks = section.blocks | where: 'type', 'tier' -%}
+      {%- if tier_blocks.size > 0 -%}
+        <div class="snack-box-tiers" data-snackbox-tiers>
+          {%- for block in tier_blocks -%}
+            <label class="snack-box-tier{% if forloop.first %} is-selected{% endif %}" {{ block.shopify_attributes }}>
+              <input
+                class="snack-box-tier-radio"
+                type="radio"
+                name="snack-box-tier-{{ section.id }}"
+                {% if forloop.first %}checked{% endif %}
+              >
+              <span class="snack-box-tier-badge">{{ block.settings.letter }}</span>
+              <span class="snack-box-tier-info">
+                <span class="snack-box-tier-name">{{ block.settings.name }}</span>
+                <span class="snack-box-tier-items">{{ block.settings.items }}</span>
+              </span>
+              <span class="snack-box-tier-price">{{ block.settings.price }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
 
-        {%- assign tier_blocks = section.blocks | where: 'type', 'tier' -%}
-        {%- if tier_blocks.size > 0 -%}
-          <div class="snack-box-tiers" data-snackbox-tiers>
-            {%- for block in tier_blocks -%}
-              <label class="snack-box-tier{% if forloop.first %} is-selected{% endif %}" {{ block.shopify_attributes }}>
-                <input
-                  class="snack-box-tier-radio"
-                  type="radio"
-                  name="snack-box-tier-{{ section.id }}"
-                  {% if forloop.first %}checked{% endif %}
-                >
-                <span class="snack-box-tier-badge">{{ block.settings.letter }}</span>
-                <span class="snack-box-tier-info">
-                  <span class="snack-box-tier-name">{{ block.settings.name }}</span>
-                  <span class="snack-box-tier-items">{{ block.settings.items }}</span>
-                </span>
-                <span class="snack-box-tier-price">{{ block.settings.price }}</span>
-              </label>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-
-        <a href="{{ section.settings.cta_url | default: '/collections/snack-boxes' }}" class="snack-box-cta">
-          {{ section.settings.cta_text | default: "Build your box" }}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14"/>
-            <path d="m12 5 7 7-7 7"/>
-          </svg>
-        </a>
-      </div>
-
+      <a href="{{ section.settings.cta_url | default: '/collections/snack-boxes' }}" class="snack-box-cta">
+        {{ section.settings.cta_text | default: "Build your box" }}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+        </svg>
+      </a>
     </div>
+
+    <!-- Right: Image -->
+    <div class="snack-box-image-side">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 900 }}"
+          alt="{{ section.settings.heading_line1 | escape }} {{ section.settings.heading_line2 | escape }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div style="color: #71717A; font-family: 'Manrope', sans-serif; font-size: 14px;">Add a product image</div>
+      {%- endif -%}
+    </div>
+
   </div>
 </section>
 

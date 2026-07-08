@@ -1,0 +1,629 @@
+<style>
+/* ── Checkout Page ────────────────────────────────────────── */
+* { box-sizing: border-box; }
+.rbco { font-family: 'Hanken Grotesk', sans-serif; background: #fff; min-height: 100vh; }
+
+/* Header */
+.rbco__header {
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px 32px; border-bottom: 1px solid rgba(27,26,22,0.1);
+  position: relative;
+}
+.rbco__logo { height: 44px; }
+.rbco__logo-text { font-family: 'Anton', sans-serif; font-size: 24px; color: #1b1a16; text-decoration: none; text-transform: uppercase; }
+.rbco__header-cart { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); position: absolute; right: 32px; }
+.rbco__header-cart a { position: relative; color: #1b1a16; display: flex; align-items: center; }
+.rbco__header-badge { position: absolute; top: -7px; right: -7px; min-width: 18px; height: 18px; background: #E63946; color: #fff; border-radius: 999px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+/* Two-col layout */
+.rbco__body { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 80px); }
+.rbco__left { padding: 40px 48px 80px 10%; max-width: 660px; }
+.rbco__right { background: #fbfaf7; padding: 40px 10% 80px 48px; border-left: 1px solid rgba(27,26,22,0.08); }
+
+/* Section headings */
+.rbco__section { font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase; color: #1b1a16; margin: 32px 0 16px; letter-spacing: 0.02em; }
+.rbco__section:first-child { margin-top: 0; }
+
+/* Express checkout */
+.rbco__express { display: flex; gap: 10px; margin-bottom: 24px; }
+.rbco__express-btn {
+  flex: 1; padding: 14px 12px; border-radius: 8px; border: none;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: opacity 0.15s;
+}
+.rbco__express-btn:hover { opacity: 0.87; }
+.rbco__express-shoppay { background: #5a31f4; color: #fff; }
+.rbco__express-paypal  { background: #ffc439; color: #1b1a16; }
+.rbco__express-gpay    { background: #1b1a16; color: #fff; }
+
+/* OR divider */
+.rbco__or { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.rbco__or-line { flex: 1; height: 1px; background: rgba(27,26,22,0.12); }
+.rbco__or-text { font-family: 'DM Mono', monospace; font-size: 11px; color: #9a9488; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* Form inputs */
+.rbco__field {
+  width: 100%; padding: 14px 16px;
+  border: 1px solid rgba(27,26,22,0.16); border-radius: 10px;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; color: #1b1a16;
+  background: #fff; outline: none; transition: border-color 0.15s;
+  margin-bottom: 10px;
+}
+.rbco__field:focus { border-color: #1b1a16; }
+.rbco__field::placeholder { color: #9a9488; }
+.rbco__field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rbco__field-row3 { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 10px; }
+.rbco__select-wrap { position: relative; }
+.rbco__select-wrap::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #7a7567; pointer-events: none; font-size: 13px; }
+select.rbco__field { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 36px; margin-bottom: 10px; }
+
+/* Checkbox row */
+.rbco__check-row { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; font-size: 14px; color: #54514a; cursor: pointer; }
+.rb-check { width: 18px; height: 18px; border: 1.5px solid rgba(27,26,22,0.28); border-radius: 4px; appearance: none; -webkit-appearance: none; cursor: pointer; flex-shrink: 0; background: #fff; position: relative; transition: background 0.15s; accent-color: #2563eb; }
+.rb-check:checked { background: #2563eb; border-color: #2563eb; }
+.rb-check:checked::after { content: ''; position: absolute; left: 4px; top: 1px; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg); }
+
+/* Sign in link */
+.rbco__signin { font-size: 14px; color: #E63946; text-decoration: none; font-weight: 600; float: right; margin-top: -38px; }
+
+/* Delivery toggle */
+.rbco__seg { display: flex; border: 1px solid rgba(27,26,22,0.16); border-radius: 10px; overflow: hidden; margin-bottom: 18px; }
+.rbco__seg-btn {
+  flex: 1; padding: 13px; background: #fff; border: none; cursor: pointer;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: #54514a;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.15s, color 0.15s; border-right: 1px solid rgba(27,26,22,0.12);
+}
+.rbco__seg-btn:last-child { border-right: none; }
+.rbco__seg-btn.is-active { background: #1b1a16; color: #f3f0e9; }
+
+/* Pickup card */
+.rbco__pickup-card {
+  background: #fbfaf7; border: 1px solid rgba(27,26,22,0.1);
+  border-radius: 12px; padding: 18px 16px; margin-bottom: 10px;
+}
+.rbco__pickup-name { font-size: 14px; font-weight: 700; color: #1b1a16; margin: 0 0 4px; }
+.rbco__pickup-addr { font-size: 13px; color: #54514a; margin: 0 0 8px; }
+.rbco__pickup-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #1f8a3a; background: #d1fae5; padding: 3px 10px; border-radius: 999px; }
+
+/* Shipping method box */
+.rbco__method-box { border: 1px solid rgba(27,26,22,0.12); border-radius: 10px; padding: 14px 16px; font-size: 14px; color: #54514a; margin-bottom: 10px; }
+.rbco__method-free { font-weight: 700; color: #1f8a3a; margin-left: auto; }
+.rbco__method-row { display: flex; align-items: center; justify-content: space-between; }
+
+/* Payment */
+.rbco__payment-box { border: 1px solid rgba(27,26,22,0.14); border-radius: 12px; overflow: hidden; margin-bottom: 0; }
+.rbco__pay-opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer;
+  border-bottom: 1px solid rgba(27,26,22,0.1); transition: background 0.15s;
+}
+.rbco__pay-opt:last-child { border-bottom: none; }
+.rbco__pay-opt.is-active { background: rgba(27,26,22,0.03); }
+.rbco__pay-radio {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1.5px solid rgba(27,26,22,0.3); background: #fff;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: border-color 0.15s;
+}
+.rbco__pay-opt.is-active .rbco__pay-radio { border-color: #2563eb; }
+.rbco__pay-radio-dot { width: 10px; height: 10px; border-radius: 50%; background: #2563eb; display: none; }
+.rbco__pay-opt.is-active .rbco__pay-radio-dot { display: block; }
+.rbco__pay-label { font-size: 15px; font-weight: 600; color: #1b1a16; flex: 1; }
+.rbco__pay-sub { font-size: 13px; color: #7a7567; font-weight: 400; }
+.rbco__pay-badges { display: flex; gap: 5px; margin-left: auto; }
+.rbco__card-badge { background: #1a1f71; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.04em; }
+.rbco__card-badge.mc { background: linear-gradient(135deg, #eb001b, #f79e1b); }
+.rbco__card-badge.amex { background: #2e77bc; }
+.rbco__pay-shoppay { font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 800; color: #5a31f4; }
+.rbco__pay-paypal { font-family: Georgia, serif; font-size: 14px; font-weight: 700; color: #003087; }
+.rbco__pay-paypal span { color: #009cde; }
+
+/* Card form (expanded) */
+.rbco__card-form { padding: 16px 16px 4px; border-top: 1px solid rgba(27,26,22,0.08); }
+
+/* Tip */
+.rbco__tip-card { border: 1px solid rgba(27,26,22,0.12); border-radius: 12px; padding: 18px 16px; }
+.rbco__tip-heart { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #1b1a16; margin-bottom: 14px; }
+.rbco__tip-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.rbco__tip-btn { padding: 12px 8px; border: 1.5px solid rgba(27,26,22,0.16); border-radius: 8px; background: #fff; cursor: pointer; font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: #1b1a16; text-align: center; transition: border-color 0.15s, background 0.15s; }
+.rbco__tip-btn:hover { border-color: #E63946; }
+.rbco__tip-btn.is-active { background: #1b1a16; color: #f3f0e9; border-color: #1b1a16; }
+.rbco__tip-btn span { display: block; font-size: 11px; color: #7a7567; font-weight: 500; margin-top: 2px; }
+.rbco__tip-btn.is-active span { color: #9a9488; }
+.rbco__tip-custom { display: flex; align-items: center; gap: 8px; }
+.rbco__tip-input-wrap { flex: 1; position: relative; }
+.rbco__tip-prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #54514a; font-size: 15px; }
+.rbco__tip-input { width: 100%; padding: 11px 11px 11px 24px; border: 1px solid rgba(27,26,22,0.16); border-radius: 8px; font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; color: #1b1a16; outline: none; }
+.rbco__tip-input:focus { border-color: #1b1a16; }
+.rbco__tip-stepper { display: flex; border: 1px solid rgba(27,26,22,0.16); border-radius: 8px; overflow: hidden; }
+.rbco__tip-step-btn { background: #fff; border: none; width: 34px; height: 42px; cursor: pointer; font-size: 18px; color: #1b1a16; transition: background 0.15s; display: flex; align-items: center; justify-content: center; border-right: 1px solid rgba(27,26,22,0.12); }
+.rbco__tip-step-btn:last-child { border-right: none; }
+.rbco__tip-step-btn:hover { background: #f4f1ea; }
+.rbco__tip-add { padding: 11px 18px; background: #f4f1ea; border: none; border-radius: 8px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: #1b1a16; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+.rbco__tip-add:hover { background: #e8e4dc; }
+.rbco__tip-thanks { font-size: 13px; color: #7a7567; margin-top: 10px; }
+
+/* Pay now */
+.rbco__pay-now {
+  width: 100%; margin: 24px 0 8px;
+  padding: 17px; border-radius: 999px; border: none;
+  background: #105020;
+  color: #1b1a16;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 17px; font-weight: 800;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.rbco__pay-now:hover { opacity: 0.9; }
+.rbco__pay-now.is-paid { background: #1f8a3a; color: #fff; cursor: default; }
+.rbco__policy-note { font-size: 13px; color: #7a7567; margin-bottom: 6px; }
+.rbco__policy-note a { color: #1b1a16; }
+.rbco__policy-links { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(27,26,22,0.1); }
+.rbco__policy-links a { font-size: 13px; color: #E63946; text-decoration: none; }
+.rbco__policy-links a:hover { text-decoration: underline; }
+
+/* ─ RIGHT: Order summary ──────────────────────────────────── */
+.rbco__sum-items { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 14px; }
+.rbco__sum-item { display: flex; align-items: center; gap: 14px; }
+.rbco__sum-thumb-wrap { position: relative; flex-shrink: 0; }
+.rbco__sum-thumb { width: 64px; height: 64px; border-radius: 12px; background: #f4f1ea; object-fit: contain; padding: 6px; border: 1px solid rgba(27,26,22,0.1); }
+.rbco__sum-badge { position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; background: #54514a; color: #fff; border-radius: 999px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.rbco__sum-item-info { flex: 1; min-width: 0; }
+.rbco__sum-item-name { font-size: 14px; font-weight: 700; color: #1b1a16; margin: 0 0 2px; }
+.rbco__sum-item-sub  { font-size: 12px; color: #7a7567; margin: 0; }
+.rbco__sum-item-price { font-size: 14px; font-weight: 700; color: #1b1a16; flex-shrink: 0; }
+
+/* Discount code */
+.rbco__discount { display: flex; gap: 10px; margin: 20px 0; }
+.rbco__discount-input { flex: 1; padding: 13px 14px; border: 1px solid rgba(27,26,22,0.16); border-radius: 10px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; color: #1b1a16; outline: none; background: #fff; }
+.rbco__discount-input:focus { border-color: #1b1a16; }
+.rbco__discount-input::placeholder { color: #9a9488; }
+.rbco__discount-btn { padding: 13px 20px; background: rgba(27,26,22,0.08); border: none; border-radius: 10px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: #1b1a16; cursor: pointer; transition: background 0.15s; }
+.rbco__discount-btn:hover { background: rgba(27,26,22,0.14); }
+
+/* Summary totals */
+.rbco__sum-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #54514a; padding: 7px 0; border-bottom: 1px solid rgba(27,26,22,0.07); }
+.rbco__sum-row:last-of-type { border-bottom: none; }
+.rbco__sum-hr { border: none; border-top: 1px solid rgba(27,26,22,0.12); margin: 12px 0; }
+.rbco__sum-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; }
+.rbco__sum-total-label { font-size: 18px; font-weight: 700; color: #1b1a16; }
+.rbco__sum-total-val { display: flex; align-items: baseline; gap: 5px; }
+.rbco__sum-currency { font-size: 13px; color: #9a9488; font-family: 'DM Mono', monospace; }
+.rbco__sum-amount { font-family: 'Anton', sans-serif; font-size: 36px; color: #1b1a16; }
+
+@media (max-width: 900px) {
+  .rbco__body { grid-template-columns: 1fr; }
+  .rbco__right { border-left: none; border-top: 1px solid rgba(27,26,22,0.1); padding: 32px 24px 64px; }
+  .rbco__left { padding: 32px 24px 40px; max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .rbco__express { flex-direction: column; }
+  .rbco__tip-presets { grid-template-columns: repeat(2, 1fr); }
+  .rbco__field-row { grid-template-columns: 1fr; }
+  .rbco__field-row3 { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="rbco">
+
+  <!-- Header -->
+  <header class="rbco__header">
+    {%- if shop.brand.logo -%}
+      <img src="{{ shop.brand.logo | image_url: width: 120 }}" alt="{{ shop.name }}" class="rbco__logo">
+    {%- else -%}
+      <a href="/" class="rbco__logo-text">{{ shop.name }}</a>
+    {%- endif -%}
+    <div class="rbco__header-cart">
+      <a href="/cart" aria-label="Cart">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b1a16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="rbco__header-badge" id="rbco-badge" data-cart-badge style="display:none">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="rbco__body">
+
+    <!-- ── LEFT COLUMN ── -->
+    <div class="rbco__left">
+
+      <!-- Express checkout -->
+      <p style="font-family:'DM Mono',monospace;font-size:11px;color:#9a9488;text-transform:uppercase;letter-spacing:0.1em;text-align:center;margin:0 0 12px">Express checkout</p>
+      <div class="rbco__express">
+        <button class="rbco__express-btn rbco__express-shoppay" type="button">
+          <span style="font-style:italic;font-weight:800">shop</span><span style="font-weight:300">Pay</span>
+        </button>
+        <button class="rbco__express-btn rbco__express-paypal" type="button">
+          <span style="color:#003087;font-family:Georgia,serif;font-weight:700">Pay</span><span style="color:#009cde;font-family:Georgia,serif;font-weight:700">Pal</span>
+        </button>
+        <button class="rbco__express-btn rbco__express-gpay" type="button">G Pay</button>
+      </div>
+      <div class="rbco__or"><div class="rbco__or-line"></div><span class="rbco__or-text">OR</span><div class="rbco__or-line"></div></div>
+
+      <!-- Contact -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <h2 class="rbco__section" style="margin:0">Contact</h2>
+        <a href="#" class="rbco__signin">Sign in</a>
+      </div>
+      <input type="email" class="rbco__field" placeholder="Email or mobile phone number">
+      <label class="rbco__check-row">
+        <input type="checkbox" class="rb-check" checked> Send me discount and offers
+      </label>
+
+      <!-- Delivery -->
+      <h2 class="rbco__section">Delivery</h2>
+      <div class="rbco__seg">
+        <button class="rbco__seg-btn is-active" id="rbco-ship-btn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Ship
+        </button>
+        <button class="rbco__seg-btn" id="rbco-pickup-btn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Pickup
+        </button>
+      </div>
+
+      <!-- Ship form -->
+      <div id="rbco-ship-form">
+        <div class="rbco__select-wrap">
+          <select class="rbco__field">
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="JM">Jamaica</option>
+            <option value="TT">Trinidad & Tobago</option>
+          </select>
+        </div>
+        <div class="rbco__field-row">
+          <input type="text" class="rbco__field" placeholder="First name (optional)">
+          <input type="text" class="rbco__field" placeholder="Last name">
+        </div>
+        <div style="position:relative">
+          <input type="text" class="rbco__field" placeholder="Address">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9a9488" stroke-width="2" style="position:absolute;right:14px;top:50%;transform:translateY(-50%)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <input type="text" class="rbco__field" placeholder="Apartment, suite, etc. (optional)">
+        <div class="rbco__field-row3">
+          <input type="text" class="rbco__field" placeholder="City">
+          <select class="rbco__field" style="margin-bottom:10px">
+            <option>Florida</option><option>New York</option><option>Texas</option><option>California</option>
+          </select>
+          <input type="text" class="rbco__field" placeholder="ZIP code">
+        </div>
+        <input type="tel" class="rbco__field" placeholder="Phone">
+      </div>
+
+      <!-- Pickup form -->
+      <div id="rbco-pickup-form" hidden>
+        <div class="rbco__pickup-card">
+          <p class="rbco__pickup-name">Rocket Boyz Warehouse</p>
+          <p class="rbco__pickup-addr">4820 NW 72nd Ave, Miami, FL 33166</p>
+          <span class="rbco__pickup-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Free · ready in 24 hours
+          </span>
+        </div>
+        <div class="rbco__field-row">
+          <input type="text" class="rbco__field" placeholder="First name (optional)">
+          <input type="text" class="rbco__field" placeholder="Last name">
+        </div>
+        <input type="email" class="rbco__field" placeholder="Email for pickup confirmation">
+        <input type="tel" class="rbco__field" placeholder="Phone">
+      </div>
+
+      <!-- Shipping method -->
+      <h2 class="rbco__section">Shipping Method</h2>
+      <div class="rbco__method-box" id="rbco-method-box">
+        <div class="rbco__method-row" id="rbco-method-ship">
+          <span>Enter your shipping address to view available shipping methods.</span>
+        </div>
+        <div class="rbco__method-row" id="rbco-method-pickup" hidden>
+          <span>Pickup at Warehouse</span>
+          <span class="rbco__method-free">Free</span>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <h2 class="rbco__section">Payment</h2>
+      <p style="font-size:13px;color:#54514a;margin:-8px 0 12px">All transactions are secure and encrypted.</p>
+      <div class="rbco__payment-box">
+        <!-- Credit card -->
+        <div class="rbco__pay-opt is-active" data-pay="card">
+          <div class="rbco__pay-radio"><div class="rbco__pay-radio-dot"></div></div>
+          <span class="rbco__pay-label">Credit card</span>
+          <div class="rbco__pay-badges">
+            <span class="rbco__card-badge">VISA</span>
+            <span class="rbco__card-badge mc">MC</span>
+            <span class="rbco__card-badge amex">AMEX</span>
+            <span class="rbco__card-badge" style="background:#4a4a4a">+5</span>
+          </div>
+        </div>
+        <div class="rbco__card-form" id="rbco-card-form">
+          <div style="position:relative">
+            <input type="text" class="rbco__field" placeholder="Card number" maxlength="19">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9a9488" stroke-width="2" style="position:absolute;right:14px;top:50%;transform:translateY(-50%)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="rbco__field-row">
+            <input type="text" class="rbco__field" placeholder="Expiration date (MM / YY)" maxlength="7">
+            <input type="text" class="rbco__field" placeholder="Security code" maxlength="4">
+          </div>
+          <input type="text" class="rbco__field" placeholder="Name on card">
+          <label class="rbco__check-row">
+            <input type="checkbox" class="rb-check" checked> Use shipping address as billing address
+          </label>
+        </div>
+        <!-- Shop Pay -->
+        <div class="rbco__pay-opt" data-pay="shoppay">
+          <div class="rbco__pay-radio"><div class="rbco__pay-radio-dot"></div></div>
+          <span class="rbco__pay-label">Shop Pay <span class="rbco__pay-sub">· Pay in full or in installments</span></span>
+          <span class="rbco__pay-shoppay" style="font-style:italic;font-weight:800;font-size:15px">shop<span style="font-weight:300">Pay</span></span>
+        </div>
+        <!-- PayPal -->
+        <div class="rbco__pay-opt" data-pay="paypal">
+          <div class="rbco__pay-radio"><div class="rbco__pay-radio-dot"></div></div>
+          <span class="rbco__pay-label">PayPal</span>
+          <span class="rbco__pay-paypal" style="font-family:Georgia,serif;font-weight:700;font-size:15px">Pay<span>Pal</span></span>
+        </div>
+      </div>
+
+      <!-- Add Tip -->
+      <h2 class="rbco__section">Add Tip</h2>
+      <div class="rbco__tip-card">
+        <div class="rbco__tip-heart">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#E63946" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Show your support for the team at Rocket Boyz LLC
+        </div>
+        <div class="rbco__tip-presets" id="rbco-tip-presets">
+          <button class="rbco__tip-btn" data-pct="5" type="button">5%<span id="rbco-tip-5">$0.00</span></button>
+          <button class="rbco__tip-btn" data-pct="10" type="button">10%<span id="rbco-tip-10">$0.00</span></button>
+          <button class="rbco__tip-btn" data-pct="15" type="button">15%<span id="rbco-tip-15">$0.00</span></button>
+          <button class="rbco__tip-btn is-active" data-pct="none" type="button">None<span>&nbsp;</span></button>
+        </div>
+        <div class="rbco__tip-custom">
+          <div class="rbco__tip-input-wrap">
+            <span class="rbco__tip-prefix">$</span>
+            <input type="number" class="rbco__tip-input" id="rbco-tip-custom-input" placeholder="Custom tip" min="0" step="0.01">
+          </div>
+          <div class="rbco__tip-stepper">
+            <button class="rbco__tip-step-btn" id="rbco-tip-dec" type="button">−</button>
+            <button class="rbco__tip-step-btn" id="rbco-tip-inc" type="button">+</button>
+          </div>
+          <button class="rbco__tip-add" id="rbco-tip-add-btn" type="button">Add tip</button>
+        </div>
+        <p class="rbco__tip-thanks">Thank you, we appreciate it.</p>
+      </div>
+
+      <!-- Pay now -->
+      <button class="rbco__pay-now" id="rbco-pay-btn" type="button">Pay now · <span id="rbco-pay-total">$0.00</span></button>
+      <p class="rbco__policy-note">Save my information for a faster checkout</p>
+      <p class="rbco__policy-note">By paying, you agree to Rocket Boyz's <a href="/policies/terms-of-service">Terms</a> and <a href="/policies/privacy-policy">Privacy Policy</a>.</p>
+
+      <div class="rbco__policy-links">
+        <a href="/policies/refund-policy">Refund policy</a>
+        <a href="/policies/shipping-policy">Shipping</a>
+        <a href="/policies/privacy-policy">Privacy policy</a>
+        <a href="/policies/terms-of-service">Terms of service</a>
+        <a href="/pages/contact">Contact</a>
+      </div>
+    </div>
+
+    <!-- ── RIGHT COLUMN ── -->
+    <div class="rbco__right">
+      <ul class="rbco__sum-items" id="rbco-sum-items"></ul>
+
+      <div class="rbco__discount">
+        <input type="text" class="rbco__discount-input" placeholder="Discount code or gift card">
+        <button class="rbco__discount-btn" type="button">Apply</button>
+      </div>
+
+      <div class="rbco__sum-row"><span id="rbco-r-sub-label">Subtotal · 0 items</span><span id="rbco-r-sub">$0.00</span></div>
+      <div class="rbco__sum-row" id="rbco-r-protect-row"><span>ShipInsure Package Protection</span><span>$1.55</span></div>
+      <div class="rbco__sum-row" id="rbco-r-tip-row" hidden><span>Tip</span><span id="rbco-r-tip">$0.00</span></div>
+      <div class="rbco__sum-row"><span>Shipping</span><span style="color:#9a9488" id="rbco-r-ship">Enter shipping address</span></div>
+
+      <hr class="rbco__sum-hr">
+      <div class="rbco__sum-total">
+        <span class="rbco__sum-total-label">Total</span>
+        <div class="rbco__sum-total-val">
+          <span class="rbco__sum-currency">USD</span>
+          <span class="rbco__sum-amount" id="rbco-r-total">$0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var state = { delivery: 'ship', payment: 'card', tipMode: 'none', customTip: 0, paid: false };
+
+  function fmt(c) { return '$' + (c / 100).toFixed(2); }
+  function fmtD(d) { return '$' + parseFloat(d).toFixed(2); }
+
+  function getBase() {
+    var cart = window.RBCart;
+    if (!cart) return 0;
+    var items = cart.getItems();
+    var base  = items.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+    return base + (cart.getProtect() ? 155 : 0);
+  }
+  function getTipAmount() {
+    var base = getBase();
+    if (state.tipMode === 'none')   return 0;
+    if (state.tipMode === 'custom') return Math.round(state.customTip * 100);
+    return Math.round(base * parseInt(state.tipMode) / 100);
+  }
+
+  function updateTotals() {
+    var base    = getBase();
+    var tip     = getTipAmount();
+    var total   = base + tip;
+    var cart    = window.RBCart;
+    var protect = cart ? cart.getProtect() : true;
+    var items   = cart ? cart.getItems() : [];
+    var count   = items.reduce(function (s, i) { return s + i.qty; }, 0);
+
+    // tip presets
+    [5, 10, 15].forEach(function (pct) {
+      var el = document.getElementById('rbco-tip-' + pct);
+      if (el) el.textContent = fmt(Math.round(base * pct / 100));
+    });
+
+    // pay button
+    var payBtn = document.getElementById('rbco-pay-btn');
+    var payTotalEl = document.getElementById('rbco-pay-total');
+    if (payTotalEl) payTotalEl.textContent = fmt(total);
+    if (payBtn && !state.paid) payBtn.textContent = 'Pay now · ' + fmt(total);
+
+    // right column
+    var subLabel = document.getElementById('rbco-r-sub-label');
+    if (subLabel) subLabel.textContent = 'Subtotal · ' + count + ' items';
+    var subEl = document.getElementById('rbco-r-sub');
+    if (subEl) subEl.textContent = fmt(base);
+    var protRow = document.getElementById('rbco-r-protect-row');
+    if (protRow) protRow.style.display = protect ? '' : 'none';
+    var tipRow = document.getElementById('rbco-r-tip-row');
+    var tipEl  = document.getElementById('rbco-r-tip');
+    if (tipRow) tipRow.hidden = tip === 0;
+    if (tipEl)  tipEl.textContent = fmt(tip);
+    var totalEl = document.getElementById('rbco-r-total');
+    if (totalEl) totalEl.textContent = fmt(total);
+
+    // shipping label
+    var shipLbl = document.getElementById('rbco-r-ship');
+    if (shipLbl) shipLbl.textContent = state.delivery === 'pickup' ? 'Free' : 'Enter shipping address';
+  }
+
+  function renderSummaryItems() {
+    var cart  = window.RBCart;
+    var items = cart ? cart.getItems() : [];
+    var ul    = document.getElementById('rbco-sum-items');
+    if (!ul) return;
+    var protect = cart ? cart.getProtect() : true;
+    var html = items.map(function (item) {
+      return '<li class="rbco__sum-item">'
+        + '<div class="rbco__sum-thumb-wrap">'
+        +   '<img class="rbco__sum-thumb" src="' + (item.img || '') + '" alt="' + item.name + '" onerror="this.style.visibility=\'hidden\'">'
+        +   '<span class="rbco__sum-badge">' + item.qty + '</span>'
+        + '</div>'
+        + '<div class="rbco__sum-item-info">'
+        +   '<p class="rbco__sum-item-name">' + item.name + '</p>'
+        +   (item.sub ? '<p class="rbco__sum-item-sub">' + item.sub + '</p>' : '')
+        + '</div>'
+        + '<span class="rbco__sum-item-price">' + fmt(item.price * item.qty) + '</span>'
+        + '</li>';
+    });
+    if (protect) {
+      html.push('<li class="rbco__sum-item">'
+        + '<div class="rbco__sum-thumb-wrap"><div class="rbco__sum-thumb" style="display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1b1a16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div></div>'
+        + '<div class="rbco__sum-item-info"><p class="rbco__sum-item-name">ShipInsure Package Protection</p><p class="rbco__sum-item-sub">Package protection</p></div>'
+        + '<span class="rbco__sum-item-price">$1.55</span>'
+        + '</li>');
+    }
+    ul.innerHTML = html.join('');
+  }
+
+  // ── Delivery toggle ──
+  document.getElementById('rbco-ship-btn').addEventListener('click', function () {
+    state.delivery = 'ship';
+    this.classList.add('is-active');
+    document.getElementById('rbco-pickup-btn').classList.remove('is-active');
+    document.getElementById('rbco-ship-form').hidden   = false;
+    document.getElementById('rbco-pickup-form').hidden = true;
+    document.getElementById('rbco-method-ship').hidden   = false;
+    document.getElementById('rbco-method-pickup').hidden = true;
+    updateTotals();
+  });
+  document.getElementById('rbco-pickup-btn').addEventListener('click', function () {
+    state.delivery = 'pickup';
+    this.classList.add('is-active');
+    document.getElementById('rbco-ship-btn').classList.remove('is-active');
+    document.getElementById('rbco-ship-form').hidden   = true;
+    document.getElementById('rbco-pickup-form').hidden = false;
+    document.getElementById('rbco-method-ship').hidden   = true;
+    document.getElementById('rbco-method-pickup').hidden = false;
+    updateTotals();
+  });
+
+  // ── Payment options ──
+  document.querySelectorAll('.rbco__pay-opt').forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      document.querySelectorAll('.rbco__pay-opt').forEach(function (o) { o.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      state.payment = this.dataset.pay;
+      var cardForm = document.getElementById('rbco-card-form');
+      if (cardForm) cardForm.style.display = state.payment === 'card' ? '' : 'none';
+    });
+  });
+
+  // ── Tip presets ──
+  document.getElementById('rbco-tip-presets').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-pct]');
+    if (!btn) return;
+    document.querySelectorAll('.rbco__tip-btn').forEach(function (b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    state.tipMode   = btn.dataset.pct;
+    state.customTip = 0;
+    document.getElementById('rbco-tip-custom-input').value = '';
+    updateTotals();
+  });
+
+  // ── Custom tip steppers ──
+  document.getElementById('rbco-tip-dec').addEventListener('click', function () {
+    var inp = document.getElementById('rbco-tip-custom-input');
+    var v   = Math.max(0, parseFloat(inp.value || 0) - 1);
+    inp.value = v.toFixed(2);
+    state.customTip = v;
+    state.tipMode   = 'custom';
+    document.querySelectorAll('.rbco__tip-btn').forEach(function (b) { b.classList.remove('is-active'); });
+    updateTotals();
+  });
+  document.getElementById('rbco-tip-inc').addEventListener('click', function () {
+    var inp = document.getElementById('rbco-tip-custom-input');
+    var v   = parseFloat(inp.value || 0) + 1;
+    inp.value = v.toFixed(2);
+    state.customTip = v;
+    state.tipMode   = 'custom';
+    document.querySelectorAll('.rbco__tip-btn').forEach(function (b) { b.classList.remove('is-active'); });
+    updateTotals();
+  });
+  document.getElementById('rbco-tip-add-btn').addEventListener('click', function () {
+    var inp = document.getElementById('rbco-tip-custom-input');
+    state.customTip = parseFloat(inp.value || 0);
+    state.tipMode   = 'custom';
+    document.querySelectorAll('.rbco__tip-btn').forEach(function (b) { b.classList.remove('is-active'); });
+    updateTotals();
+  });
+  document.getElementById('rbco-tip-custom-input').addEventListener('input', function () {
+    state.customTip = parseFloat(this.value || 0);
+    state.tipMode   = 'custom';
+  });
+
+  // ── Pay now ──
+  document.getElementById('rbco-pay-btn').addEventListener('click', function () {
+    if (state.paid) return;
+    state.paid = true;
+    this.textContent = 'Payment received ✓';
+    this.classList.add('is-paid');
+  });
+
+  // ── Sync with cart ──
+  document.addEventListener('rb-cart', function () {
+    renderSummaryItems();
+    updateTotals();
+  });
+
+  function tryInit() {
+    if (window.RBCart) { renderSummaryItems(); updateTotals(); }
+    else setTimeout(tryInit, 40);
+  }
+  tryInit();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Checkout Page",
+  "settings": []
+}
+{% endschema %}

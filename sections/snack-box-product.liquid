@@ -1,0 +1,517 @@
+<style>
+  .sbp {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  .sbp__img-wrap {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f3f0e9;
+    aspect-ratio: 1 / 1;
+    position: sticky;
+    top: 100px;
+  }
+
+  .sbp__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sbp__img-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: rgba(27,26,22,0.35);
+  }
+
+  .sbp__title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 700;
+    color: #030213;
+    margin: 0 0 8px;
+    line-height: 1.05;
+  }
+
+  .sbp__subtitle {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    color: #52525B;
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+
+  .sbp__price {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: #030213;
+    margin: 0 0 20px;
+  }
+
+  .sbp__divider {
+    border: none;
+    border-top: 1px solid #E4E4E7;
+    margin: 0 0 24px;
+  }
+
+  .sbp__field-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #030213;
+    margin: 0 0 12px;
+  }
+
+  .sbp__field-label span {
+    font-weight: 400;
+    color: #52525B;
+  }
+
+  .sbp__variants {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 24px;
+  }
+
+  .sbp__var-btn {
+    padding: 11px 22px;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 999px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #030213;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+
+  .sbp__var-btn.is-active {
+    border-color: #030213;
+    background: #030213;
+    color: #fff;
+  }
+
+  .sbp__var-btn:hover:not(.is-active) {
+    border-color: #030213;
+  }
+
+  .sbp__qty-row {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 999px;
+    width: fit-content;
+    margin: 0 0 20px;
+    overflow: hidden;
+  }
+
+  .sbp__qty-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #030213;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  .sbp__qty-btn:hover { color: #DC2626; }
+
+  .sbp__qty-val {
+    width: 52px;
+    text-align: center;
+    border-left: 1px solid #E4E4E7;
+    border-right: 1px solid #E4E4E7;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #030213;
+    height: 48px;
+    line-height: 48px;
+    user-select: none;
+  }
+
+  .sbp__options-heading {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #030213;
+    margin: 4px 0 14px;
+  }
+
+  .sbp__plan-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 16px;
+    cursor: pointer;
+    margin: 0 0 10px;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+
+  .sbp__plan-card.is-selected {
+    border-color: #030213;
+    background: #fafafa;
+  }
+
+  .sbp__plan-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sbp__radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #D4D4D8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+  }
+
+  .is-selected .sbp__radio { border-color: #030213; }
+
+  .sbp__radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #030213;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .is-selected .sbp__radio::after { opacity: 1; }
+
+  .sbp__plan-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #030213;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sbp__badge {
+    background: #DC2626;
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+
+  .sbp__plan-price {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #030213;
+    white-space: nowrap;
+  }
+
+  .sbp__atc {
+    width: 100%;
+    padding: 17px 24px;
+    background: #fff;
+    color: #030213;
+    border: 1.5px solid #D4D4D8;
+    border-radius: 999px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+
+  .sbp__atc:hover {
+    border-color: #030213;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 768px) {
+    .sbp {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 24px 16px 64px;
+    }
+
+    .sbp__img-wrap {
+      position: static;
+      aspect-ratio: 4 / 3;
+    }
+
+    .sbp__title { font-size: clamp(30px, 9vw, 44px); }
+    .sbp__price { font-size: 32px; }
+  }
+</style>
+
+<div class="sbp" data-sbp-root>
+
+  <!-- Left: image -->
+  <div class="sbp__img-wrap">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 1000 }}"
+        alt="{{ section.settings.title | escape }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="sbp__img-placeholder">Add a product image in section settings</div>
+    {%- endif -%}
+  </div>
+
+  <!-- Right: details -->
+  <div class="sbp__details">
+
+    <h1 class="sbp__title">{{ section.settings.title | default: 'Snack Box' }}</h1>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="sbp__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+
+    <p class="sbp__price">{{ section.settings.price | default: '$20.69' }}</p>
+
+    <hr class="sbp__divider">
+
+    <!-- Variants -->
+    {%- if section.settings.variant1_label != blank -%}
+      <p class="sbp__field-label">
+        Size: <span id="sbp-size-val">{{ section.settings.variant1_label }}</span>
+      </p>
+      <div class="sbp__variants">
+        <button type="button" class="sbp__var-btn is-active" data-sbp-var="{{ section.settings.variant1_label }}">
+          {{ section.settings.variant1_label }}
+        </button>
+        {%- if section.settings.variant2_label != blank -%}
+          <button type="button" class="sbp__var-btn" data-sbp-var="{{ section.settings.variant2_label }}">
+            {{ section.settings.variant2_label }}
+          </button>
+        {%- endif -%}
+        {%- if section.settings.variant3_label != blank -%}
+          <button type="button" class="sbp__var-btn" data-sbp-var="{{ section.settings.variant3_label }}">
+            {{ section.settings.variant3_label }}
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <!-- Quantity -->
+    <p class="sbp__field-label">Quantity:</p>
+    <div class="sbp__qty-row">
+      <button type="button" class="sbp__qty-btn" data-sbp-qty="-1" aria-label="Decrease">−</button>
+      <div class="sbp__qty-val" id="sbp-qty">1</div>
+      <button type="button" class="sbp__qty-btn" data-sbp-qty="1" aria-label="Increase">+</button>
+    </div>
+
+    <hr class="sbp__divider">
+
+    <!-- Purchase options -->
+    <p class="sbp__options-heading">Purchase options</p>
+
+    <div class="sbp__plan-card is-selected" data-sbp-plan="onetime" role="button" tabindex="0">
+      <div class="sbp__plan-left">
+        <div class="sbp__radio"></div>
+        <span class="sbp__plan-name">One-time purchase</span>
+      </div>
+      <span class="sbp__plan-price">{{ section.settings.price | default: '$20.69' }}</span>
+    </div>
+
+    {%- if section.settings.sub_label != blank -%}
+      <div class="sbp__plan-card" data-sbp-plan="sub" role="button" tabindex="0">
+        <div class="sbp__plan-left">
+          <div class="sbp__radio"></div>
+          <span class="sbp__plan-name">
+            {{ section.settings.sub_label }}
+            {%- if section.settings.sub_badge != blank -%}
+              <span class="sbp__badge">{{ section.settings.sub_badge }}</span>
+            {%- endif -%}
+          </span>
+        </div>
+        <span class="sbp__plan-price">{{ section.settings.sub_price | default: section.settings.price }}</span>
+      </div>
+    {%- endif -%}
+
+    <!-- CTA -->
+    {%- if section.settings.cta_url != blank -%}
+      <a href="{{ section.settings.cta_url }}" class="sbp__atc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        {{ section.settings.cta_text | default: 'Add to cart' }}
+      </a>
+    {%- else -%}
+      <button type="button" class="sbp__atc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        {{ section.settings.cta_text | default: 'Add to cart' }}
+      </button>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-sbp-root]');
+  if (!root) return;
+
+  /* Variant buttons */
+  var varBtns = root.querySelectorAll('[data-sbp-var]');
+  var sizeVal = root.querySelector('#sbp-size-val');
+  varBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      varBtns.forEach(function (b) { b.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      if (sizeVal) sizeVal.textContent = this.dataset.sbpVar;
+    });
+  });
+
+  /* Quantity stepper */
+  var qtyEl = root.querySelector('#sbp-qty');
+  root.querySelectorAll('[data-sbp-qty]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var current = parseInt(qtyEl.textContent || '1', 10);
+      var next = Math.max(1, current + parseInt(this.dataset.sbpQty, 10));
+      qtyEl.textContent = next;
+    });
+  });
+
+  /* Purchase option cards */
+  var planCards = root.querySelectorAll('.sbp__plan-card');
+  planCards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      planCards.forEach(function (c) { c.classList.remove('is-selected'); });
+      this.classList.add('is-selected');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Snack Box Product",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Product title",
+      "default": "Snack Box"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle / description",
+      "default": "Hand-packed island snacks, curated and shipped monthly."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price (display only)",
+      "default": "$20.69"
+    },
+    {
+      "type": "header",
+      "content": "Size variants"
+    },
+    {
+      "type": "text",
+      "id": "variant1_label",
+      "label": "Variant 1 label",
+      "default": "Original (12+ Snacks)"
+    },
+    {
+      "type": "text",
+      "id": "variant2_label",
+      "label": "Variant 2 label",
+      "default": "Hungry Man (30+ Snacks)"
+    },
+    {
+      "type": "text",
+      "id": "variant3_label",
+      "label": "Variant 3 label (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Subscription option"
+    },
+    {
+      "type": "text",
+      "id": "sub_label",
+      "label": "Subscribe option label",
+      "default": "Snack Box Subscribe & save"
+    },
+    {
+      "type": "text",
+      "id": "sub_badge",
+      "label": "Badge text",
+      "default": "SAVE 10%"
+    },
+    {
+      "type": "text",
+      "id": "sub_price",
+      "label": "Subscribe price (display only)",
+      "default": "$18.62"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL (leave blank until product exists)"
+    }
+  ],
+  "presets": [{ "name": "Snack Box Product" }]
+}
+{% endschema %}

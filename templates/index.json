@@ -168,45 +168,11 @@
     },
     "rb_trending": {
       "type": "trending-now",
-      "blocks": {
-        "product_mfKAPL": {
-          "type": "product",
-          "settings": {
-            "product": "3-rocket-spice-bun-for-5",
-            "badge_text": ""
-          }
-        },
-        "product_4WkAgw": {
-          "type": "product",
-          "settings": {
-            "product": "benjamin-vanilla",
-            "badge_text": ""
-          }
-        },
-        "product_Lwx3WB": {
-          "type": "product",
-          "settings": {
-            "product": "salt-fish-red-herring-crackers",
-            "badge_text": ""
-          }
-        },
-        "product_tmK4p9": {
-          "type": "product",
-          "settings": {
-            "product": "angostura-chill",
-            "badge_text": ""
-          }
-        }
-      },
-      "block_order": [
-        "product_mfKAPL",
-        "product_4WkAgw",
-        "product_Lwx3WB",
-        "product_tmK4p9"
-      ],
       "settings": {
         "heading": "Trending now",
-        "view_all_text": "Shop",
+        "collection": "best-sellers",
+        "products_to_show": 8,
+        "view_all_text": "Shop all",
         "view_all_url": "/collections/all"
       }
     },
@@ -243,8 +209,9 @@
       "settings": {
         "image": "shopify://shop_images/rocketaboutsection.webp",
         "eyebrow": "More than just snacks",
-        "heading_line1": "About Rocket Boyz",
-        "heading_line2": "Distributors",
+        "heading_before": "About",
+        "heading_gradient": "Rocket Boyz",
+        "heading_after": "Distributors",
         "paragraph1": "Your ultimate destination for the largest and most convenient online marketplace showcasing authentic Caribbean products. Our mission is to bring the vibrant essence of the Caribbean directly to your doorstep, no matter where you are in the world. We take immense pride in curating and offering a diverse range of fresh, top-quality products, ensuring you experience the true flavors and cultural richness of the Caribbean with every purchase. From delightful snacks to refreshing drinks and beverages, our wide selection caters to all your cravings and desires. Explore our extensive wholesale options as well, tailor-made for businesses and retailers who seek to add the exotic allure of Caribbean delights to their offerings. Embrace the authenticity, savor the freshness, and relish the convenience of shopping with RocketBoyz Distributors. We're excited to serve you and make your Caribbean shopping experience an unforgettable journey.",
         "paragraph2": "We work island-direct with the makers who've been doing it for generations — so the culture stays in the hands that built it."
       }

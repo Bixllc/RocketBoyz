@@ -1,67 +1,78 @@
 {%- comment -%}
-  Shared product card used by New Arrivals and Trending Now.
-  Accepts: product (object), badge_text (string, optional), block_attributes (string, optional — block.shopify_attributes)
+  Shared product card. Accepts: product, badge_text (optional), block_attributes (optional)
 {%- endcomment -%}
 
 {%- if product != blank -%}
   {%- assign variant = product.selected_or_first_available_variant -%}
-  <div class="rb-product-card product-item"{% if block_attributes %} {{ block_attributes }}{% endif %}>
+  <div class="rb-product-card"{% if block_attributes %} {{ block_attributes }}{% endif %}>
 
-    {%- if badge_text != blank -%}
-      <span class="rb-product-card__badge">{{ badge_text }}</span>
-    {%- endif -%}
+    <!-- Image area -->
+    <div class="rb-product-card__img-wrap">
 
-    <!-- Wishlist button -->
-    <button class="rb-btn-wish" aria-label="Add to wishlist" type="button">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1b1a16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-      </svg>
-    </button>
+      {%- if badge_text != blank -%}
+        <span class="rb-product-card__badge">{{ badge_text }}</span>
+      {%- elsif product.tags contains 'bestseller' or product.tags contains 'Bestseller' -%}
+        <span class="rb-product-card__badge">Bestseller</span>
+      {%- endif -%}
 
-    <!-- Product image -->
-    <a href="{{ product.url }}" style="display:block; text-decoration:none;">
-      <div style="height:190px; border-radius:14px; background:#efece6; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:14px;">
+      <button class="rb-btn-wish" aria-label="Add to wishlist" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+
+      <a href="{{ product.url }}" class="rb-product-card__img-link" tabindex="-1" aria-hidden="true">
         {%- if product.featured_image -%}
           <img
             src="{{ product.featured_image | image_url: width: 400 }}"
-            alt="{{ product.featured_image.alt | escape }}"
-            style="max-height:86%; max-width:86%; object-fit:contain; filter:drop-shadow(0 14px 16px rgba(0,0,0,0.2));"
+            alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            class="rb-product-card__img"
             loading="lazy"
             width="400"
           >
-        {%- endif -%}
-      </div>
-    </a>
-
-    <!-- Product title -->
-    <a href="{{ product.url }}" style="text-decoration:none; color:#1b1a16;">
-      <p style="font-family:'Hanken Grotesk',system-ui,sans-serif; font-size:16.5px; font-weight:700; margin:0; line-height:1.25;">
-        {{ product.title }}
-      </p>
-    </a>
-
-    <!-- Price row -->
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:14px;">
-      <span style="font-family:'Anton',sans-serif; font-size:22px; font-weight:400; color:#1b1a16;">
-        {{ product.price | money }}
-      </span>
-
-      {%- form 'product', product, class: 'rb-product-card__add-form' -%}
-        <input type="hidden" name="id" value="{{ variant.id }}">
-        <input type="hidden" name="quantity" value="1">
-        <button
-          type="submit"
-          class="rb-btn-sm-outline{% unless variant.available %} is-soldout{% endunless %}"
-          data-btn-addtocart
-          {% unless variant.available %}disabled{% endunless %}
-        >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        {%- else -%}
+          <svg class="rb-product-card__img-placeholder" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="16" width="40" height="40" rx="4" stroke="#C4C4C4" stroke-width="2"/>
+            <circle cx="33" cy="29" r="4" stroke="#C4C4C4" stroke-width="2"/>
+            <path d="M20 46l12-10 8 8 6-5 14 11" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          {% if variant.available %}Add to cart{% else %}Sold out{% endif %}
-        </button>
-      {%- endform -%}
+        {%- endif -%}
+      </a>
     </div>
 
+    <!-- Info area -->
+    <div class="rb-product-card__info">
+
+      {%- if product.vendor != blank -%}
+        <p class="rb-product-card__vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+
+      <a href="{{ product.url }}" class="rb-product-card__title-link">
+        {{ product.title }}
+      </a>
+
+      <!-- Price + Add to Cart row -->
+      <div class="rb-product-card__bottom">
+        <span class="rb-product-card__price">{{ product.price | money }}</span>
+
+        {%- form 'product', product, class: 'rb-product-card__form' -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="rb-btn-atc{% unless variant.available %} is-soldout{% endunless %}"
+            {% unless variant.available %}disabled{% endunless %}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
+              <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            {% if variant.available %}Add to Cart{% else %}Sold out{% endif %}
+          </button>
+        {%- endform -%}
+      </div>
+
+    </div>
   </div>
 {%- endif -%}

@@ -1,16 +1,18 @@
 <style>
-  .social-videos-section {
+  /* ── Section ── */
+  .sv-section {
     background: #fbfaf7;
     padding: 72px 0;
   }
 
-  .social-videos-container {
+  .sv-container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 32px;
   }
 
-  .social-videos-header {
+  /* ── Heading ── */
+  .sv-heading-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -19,75 +21,162 @@
     flex-wrap: wrap;
   }
 
-  .social-videos-heading {
-    font-family: 'Anton', sans-serif;
+  .sv-heading {
+    font-family: 'Big Shoulders Display', sans-serif;
     font-size: clamp(34px, 4vw, 56px);
     line-height: 1;
     color: #1b1a16;
     text-transform: uppercase;
     margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
-  .social-videos-ig-link {
+  .sv-heading__gradient {
+    background: #105020;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .sv-ig-link {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 14px;
     font-weight: 600;
     color: #1b1a16;
     text-decoration: none;
-    letter-spacing: 0.01em;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s;
   }
+  .sv-ig-link:hover { opacity: 0.65; }
 
-  .social-videos-ig-link:hover {
-    opacity: 0.7;
-  }
-
-  .social-videos-grid {
+  /* ── Grid ── */
+  .sv-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 14px;
   }
 
-  .social-video-card {
+  /* ── Card wrapper — gradient border, lift, shadow ── */
+  .sv-card-wrap {
+    position: relative;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .sv-card-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 24px;
+    background: #105020;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .sv-card-wrap:hover,
+  .sv-card-wrap.is-active {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+  }
+
+  .sv-card-wrap:hover::before,
+  .sv-card-wrap.is-active::before {
+    opacity: 1;
+  }
+
+  /* ── Card inner ── */
+  .sv-card {
     position: relative;
     aspect-ratio: 9 / 16;
     border-radius: 20px;
     overflow: hidden;
     background: #1b1a16;
+    z-index: 1;
     display: block;
-    text-decoration: none;
-    cursor: pointer;
   }
 
-  .social-video-card__bg {
+  .sv-card__bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.45s ease;
   }
 
-  .social-video-card:hover .social-video-card__bg {
+  .sv-card-wrap:hover .sv-card__bg {
     transform: scale(1.04);
   }
 
-  .social-video-card__overlay {
+  .sv-card__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.35) 0%,
-      transparent 34%,
-      transparent 60%,
-      rgba(0, 0, 0, 0.6) 100%
-    );
+    background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 35%, transparent 58%, rgba(0,0,0,0.62) 100%);
   }
 
-  .social-video-card__top {
+  /* ── Play button — gradient bg, white icon ── */
+  .sv-card__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #105020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+  }
+
+  .sv-card-wrap:hover .sv-card__play {
+    transform: translate(-50%, -50%) scale(1.14);
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.5);
+  }
+
+  .sv-card__play svg {
+    fill: #fff !important;
+    stroke: none !important;
+    margin-left: 3px;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  /* ── Progress bar ── */
+  .sv-card__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .sv-card__progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #105020;
+    border-radius: 999px;
+    transition: width 1.2s ease;
+  }
+
+  .sv-card-wrap.is-active .sv-card__progress-fill {
+    width: 62%;
+  }
+
+  /* ── Top bar ── */
+  .sv-card__top {
     position: absolute;
     top: 14px;
     left: 14px;
@@ -96,24 +185,25 @@
     gap: 8px;
   }
 
-  .social-video-card__avatar {
+  .sv-card__avatar {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: #1b1a16;
+    background: #105020;
     border: 1.5px solid rgba(255, 255, 255, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
     font-size: 12px;
+    font-weight: 800;
     color: #ffffff;
     flex-shrink: 0;
     line-height: 1;
   }
 
-  .social-video-card__handle {
-    font-family: 'Hanken Grotesk', sans-serif;
+  .sv-card__handle {
+    font-family: 'Manrope', sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: #ffffff;
@@ -121,46 +211,22 @@
     white-space: nowrap;
   }
 
-  .social-video-card__play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.92);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-
-  .social-video-card:hover .social-video-card__play {
-    background: #ffffff;
-    transform: translate(-50%, -50%) scale(1.07);
-  }
-
-  .social-video-card__play svg {
-    color: #1b1a16;
-    margin-left: 3px;
-  }
-
-  .social-video-card__bottom {
+  /* ── Bottom ── */
+  .sv-card__bottom {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 14px 14px 16px;
+    padding: 14px 14px 20px;
   }
 
-  .social-video-card__caption {
-    font-family: 'Hanken Grotesk', sans-serif;
+  .sv-card__caption {
+    font-family: 'Manrope', sans-serif;
     font-size: 12.5px;
     font-weight: 500;
     color: #ffffff;
     line-height: 1.4;
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -168,53 +234,280 @@
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
-  .social-video-card__likes {
+  .sv-card__likes {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'Manrope', sans-serif;
     font-size: 11px;
     color: rgba(255, 255, 255, 0.85);
   }
 
-  .social-video-card__likes svg {
+  .sv-card__likes svg {
+    flex-shrink: 0;
+    fill: rgba(255,255,255,0.85) !important;
+    stroke: none !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  /* ── Drawer ── */
+  .sv-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 9100;
+    pointer-events: none;
+  }
+
+  .sv-drawer.is-open {
+    pointer-events: auto;
+  }
+
+  .sv-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .sv-drawer.is-open .sv-drawer__backdrop {
+    opacity: 1;
+  }
+
+  .sv-drawer__panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 380px;
+    max-width: 92vw;
+    background: #ffffff;
+    border-left: 1px solid #E4E4E7;
+    transform: translateX(100%);
+    transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sv-drawer.is-open .sv-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .sv-drawer__header {
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid #E4E4E7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-shrink: 0;
   }
 
+  .sv-drawer__label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #030213;
+    margin: 0;
+  }
+
+  .sv-drawer__close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #E4E4E7;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #030213;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.2s, border-color 0.2s;
+    padding: 0;
+  }
+
+  .sv-drawer__close:hover {
+    background: #030213;
+    border-color: #030213;
+    color: #fff;
+  }
+
+  .sv-drawer__close svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke: currentColor !important;
+    fill: none !important;
+  }
+
+  .sv-drawer__products {
+    padding: 20px 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .sv-drawer__empty {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: #71717A;
+    text-align: center;
+    padding: 40px 0;
+    margin: 0;
+  }
+
+  /* ── Product card in drawer ── */
+  .sv-product-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px;
+    border-radius: 14px;
+    border: 1px solid #E4E4E7;
+    background: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .sv-product-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    background: #105020;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .sv-product-card > * { position: relative; z-index: 1; }
+
+  .sv-product-card:hover::before { opacity: 1; }
+
+  .sv-product-card:hover {
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.12);
+  }
+
+  .sv-product-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .sv-product-img {
+    width: 68px;
+    height: 68px;
+    border-radius: 10px;
+    background: #F5F2ED;
+    object-fit: contain;
+    flex-shrink: 0;
+    padding: 6px;
+  }
+
+  .sv-product-img-placeholder {
+    width: 68px;
+    height: 68px;
+    border-radius: 10px;
+    background: #F5F2ED;
+    flex-shrink: 0;
+  }
+
+  .sv-product-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sv-product-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #030213;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sv-product-price {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1D1D1D;
+    margin: 0;
+  }
+
+  .sv-product-btn {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #105020;
+    color: #fff;
+    border: none;
+    text-decoration: none;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .sv-product-btn:hover {
+    background: linear-gradient(to right, #ef4444, #fde047);
+    transform: translateY(-1px);
+  }
+
+  .sv-product-btn svg {
+    width: 11px !important;
+    height: 11px !important;
+    stroke: #fff !important;
+    fill: none !important;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 900px) {
-    .social-videos-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .sv-grid { grid-template-columns: repeat(2, 1fr); }
+    .sv-drawer__panel { width: 340px; }
   }
 
   @media (max-width: 520px) {
-    .social-videos-container {
-      padding: 0 16px;
-    }
-
-    .social-videos-section {
-      padding: 48px 0;
-    }
-
-    .social-videos-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+    .sv-container { padding: 0 16px; }
+    .sv-section { padding: 48px 0; }
+    .sv-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .sv-drawer__panel { width: 100%; border-left: none; border-top: 1px solid #E4E4E7;
+      top: auto; bottom: 0; height: 80vh; transform: translateY(100%); }
+    .sv-drawer.is-open .sv-drawer__panel { transform: translateY(0); }
   }
 </style>
 
-<section class="social-videos-section">
-  <div class="social-videos-container">
+<section class="sv-section">
+  <div class="sv-container">
 
-    <!-- Section Header -->
-    <div class="social-videos-header">
-      <h2 class="social-videos-heading">Snacks in the wild</h2>
+    <!-- Header -->
+    <div class="sv-heading-row">
+      <h2 class="sv-heading">
+        {{ section.settings.heading_prefix | default: 'Straight From' }}
+        <span class="sv-heading__gradient">{{ section.settings.heading_gradient | default: 'Yaad' }}</span>
+      </h2>
       {% if section.settings.instagram_url != blank %}
-        <a href="{{ section.settings.instagram_url }}" class="social-videos-ig-link" target="_blank" rel="noopener noreferrer">
+        <a href="{{ section.settings.instagram_url }}" class="sv-ig-link" target="_blank" rel="noopener noreferrer">
           @rocketboyz
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M7 7h10v10"/>
-            <path d="M7 17 17 7"/>
+            <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
           </svg>
         </a>
       {% endif %}
@@ -222,62 +515,94 @@
 
     <!-- Video Grid -->
     {% if section.blocks.size > 0 %}
-      <div class="social-videos-grid">
+      <div class="sv-grid">
         {% for block in section.blocks %}
-          <a
-            href="{{ block.settings.url | default: section.settings.instagram_url | default: '#' }}"
-            class="social-video-card"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="{{ block.settings.caption | default: 'Watch on Instagram' | escape }}"
+          {%- assign p1 = all_products[block.settings.product_1] -%}
+          {%- assign p2 = all_products[block.settings.product_2] -%}
+          {%- assign p3 = all_products[block.settings.product_3] -%}
+          {%- assign p4 = all_products[block.settings.product_4] -%}
+
+          <div
+            class="sv-card-wrap"
+            role="button"
+            tabindex="0"
+            aria-label="{{ block.settings.caption | default: 'Watch video' | escape }}"
+            data-sv-card="{{ forloop.index0 }}"
             {{ block.shopify_attributes }}
           >
-            {% if block.settings.image %}
-              <img
-                class="social-video-card__bg"
-                src="{{ block.settings.image | image_url: width: 600 }}"
-                alt="{{ block.settings.caption | default: '' | escape }}"
-                width="{{ block.settings.image.width }}"
-                height="{{ block.settings.image.height }}"
-                loading="lazy"
-              >
-            {% else %}
-              <div style="position:absolute;inset:0;background:linear-gradient(160deg,#2a2920 0%,#1b1a16 100%);"></div>
-            {% endif %}
-
-            <div class="social-video-card__overlay"></div>
-
-            <!-- Top: avatar + handle -->
-            <div class="social-video-card__top">
-              <div class="social-video-card__avatar" aria-hidden="true">R</div>
-              <span class="social-video-card__handle">{{ block.settings.handle | default: '@rocketboyz' }}</span>
-            </div>
-
-            <!-- Center: play button -->
-            <div class="social-video-card__play" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </div>
-
-            <!-- Bottom: caption + likes -->
-            <div class="social-video-card__bottom">
-              {% if block.settings.caption != blank %}
-                <p class="social-video-card__caption">{{ block.settings.caption }}</p>
+            <div class="sv-card">
+              {% if block.settings.image %}
+                <img
+                  class="sv-card__bg"
+                  src="{{ block.settings.image | image_url: width: 600 }}"
+                  alt="{{ block.settings.caption | default: '' | escape }}"
+                  loading="lazy"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                >
+              {% else %}
+                <div style="position:absolute;inset:0;background:linear-gradient(160deg,#2a2920 0%,#1b1a16 100%);"></div>
               {% endif %}
-              <div class="social-video-card__likes">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+
+              <div class="sv-card__overlay"></div>
+
+              <div class="sv-card__top">
+                <div class="sv-card__avatar" aria-hidden="true">R</div>
+                <span class="sv-card__handle">{{ block.settings.handle | default: '@rocketboyz' }}</span>
+              </div>
+
+              <div class="sv-card__play" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <polygon points="5,3 19,12 5,21" fill="#fff"/>
                 </svg>
-                <span>{{ block.settings.likes | default: '1.2k' }}</span>
+              </div>
+
+              <div class="sv-card__bottom">
+                {% if block.settings.caption != blank %}
+                  <p class="sv-card__caption">{{ block.settings.caption }}</p>
+                {% endif %}
+                <div class="sv-card__likes">
+                  <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="rgba(255,255,255,0.85)"/>
+                  </svg>
+                  <span>{{ block.settings.likes | default: '1.2k' }}</span>
+                </div>
+              </div>
+
+              <div class="sv-card__progress">
+                <div class="sv-card__progress-fill"></div>
               </div>
             </div>
 
-          </a>
+            <!-- Product data for this video -->
+            <script type="application/json" class="sv-product-data">
+            [
+              {%- assign has_prev = false -%}
+              {%- if p1.id -%}
+              {"title":{{ p1.title | json }},"price":{{ p1.price | money | json }},"image":{{ p1.featured_image | image_url: width: 300 | json }},"url":{{ p1.url | json }}}
+              {%- assign has_prev = true -%}
+              {%- endif -%}
+              {%- if p2.id -%}
+              {%- if has_prev -%},{%- endif -%}
+              {"title":{{ p2.title | json }},"price":{{ p2.price | money | json }},"image":{{ p2.featured_image | image_url: width: 300 | json }},"url":{{ p2.url | json }}}
+              {%- assign has_prev = true -%}
+              {%- endif -%}
+              {%- if p3.id -%}
+              {%- if has_prev -%},{%- endif -%}
+              {"title":{{ p3.title | json }},"price":{{ p3.price | money | json }},"image":{{ p3.featured_image | image_url: width: 300 | json }},"url":{{ p3.url | json }}}
+              {%- assign has_prev = true -%}
+              {%- endif -%}
+              {%- if p4.id -%}
+              {%- if has_prev -%},{%- endif -%}
+              {"title":{{ p4.title | json }},"price":{{ p4.price | money | json }},"image":{{ p4.featured_image | image_url: width: 300 | json }},"url":{{ p4.url | json }}}
+              {%- endif -%}
+            ]
+            </script>
+          </div>
         {% endfor %}
       </div>
     {% else %}
-      <p style="font-family:'Hanken Grotesk',sans-serif; color:#54514a; font-size:14px; text-align:center; padding:48px 0;">
+      <p style="font-family:'Manrope',sans-serif;color:#54514a;font-size:14px;text-align:center;padding:48px 0;">
         Add video blocks in the theme editor to display social content here.
       </p>
     {% endif %}
@@ -285,11 +610,136 @@
   </div>
 </section>
 
+<!-- Product Drawer -->
+<div class="sv-drawer" id="sv-drawer" aria-hidden="true" role="dialog" aria-label="Products seen in this video">
+  <div class="sv-drawer__backdrop" id="sv-drawer-backdrop"></div>
+  <div class="sv-drawer__panel">
+    <div class="sv-drawer__header">
+      <p class="sv-drawer__label">Products seen in the video</p>
+      <button class="sv-drawer__close" id="sv-drawer-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round"/>
+          <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sv-drawer__products" id="sv-drawer-products"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var drawer = document.getElementById('sv-drawer');
+  var drawerProducts = document.getElementById('sv-drawer-products');
+  var drawerClose = document.getElementById('sv-drawer-close');
+  var drawerBackdrop = document.getElementById('sv-drawer-backdrop');
+  var activeCard = null;
+  var staggerTimers = [];
+
+  function openDrawer(products) {
+    staggerTimers.forEach(clearTimeout);
+    staggerTimers = [];
+
+    drawerProducts.innerHTML = '';
+
+    if (!products || products.length === 0) {
+      drawerProducts.innerHTML = '<p class="sv-drawer__empty">No products linked to this video yet.</p>';
+    } else {
+      products.forEach(function (p, i) {
+        var card = document.createElement('a');
+        card.href = p.url || '#';
+        card.className = 'sv-product-card';
+        card.innerHTML =
+          (p.image
+            ? '<img class="sv-product-img" src="' + p.image + '" alt="' + escHtml(p.title) + '" loading="lazy">'
+            : '<div class="sv-product-img-placeholder"></div>') +
+          '<div class="sv-product-info">' +
+            '<p class="sv-product-name">' + escHtml(p.title) + '</p>' +
+            '<p class="sv-product-price">' + escHtml(p.price) + '</p>' +
+          '</div>' +
+          '<a href="' + (p.url || '#') + '" class="sv-product-btn">' +
+            'Shop Now' +
+            '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' +
+          '</a>';
+        drawerProducts.appendChild(card);
+
+        var t = setTimeout(function () {
+          card.classList.add('is-visible');
+        }, 80 + i * 100);
+        staggerTimers.push(t);
+      });
+    }
+
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (activeCard) {
+      activeCard.classList.remove('is-active');
+      activeCard = null;
+    }
+  }
+
+  function escHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Attach click to each card
+  document.querySelectorAll('[data-sv-card]').forEach(function (wrap) {
+    function activate() {
+      if (activeCard && activeCard !== wrap) {
+        activeCard.classList.remove('is-active');
+      }
+      activeCard = wrap;
+      wrap.classList.add('is-active');
+
+      var scriptEl = wrap.querySelector('.sv-product-data');
+      var products = [];
+      if (scriptEl) {
+        try { products = JSON.parse(scriptEl.textContent.trim()); } catch (e) {}
+      }
+      openDrawer(products);
+    }
+
+    wrap.addEventListener('click', activate);
+    wrap.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerBackdrop.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+  });
+})();
+</script>
+
 {% schema %}
 {
   "name": "Social Videos",
   "max_blocks": 8,
   "settings": [
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading (before gradient word)",
+      "default": "Straight From"
+    },
+    {
+      "type": "text",
+      "id": "heading_gradient",
+      "label": "Heading gradient word",
+      "default": "Yaad"
+    },
     {
       "type": "url",
       "id": "instagram_url",
@@ -328,6 +778,30 @@
           "type": "url",
           "id": "url",
           "label": "Link to Video"
+        },
+        {
+          "type": "header",
+          "content": "Products in this video"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "Product 4"
         }
       ]
     }
@@ -336,38 +810,10 @@
     {
       "name": "Social Videos",
       "blocks": [
-        {
-          "type": "video",
-          "settings": {
-            "handle": "@rocketboyz",
-            "caption": "Check out our latest snacks!",
-            "likes": "1.2k"
-          }
-        },
-        {
-          "type": "video",
-          "settings": {
-            "handle": "@rocketboyz",
-            "caption": "Check out our latest snacks!",
-            "likes": "987"
-          }
-        },
-        {
-          "type": "video",
-          "settings": {
-            "handle": "@rocketboyz",
-            "caption": "Check out our latest snacks!",
-            "likes": "2.4k"
-          }
-        },
-        {
-          "type": "video",
-          "settings": {
-            "handle": "@rocketboyz",
-            "caption": "Check out our latest snacks!",
-            "likes": "743"
-          }
-        }
+        { "type": "video", "settings": { "handle": "@rocketboyz", "caption": "Straight from yaad to your door.", "likes": "1.2k" } },
+        { "type": "video", "settings": { "handle": "@rocketboyz", "caption": "Caribbean snacks you can't get enough of.", "likes": "987" } },
+        { "type": "video", "settings": { "handle": "@rocketboyz", "caption": "Taste the islands, delivered.", "likes": "2.4k" } },
+        { "type": "video", "settings": { "handle": "@rocketboyz", "caption": "Your favourite snacks, every time.", "likes": "743" } }
       ]
     }
   ]

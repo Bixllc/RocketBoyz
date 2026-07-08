@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "snack_box_product": {
+      "type": "snack-box-product",
+      "settings": {}
+    }
+  },
+  "order": ["snack_box_product"]
+}

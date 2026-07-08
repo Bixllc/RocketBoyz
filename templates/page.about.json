@@ -1,0 +1,77 @@
+{
+  "sections": {
+    "about_hero": {
+      "type": "about-hero",
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading_before": "About",
+        "heading_gradient": "RocketBoyz",
+        "heading_after": "Distributors",
+        "description": "RocketBoyz is more than a snack brand — it is a love letter to Caribbean culture, wrapped in bold flavors and delivered straight to your door.",
+        "cta_text": "Shop Now",
+        "cta_url": "/collections/all",
+        "feat1_title": "Free Shipping",
+        "feat1_sub": "Fast shipping at your door",
+        "feat2_title": "Top Quality Products",
+        "feat2_sub": "Hand-selected, customer approved",
+        "feat3_title": "Unbeatable Prices",
+        "feat3_sub": "Wholesale pricing for everyone"
+      }
+    },
+    "our_journey": {
+      "type": "our-journey",
+      "settings": {
+        "eyebrow": "Our Journey",
+        "heading": "From Kingston to Your Door"
+      },
+      "blocks": {
+        "milestone_1": {
+          "type": "milestone",
+          "settings": {
+            "year": "2018",
+            "title": "The Craving That Started It All",
+            "body": "Wayne missed the snacks he grew up on in Jamaica. After searching everywhere and coming up empty, he decided to fix the problem himself."
+          }
+        },
+        "milestone_2": {
+          "type": "milestone",
+          "settings": {
+            "year": "2019",
+            "title": "First Shipment Lands",
+            "body": "The first crate of authentic Jamaican snacks arrived stateside. Word spread fast through the Caribbean diaspora community."
+          }
+        },
+        "milestone_3": {
+          "type": "milestone",
+          "settings": {
+            "year": "2021",
+            "title": "RocketBoyz Goes Online",
+            "body": "The brand launched its e-commerce platform, making Caribbean snacks accessible to anyone across the country with a few clicks."
+          }
+        },
+        "milestone_4": {
+          "type": "milestone",
+          "settings": {
+            "year": "2023",
+            "title": "Wholesale & Beyond",
+            "body": "RocketBoyz expanded into wholesale, partnering with corner stores, Caribbean restaurants, and cultural shops nationwide."
+          }
+        },
+        "milestone_5": {
+          "type": "milestone",
+          "settings": {
+            "year": "2026",
+            "title": "Still Growing, Still Authentic",
+            "body": "Today RocketBoyz carries hundreds of products from across the Caribbean — and we are just getting started."
+          }
+        }
+      },
+      "block_order": ["milestone_1", "milestone_2", "milestone_3", "milestone_4", "milestone_5"]
+    },
+    "about_gallery": {
+      "type": "about-gallery",
+      "settings": {}
+    }
+  },
+  "order": ["about_hero", "our_journey", "about_gallery"]
+}

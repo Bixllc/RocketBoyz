@@ -1,5 +1,5 @@
 /* RocketBoyz Shopify Theme Styles */
-/* Brand Kit — Anton (headings) + Hanken Grotesk (body) + DM Mono (labels/meta) */
+/* Typography: Big Shoulders Display (headings) + Manrope (body/UI) */
 /* Merged from new design system. Do NOT remove — used globally. */
 
 /* ── Brand Design Tokens ── */
@@ -15,7 +15,7 @@
   --color-red-accent:       #DC2626;
   --color-yellow-hover:     #EAB308;
 
-  --font-primary:           'Hanken Grotesk', system-ui, sans-serif;
+  --font-primary:           'Manrope', sans-serif;
   --font-weight-normal:     400;
   --font-weight-medium:     500;
   --font-weight-semibold:   600;
@@ -40,23 +40,26 @@
 
 /* ── Override theme's Poppins CSS variables ── */
 :root {
-  --font-body-family: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-heading-family: 'Anton', sans-serif;
-  --font-menu-lv1-family: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-menu-lv2-family: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-menu-lv3-family: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-mega-menu-lv1-family: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-mega-menu-lv2-family: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body-family: 'Manrope', sans-serif;
+  --font-heading-family: 'Big Shoulders Display', sans-serif;
+  --font-menu-lv1-family: 'Manrope', sans-serif;
+  --font-menu-lv2-family: 'Manrope', sans-serif;
+  --font-menu-lv3-family: 'Manrope', sans-serif;
+  --font-mega-menu-lv1-family: 'Manrope', sans-serif;
+  --font-mega-menu-lv2-family: 'Manrope', sans-serif;
 }
 
-/* ── Global font: Anton for headings, Hanken Grotesk for body/UI text ── */
+/* ── Global fonts: Big Shoulders Display (headings) + Manrope (body/UI) ── */
 body,
 p, a, button, input, textarea, select, label {
-  font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+  font-family: 'Manrope', sans-serif !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Anton', sans-serif !important;
+  font-family: 'Big Shoulders Display', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
 }
 
 html {
@@ -306,7 +309,7 @@ html {
 /* ── ReelUp shoppable video app — match site typography ── */
 .reelUp_widget_heading,
 .reelUp_slider_heading {
-    font-family: 'Anton', sans-serif !important;
+    font-family: 'Big Shoulders Display', sans-serif !important;
     text-transform: uppercase !important;
     font-size: clamp(34px, 4vw, 56px) !important;
     line-height: 0.95 !important;
@@ -327,7 +330,7 @@ html {
 }
 
 .jdgm-carousel-title {
-    font-family: 'Anton', sans-serif !important;
+    font-family: 'Big Shoulders Display', sans-serif !important;
     text-transform: uppercase;
     font-size: clamp(34px, 4vw, 56px);
     line-height: 1;
@@ -344,7 +347,7 @@ html {
 
 .jdgm-carousel-number-of-reviews,
 .jdgm-carousel-number-of-reviews a {
-    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
     font-size: 14px;
     color: #54514a;
     text-decoration: none;
@@ -366,7 +369,7 @@ html {
 }
 
 .jdgm-carousel-item__review-body {
-    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
     font-size: 15px !important;
     line-height: 1.55 !important;
     color: #33302b !important;
@@ -387,7 +390,7 @@ html {
 }
 
 .jdgm-carousel-item__reviewer-name {
-    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
     font-size: 14px !important;
     font-weight: 700 !important;
     color: #1b1a16 !important;
@@ -405,11 +408,11 @@ html {
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 15px;
     font-weight: 700;
     flex-shrink: 0;
-    background: linear-gradient(135deg, #E63946 0%, #FF9F1C 100%);
+    background: #105020;
 }
 
 /* ── Footer columns: brand | quick links | customer care | know wah gwaan ── */

@@ -63,11 +63,9 @@
             <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
         {%- endif -%}
         <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-        <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-        <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
         {{ 'rb-design.css' | asset_url | stylesheet_tag }}
         {% comment %}<title>
             {{ page_title }}
@@ -108,6 +106,41 @@
             <!-- Turf.js plugin -->
             <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
         {% endif %}
+    <style>
+      /* ── Shopify Inbox "Need help?" button reskin ── */
+      shopify-chat iframe { display: none !important; }
+
+      /* Outer wrapper of the chat bubble */
+      shopify-chat > div,
+      #shopify-chat,
+      .shopify-chat-button,
+      [data-shopify-inbox-ui-name="chat-button"],
+      shopify-chat button[type="button"] {
+        background: #ffffff !important;
+        border: 1px solid #EAEAEA !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10), 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 999px !important;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease !important;
+      }
+
+      /* Gradient glow on hover */
+      shopify-chat > div:hover,
+      #shopify-chat:hover,
+      .shopify-chat-button:hover,
+      [data-shopify-inbox-ui-name="chat-button"]:hover,
+      shopify-chat button[type="button"]:hover {
+        border-color: transparent !important;
+        box-shadow:
+          0 0 0 2px transparent,
+          0 4px 20px rgba(220, 38, 38, 0.22),
+          0 2px 6px rgba(0, 0, 0, 0.08),
+          inset 0 0 0 1.5px transparent !important;
+        background:
+          linear-gradient(#fff, #fff) padding-box,
+          linear-gradient(to right, #DC2626, #FACC15) border-box !important;
+        border: 1.5px solid transparent !important;
+      }
+    </style>
     </head>
 
     {%- liquid
@@ -223,6 +256,8 @@
         {%- endif -%}
 
         {{ 'rb-judgeme-avatars.js' | asset_url | script_tag }}
+        <script src="{{ 'rb-cart.js' | asset_url }}" defer></script>
+        {% render 'cart-drawer' %}
         
         <div class="background-overlay">
             {% if settings.show_effect_close %}
@@ -240,5 +275,6 @@
      {% include 'smile-initializer' %}
 
 {% include 'adroll' %}
+
 </body>
 </html>

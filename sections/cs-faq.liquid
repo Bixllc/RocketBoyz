@@ -1,0 +1,164 @@
+<style>
+  .cs-faq-section {
+    background: #fff;
+    padding: 72px 32px;
+  }
+
+  .cs-faq-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .cs-faq-heading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 52px);
+    text-transform: uppercase;
+    color: #030213;
+    margin: 0 0 40px;
+    line-height: 1.0;
+  }
+
+  .cs-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cs-faq-item {
+    background: #F5F2ED;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .cs-faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .cs-faq-question-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #030213;
+    line-height: 1.4;
+  }
+
+  .cs-faq-chevron {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: #030213;
+    transition: transform 0.25s ease;
+  }
+
+  .cs-faq-chevron svg {
+    width: 20px !important;
+    height: 20px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cs-faq-item.is-open .cs-faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .cs-faq-answer {
+    display: none;
+    padding: 0 24px 22px;
+  }
+
+  .cs-faq-item.is-open .cs-faq-answer {
+    display: block;
+  }
+
+  .cs-faq-answer p {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #52525B;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .cs-faq-section { padding: 48px 16px; }
+  }
+</style>
+
+<section class="cs-faq-section">
+  <div class="cs-faq-inner">
+    <h2 class="cs-faq-heading">{{ section.settings.heading | default: 'Frequently Asked' }}</h2>
+
+    <div class="cs-faq-list">
+      {%- for block in section.blocks -%}
+        <div class="cs-faq-item" {{ block.shopify_attributes }}>
+          <button class="cs-faq-question" aria-expanded="false">
+            <span class="cs-faq-question-text">{{ block.settings.question }}</span>
+            <span class="cs-faq-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="cs-faq-answer">
+            <p>{{ block.settings.answer }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  document.querySelectorAll('.cs-faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.cs-faq-item');
+      var isOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "CS FAQ",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently Asked" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer",   "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CS FAQ",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "How fast will my order arrive?", "answer": "Most orders ship within 24 hours and arrive in 2–3 business days. Wholesale pallets ship within 48 hours nationwide." } },
+        { "type": "faq", "settings": { "question": "Do you ship to all 50 states?", "answer": "Yes — we ship to all 50 states via UPS and USPS. Expedited options are available at checkout." } },
+        { "type": "faq", "settings": { "question": "How does the Snack Box subscription work?", "answer": "Choose your box size, and we'll curate and ship a fresh selection of Caribbean snacks each month. You can pause or cancel any time from your account." } },
+        { "type": "faq", "settings": { "question": "My snacks arrived damaged — what now?", "answer": "We're sorry about that! Email us at help@rocketboyz.com with a photo and your order number and we'll make it right within one business day." } },
+        { "type": "faq", "settings": { "question": "Can I set up a wholesale account?", "answer": "Absolutely. Fill out our wholesale inquiry form or email help@rocketboyz.com. We offer Net-30 terms, mixed pallets, and a dedicated account manager." } },
+        { "type": "faq", "settings": { "question": "What is your return policy?", "answer": "We accept returns within 30 days of delivery for unopened items. Damaged or incorrect items are replaced at no charge — just send us a photo." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,375 @@
+<style>
+  .about-hero-section {
+    background: #fff;
+    padding: 80px 32px 64px;
+  }
+
+  .about-hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Eyebrow */
+  .about-hero-eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: #105020;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    margin: 0 0 28px;
+  }
+
+  /* Two-col layout */
+  .about-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  /* Left: heading */
+  .about-hero-heading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: clamp(42px, 5vw, 76px);
+    line-height: 1.0;
+    color: #030213;
+    margin: 0;
+  }
+
+  .about-hero-heading__line {
+    display: block;
+  }
+
+  .about-hero-heading-gradient {
+    background: #105020;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+
+  /* Right: copy */
+  .about-hero-body {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    line-height: 1.65;
+    color: #52525B;
+    margin: 0 0 32px;
+  }
+
+  .about-hero-cta {
+    font-family: 'Manrope', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: #030213;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 999px;
+    padding: 14px 26px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .about-hero-cta:hover {
+    background: #030213;
+    color: #fff;
+    border-color: #030213;
+  }
+
+  /* Features bar */
+  .about-features-bar {
+    border-top: 1px solid #E4E4E7;
+    margin-top: 72px;
+    padding-top: 52px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .about-feature {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid #E4E4E7;
+    border-radius: 16px;
+    padding: 24px 28px;
+    background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: default;
+  }
+
+  /* Gradient border via ::before */
+  .about-feature::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: #105020;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .about-feature > * { position: relative; z-index: 1; }
+
+  .about-feature:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+  }
+
+  .about-feature:hover::before { opacity: 1; }
+
+  .about-feature-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #105020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .about-feature:hover .about-feature-icon {
+    transform: scale(1.05);
+  }
+
+  .about-feature-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+    fill: none !important;
+    stroke: #ffffff !important;
+    stroke-width: 1.8px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .about-feature-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #030213;
+    margin: 0 0 4px;
+  }
+
+  .about-feature-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    color: #71717A;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .about-hero-section {
+      padding: 56px 20px 48px;
+    }
+
+    .about-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .about-features-bar {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 48px;
+      padding-top: 40px;
+    }
+  }
+</style>
+
+<section class="about-hero-section">
+  <div class="about-hero-inner">
+
+    <p class="about-hero-eyebrow">{{ section.settings.eyebrow | default: 'Our Story' }}</p>
+
+    <div class="about-hero-grid">
+
+      <!-- Left: Heading -->
+      <div>
+        <h1 class="about-hero-heading">
+          {%- if section.settings.heading_before != blank -%}<span class="about-hero-heading__line">{{ section.settings.heading_before }}</span>{%- else -%}<span class="about-hero-heading__line">About</span>{%- endif -%}
+          <span class="about-hero-heading-gradient">{{ section.settings.heading_gradient | default: 'RocketBoyz' }}</span>
+          {%- if section.settings.heading_after != blank -%}<span class="about-hero-heading__line">{{ section.settings.heading_after }}</span>{%- else -%}<span class="about-hero-heading__line">Distributors</span>{%- endif -%}
+        </h1>
+      </div>
+
+      <!-- Right: Copy + CTA -->
+      <div>
+        {%- if section.settings.description != blank -%}
+          <p class="about-hero-body">{{ section.settings.description }}</p>
+        {%- endif -%}
+
+        <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="about-hero-cta">
+          {{ section.settings.cta_text | default: 'Shop Now' }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Features bar -->
+    <div class="about-features-bar">
+
+      <div class="about-feature">
+        <div class="about-feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/>
+            <rect x="9" y="11" width="14" height="10" rx="2"/>
+            <circle cx="12" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+          </svg>
+        </div>
+        <div>
+          <p class="about-feature-title">{{ section.settings.feat1_title | default: 'Free Shipping' }}</p>
+          <p class="about-feature-sub">{{ section.settings.feat1_sub | default: 'Fast shipping at your door' }}</p>
+        </div>
+      </div>
+
+      <div class="about-feature">
+        <div class="about-feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <div>
+          <p class="about-feature-title">{{ section.settings.feat2_title | default: 'Top Quality Products' }}</p>
+          <p class="about-feature-sub">{{ section.settings.feat2_sub | default: 'Hand-selected, customer approved' }}</p>
+        </div>
+      </div>
+
+      <div class="about-feature">
+        <div class="about-feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2H2v10l9.29 9.29a1 1 0 0 0 1.41 0l7.71-7.71a1 1 0 0 0 0-1.41L12 2z"/>
+            <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div>
+          <p class="about-feature-title">{{ section.settings.feat3_title | default: 'Unbeatable Prices' }}</p>
+          <p class="about-feature-sub">{{ section.settings.feat3_sub | default: 'Wholesale pricing for everyone' }}</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading — line 1 (black)",
+      "default": "About"
+    },
+    {
+      "type": "text",
+      "id": "heading_gradient",
+      "label": "Heading — gradient word(s)",
+      "default": "RocketBoyz"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading — line 3 (black)",
+      "default": "Distributors"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "RocketBoyz is more than a snack brand — it is a love letter to Caribbean culture, wrapped in bold flavors and delivered straight to your door."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "text",
+      "id": "feat1_title",
+      "label": "Title",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "text",
+      "id": "feat1_sub",
+      "label": "Subtitle",
+      "default": "Fast shipping at your door"
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "text",
+      "id": "feat2_title",
+      "label": "Title",
+      "default": "Top Quality Products"
+    },
+    {
+      "type": "text",
+      "id": "feat2_sub",
+      "label": "Subtitle",
+      "default": "Hand-selected, customer approved"
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "text",
+      "id": "feat3_title",
+      "label": "Title",
+      "default": "Unbeatable Prices"
+    },
+    {
+      "type": "text",
+      "id": "feat3_sub",
+      "label": "Subtitle",
+      "default": "Wholesale pricing for everyone"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero"
+    }
+  ]
+}
+{% endschema %}
