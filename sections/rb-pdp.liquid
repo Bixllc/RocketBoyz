@@ -727,9 +727,14 @@ body.rb-sticky-open shopify-chat {
         atcBtn.classList.add('is-added');
         atcLabel.innerHTML = 'Added to cart ✓';
 
-        var count = parseInt(localStorage.getItem('rb_cart') || '0') + (data.quantity || qty);
-        localStorage.setItem('rb_cart', count);
-        window.dispatchEvent(new CustomEvent('rb-cart', { detail: { count: count } }));
+        /* Re-sync RBCart from Shopify, then open the drawer as the "added"
+           confirmation — matching what product-card adds already do.
+           Previously this kept its own `rb_cart` counter and dispatched on
+           `window`, but every listener is bound to `document`, so those events
+           reached nothing and the drawer never opened from the PDP. */
+        if (window.RBCart) {
+          window.RBCart.fetchCart().then(function () { window.RBCart.openDrawer(); });
+        }
 
         setTimeout(function () {
           atcBtn.classList.remove('is-added');
@@ -795,8 +800,11 @@ body.rb-sticky-open shopify-chat {
         body: JSON.stringify({ id: vid, quantity: q })
       })
       .then(function () {
-        if (window.RBCart) window.RBCart.fetchCart();
-        window.dispatchEvent(new CustomEvent('rb-cart', { detail: { _fromAdd: true } }));
+        /* fetchCart() emits 'rb-cart' on document itself, so no manual dispatch
+           is needed — the previous window dispatch had no listeners. */
+        if (window.RBCart) {
+          window.RBCart.fetchCart().then(function () { window.RBCart.openDrawer(); });
+        }
       })
       .catch(function () {});
       setTimeout(function () { sBtn.classList.remove('is-added'); sync(); }, 1300);
