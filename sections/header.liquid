@@ -282,10 +282,17 @@
     gap: 0.125rem;
   }
 
+  /* Top-level items use the display face, matching section headings.
+     Sizes are in px on purpose: this theme sets html { font-size: 10px }, so
+     the previous `1rem` was rendering at 10px. Big Shoulders only loads at 800
+     and is condensed, so it needs more size than Manrope to read equally. */
   .rb-mobile-nav__link {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 500;
-    font-size: 1rem;
+    font-family: 'Big Shoulders Display', sans-serif !important;
+    font-weight: 800;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
     color: #1b1a16;
     text-decoration: none;
     padding: 0.875rem 0;
@@ -321,9 +328,12 @@
   }
 
   .rb-mobile-nav__group-label {
-    font-family: 'Manrope', sans-serif !important;
-    font-weight: 600;
-    font-size: 1rem;
+    font-family: 'Big Shoulders Display', sans-serif !important;
+    font-weight: 800;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
     color: #1b1a16;
     display: block;
   }
@@ -348,10 +358,12 @@
     display: none;
   }
 
+  /* Sub-items stay on Manrope for hierarchy against the display-face parents.
+     Was 0.9375rem = 9.4px at this theme's 10px root — under the readable floor. */
   .rb-mobile-nav__sublink {
     font-family: 'Manrope', sans-serif !important;
-    font-weight: 400;
-    font-size: 0.9375rem;
+    font-weight: 500;
+    font-size: 14px;
     color: #5a5852;
     text-decoration: none;
     display: block;
