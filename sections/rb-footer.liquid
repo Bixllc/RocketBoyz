@@ -47,6 +47,15 @@
     margin: 0 0 22px;
   }
 
+  /* Holds the App Store + Google Play badges. Wraps to one per line on
+     narrow screens rather than shrinking the badges. */
+  .rb-footer-app__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
   .rb-footer-app__label {
     font-family: 'Manrope', sans-serif;
     font-size: 12.5px;
@@ -443,21 +452,42 @@
 
         <p class="rb-footer-address">1160 NE 24th Ct, Wilton Manors, FL 33305</p>
 
-        {%- assign app_store_link = section.settings.app_store_url | default: 'https://apps.apple.com/us/app/rocket-boyz/id1563098579' -%}
+        {%- liquid
+          assign app_store_link = section.settings.app_store_url | default: 'https://apps.apple.com/us/app/rocket-boyz/id1563098579'
+          assign play_store_link = section.settings.play_store_url | default: 'https://play.google.com/store/apps/details?id=co.tapcart.app.id_QachCPDHjt'
+        -%}
         <div class="rb-footer-app">
           {% if section.settings.app_store_label != blank %}
             <p class="rb-footer-app__label">{{ section.settings.app_store_label }}</p>
           {% endif %}
-          <a href="{{ app_store_link }}" class="rb-app-badge" target="_blank" rel="noopener" aria-label="Download the RocketBoyz app on the Apple App Store">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M17.05 12.54c-.02-2.05 1.67-3.03 1.75-3.08-0.95-1.4-2.44-1.59-2.97-1.61-1.26-.13-2.46.74-3.1.74-.64 0-1.63-.72-2.68-.7-1.38.02-2.65.8-3.36 2.03-1.43 2.49-.37 6.17 1.03 8.19.68.99 1.5 2.1 2.56 2.06 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.68.64 1.11-.02 1.81-1.01 2.49-2 .78-1.15 1.11-2.26 1.13-2.32-.02-.01-2.17-.83-2.19-3.29z"/>
-              <path d="M15.02 6.32c.57-.69.95-1.65.85-2.6-.82.03-1.81.54-2.39 1.23-.52.61-.98 1.59-.86 2.52.91.07 1.84-.46 2.4-1.15z"/>
-            </svg>
-            <span class="rb-app-badge__text">
-              <span class="rb-app-badge__eyebrow">Download on the</span>
-              <span class="rb-app-badge__store">App Store</span>
-            </span>
-          </a>
+          <div class="rb-footer-app__badges">
+            <a href="{{ app_store_link }}" class="rb-app-badge" target="_blank" rel="noopener" aria-label="Download the RocketBoyz app on the Apple App Store">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M17.05 12.54c-.02-2.05 1.67-3.03 1.75-3.08-0.95-1.4-2.44-1.59-2.97-1.61-1.26-.13-2.46.74-3.1.74-.64 0-1.63-.72-2.68-.7-1.38.02-2.65.8-3.36 2.03-1.43 2.49-.37 6.17 1.03 8.19.68.99 1.5 2.1 2.56 2.06 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.68.64 1.11-.02 1.81-1.01 2.49-2 .78-1.15 1.11-2.26 1.13-2.32-.02-.01-2.17-.83-2.19-3.29z"/>
+                <path d="M15.02 6.32c.57-.69.95-1.65.85-2.6-.82.03-1.81.54-2.39 1.23-.52.61-.98 1.59-.86 2.52.91.07 1.84-.46 2.4-1.15z"/>
+              </svg>
+              <span class="rb-app-badge__text">
+                <span class="rb-app-badge__eyebrow">Download on the</span>
+                <span class="rb-app-badge__store">App Store</span>
+              </span>
+            </a>
+
+            {%- if play_store_link != blank -%}
+              <a href="{{ play_store_link }}" class="rb-app-badge" target="_blank" rel="noopener" aria-label="Get the RocketBoyz app on Google Play">
+                {%- comment -%} Google Play mark — four segments of the play triangle {%- endcomment -%}
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3.61 1.81a1.5 1.5 0 0 0-.35.99v18.4c0 .38.13.73.35.99l.06.06L13.8 12.12v-.24L3.67 1.75z"/>
+                  <path d="M17.18 15.52 13.8 12.12v-.24l3.38-3.4.08.05 4.01 2.28c1.15.65 1.15 1.72 0 2.37l-4.01 2.28z"/>
+                  <path d="m17.26 15.47-3.46-3.47-10.19 10.2c.38.4 1 .45 1.71.05l11.94-6.78"/>
+                  <path d="M17.26 8.53 5.32 1.75c-.71-.4-1.33-.35-1.71.05l10.19 10.2z"/>
+                </svg>
+                <span class="rb-app-badge__text">
+                  <span class="rb-app-badge__eyebrow">Get it on</span>
+                  <span class="rb-app-badge__store">Google Play</span>
+                </span>
+              </a>
+            {%- endif -%}
+          </div>
         </div>
 
         {%- if section.settings.contact_email != blank or section.settings.contact_phone != blank -%}
@@ -654,6 +684,12 @@
       "id": "app_store_url",
       "label": "App Store link",
       "info": "Paste the RocketBoyz App Store URL. If empty, links to an App Store search."
+    },
+    {
+      "type": "url",
+      "id": "play_store_url",
+      "label": "Google Play link",
+      "info": "Paste the RocketBoyz Google Play URL. Leave blank to hide the Google Play badge."
     },
     {
       "type": "header",
