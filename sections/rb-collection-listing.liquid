@@ -288,6 +288,19 @@
     pointer-events: all;
   }
 
+  /* base.css:1027 has a global `*:empty { display: none }`. Every element
+     below is intentionally empty (backdrop, drag handle, density bars), so
+     without an explicit display they collapse to 0x0. That's what made the
+     backdrop unclickable — the drawer could only be dismissed by choosing a
+     filter, because nothing was there to catch an outside click. */
+  .rb-cl-drawer__backdrop,
+  .rb-cl-drawer__handle {
+    display: block !important;
+  }
+  .rb-cl-density-btn span {
+    display: block !important;
+  }
+
   .rb-cl-drawer__backdrop {
     position: absolute;
     inset: 0;
