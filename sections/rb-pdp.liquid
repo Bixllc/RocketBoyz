@@ -98,7 +98,7 @@
 .rb-pdp__details { padding-top: 4px; }
 
 .rb-pdp__eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -807,6 +807,29 @@ body.rb-sticky-open shopify-chat {
   updateUI();
 })();
 </script>
+
+{%- comment -%}
+  Recently-viewed tracking. Feeds the homepage "Recommended for you" section,
+  which seeds Shopify's recommendation engine with the most recent id.
+  Storage: localStorage `rb_recent` — newest-first array of product ids, max 10.
+{%- endcomment -%}
+{%- if product != blank -%}
+<script>
+  (function () {
+    var id = {{ product.id | json }};
+    if (!id) return;
+    try {
+      var list = JSON.parse(localStorage.getItem('rb_recent') || '[]');
+      if (!Array.isArray(list)) list = [];
+      list = list.filter(function (x) { return x !== id; });
+      list.unshift(id);
+      localStorage.setItem('rb_recent', JSON.stringify(list.slice(0, 10)));
+    } catch (e) {
+      /* private mode / quota — recommendations just fall back to best sellers */
+    }
+  })();
+</script>
+{%- endif -%}
 
 {% schema %}
 {

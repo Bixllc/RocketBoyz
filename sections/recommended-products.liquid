@@ -1,4 +1,32 @@
+{% comment %}
+  Recommended Products
+  --------------------
+  Three tiers, in order of preference:
+
+  1. PERSONALISED — Shopify's own recommendation engine. The homepage has no
+     product context, so we seed it client-side with the visitor's last-viewed
+     product (stored by sections/rb-pdp.liquid in localStorage `rb_recent`).
+     The JS re-requests THIS section through routes.product_recommendations_url,
+     which populates Liquid's `recommendations` object, then swaps the grid in.
+  2. FALLBACK COLLECTION — server-rendered best sellers. What first-time
+     visitors see, and what everyone sees before/without JS.
+  3. MANUAL BLOCKS — hand-picked products. Backwards compatible with the
+     original hardcoded setup; only used if no fallback collection is set.
+{% endcomment %}
+
 {{ 'rb-design.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign limit = section.settings.limit | default: 4
+  assign fallback = collections[section.settings.fallback_collection]
+
+  assign source = 'blocks'
+  if recommendations.performed and recommendations.products_count > 0
+    assign source = 'recommendations'
+  elsif fallback != blank and fallback.products_count > 0
+    assign source = 'collection'
+  endif
+-%}
 
 <style>
   .rb-recommended-products .rb-section-link {
@@ -16,36 +44,96 @@
   }
 </style>
 
-<section class="rb-recommended-products">
+<section
+  class="rb-recommended-products"
+  data-rb-rec
+  data-section-id="{{ section.id }}"
+  data-limit="{{ limit }}"
+  data-rec-url="{{ routes.product_recommendations_url }}">
   <div class="rb-section-inner" style="max-width:1280px; margin:0 auto; padding:64px 32px;">
 
-    {% if section.blocks.size > 0 %}
+    <div class="rb-section-header">
+      <h2 class="rb-heading" style="font-size:clamp(34px,4vw,56px); line-height:0.95;">
+        {{ section.settings.heading }}
+      </h2>
+      {%- if section.settings.view_all_url != blank -%}
+        <a href="{{ section.settings.view_all_url }}" class="rb-section-link">
+          {{ section.settings.view_all_text }}
+        </a>
+      {%- endif -%}
+    </div>
 
-      <!-- Section Header -->
-      <div class="rb-section-header">
-        <h2 class="rb-heading" style="font-size:clamp(34px,4vw,56px); line-height:0.95;">
-          {{ section.settings.heading }}
-        </h2>
-        {%- if section.settings.view_all_url != blank -%}
-          <a href="{{ section.settings.view_all_url }}" class="rb-section-link">
-            {{ section.settings.view_all_text }}
-          </a>
-        {%- endif -%}
-      </div>
+    <div class="rb-grid-4" data-rb-rec-grid>
+      {%- case source -%}
 
-      <!-- Product Grid -->
-      <div class="rb-grid-4">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'product' -%}
-            {%- render 'rb-product-card', product: block.settings.product, badge_text: block.settings.badge_text, block_attributes: block.shopify_attributes -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+        {%- when 'recommendations' -%}
+          {%- for product in recommendations.products limit: limit -%}
+            {%- render 'rb-product-card', product: product -%}
+          {%- endfor -%}
 
-    {% endif %}
+        {%- when 'collection' -%}
+          {%- for product in fallback.products limit: limit -%}
+            {%- render 'rb-product-card', product: product -%}
+          {%- endfor -%}
+
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'product' and block.settings.product != blank -%}
+              {%- render 'rb-product-card',
+                    product: block.settings.product,
+                    badge_text: block.settings.badge_text,
+                    block_attributes: block.shopify_attributes -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+      {%- endcase -%}
+    </div>
 
   </div>
 </section>
+
+{%- comment -%}
+  Only the storefront needs the swap. Skip it when Shopify is re-rendering the
+  section for the recommendations request, or we'd recurse.
+{%- endcomment -%}
+{%- unless recommendations.performed -%}
+<script>
+  (function () {
+    var root = document.querySelector('[data-rb-rec][data-section-id="{{ section.id }}"]');
+    if (!root) return;
+
+    var lastViewed;
+    try {
+      var recent = JSON.parse(localStorage.getItem('rb_recent') || '[]');
+      lastViewed = recent && recent.length ? recent[0] : null;
+    } catch (e) {
+      return; /* localStorage blocked (private mode) — keep the server-rendered fallback */
+    }
+    if (!lastViewed) return;
+
+    var url = root.dataset.recUrl
+      + '?section_id=' + encodeURIComponent(root.dataset.sectionId)
+      + '&product_id=' + encodeURIComponent(lastViewed)
+      + '&limit=' + encodeURIComponent(root.dataset.limit)
+      + '&intent=related';
+
+    fetch(url)
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.querySelector('[data-rb-rec-grid]');
+        var current = root.querySelector('[data-rb-rec-grid]');
+        /* Only swap if Shopify actually returned recommendations — an empty
+           grid would blank out the perfectly good fallback. */
+        if (fresh && current && fresh.children.length) {
+          current.innerHTML = fresh.innerHTML;
+          document.dispatchEvent(new CustomEvent('rb:recommendations:updated'));
+        }
+      })
+      .catch(function () { /* keep the fallback */ });
+  })();
+</script>
+{%- endunless -%}
 
 {% schema %}
 {
@@ -56,6 +144,21 @@
       "id": "heading",
       "label": "Heading",
       "default": "Recommended for you"
+    },
+    {
+      "type": "collection",
+      "id": "fallback_collection",
+      "label": "Fallback collection",
+      "info": "Shown to first-time visitors and before personalised results load. Best Sellers is a good choice. Leave empty to use the manual product blocks instead."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products to show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
     },
     {
       "type": "text",
@@ -90,13 +193,7 @@
   ],
   "presets": [
     {
-      "name": "Recommended for you",
-      "blocks": [
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" }
-      ]
+      "name": "Recommended for you"
     }
   ]
 }

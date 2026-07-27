@@ -151,9 +151,11 @@
 
 /* Empty state */
 .rbc__empty { text-align: center; padding: 80px 20px; }
-.rbc__empty-title { font-family: 'Anton', sans-serif; font-size: 48px; text-transform: uppercase; color: #1b1a16; margin: 20px 0 8px; }
+/* clamp() so the title scales down on narrow phones instead of wrapping awkwardly */
+.rbc__empty-title { font-family: 'Anton', sans-serif; font-size: clamp(32px, 9vw, 48px); text-transform: uppercase; color: #1b1a16; margin: 20px 0 8px; line-height: 1.05; }
 .rbc__empty-sub { font-size: 16px; color: #7a7567; margin-bottom: 32px; }
-.rbc__empty-cta { background: #2D6A2F; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; padding: 16px 44px; border-radius: 999px; text-decoration: none; display: inline-block; }
+/* was color:#1b1a16 — dark text on dark green failed contrast */
+.rbc__empty-cta { background: #2D6A2F; color: #ffffff; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; padding: 16px 44px; border-radius: 999px; text-decoration: none; display: inline-block; }
 
 @media (max-width: 960px) {
   .rbc__grid { grid-template-columns: 1fr; }

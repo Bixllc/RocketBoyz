@@ -267,7 +267,9 @@
       "settings": {
         "heading": "Recommended for you",
         "view_all_text": "Shop all",
-        "view_all_url": "/collections/all"
+        "view_all_url": "/collections/all",
+        "fallback_collection": "best-sellers",
+        "limit": 4
       }
     },
     "rb_wholesale": {
