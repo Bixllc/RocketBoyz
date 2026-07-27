@@ -297,7 +297,6 @@
           </div>
           <div class="rbc__protect-right">
             <span class="rbc__protect-price">$1.55</span>
-            <button class="rb-toggle" id="rbc-protect" type="button" aria-label="Toggle shipping protection"></button>
           </div>
         </div>
 
@@ -412,9 +411,7 @@
     document.getElementById('rbc-grid').style.display       = items.length ? '' : 'none';
     document.getElementById('rbc-sum-prot-row').style.display = protect ? '' : 'none';
 
-    var protBtn = document.getElementById('rbc-protect');
     var termsEl = document.getElementById('rbc-terms');
-    if (protBtn) protBtn.classList.toggle('is-on', protect);
     if (termsEl) termsEl.checked = terms;
 
     document.getElementById('rbc-items').innerHTML = items.map(function (item) {
@@ -460,9 +457,6 @@
     }
   });
 
-  document.getElementById('rbc-protect').addEventListener('click', function () {
-    if (window.RBCart) { window.RBCart.setProtect(!window.RBCart.getProtect()); render(); }
-  });
   document.getElementById('rbc-terms').addEventListener('change', function () {
     if (window.RBCart) window.RBCart.setTerms(this.checked);
     if (this.checked) {

@@ -318,7 +318,6 @@
       </div>
       <div class="rb-protect__right">
         <span class="rb-protect__price">$1.55</span>
-        <button class="rb-toggle" id="rbd-protect" aria-label="Toggle shipping protection" type="button"></button>
       </div>
     </div>
 
@@ -348,7 +347,6 @@
   var foot    = document.getElementById('rbd-foot');
   var countEl = document.getElementById('rbd-count');
   var subEl   = document.getElementById('rbd-subtotal');
-  var protBtn = document.getElementById('rbd-protect');
   var termsEl = document.getElementById('rbd-terms');
 
   function fmt(c) { return '$' + (c / 100).toFixed(2); }
@@ -378,7 +376,6 @@
 
     countEl.textContent = count + (count === 1 ? ' item' : ' items');
     subEl.textContent   = fmt(total);
-    protBtn.classList.toggle('is-on', protect);
     termsEl.checked     = terms;
     foot.hidden         = items.length === 0;
 
@@ -430,9 +427,6 @@
     render();
   });
 
-  protBtn.addEventListener('click', function () {
-    if (window.RBCart) { window.RBCart.setProtect(!window.RBCart.getProtect()); render(); }
-  });
   termsEl.addEventListener('change', function () {
     if (window.RBCart) window.RBCart.setTerms(this.checked);
     if (this.checked) {

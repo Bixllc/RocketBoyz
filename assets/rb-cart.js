@@ -7,16 +7,28 @@
 
   const K = { ITEMS: 'rb_cart_items', PROTECT: 'rb_protect', TERMS: 'rb_terms' };
 
+  /* Terms acceptance is per-page-load only — never written to localStorage, so
+     a previous session can't leave the box pre-ticked. */
+  let _termsAccepted = false;
+
+  /* Clear any acceptance persisted by the previous implementation. */
+  try { localStorage.removeItem(K.TERMS); } catch (e) {}
+
   window.RBCart = {
     // ── Getters ────────────────────────────────────────────────
     getItems() {
       try { return JSON.parse(localStorage.getItem(K.ITEMS) || '[]'); } catch { return []; }
     },
+    // Shipping protection is always on — it is not an opt-in any more, so the
+    // UI shows it as an included line rather than a toggle.
     getProtect() {
-      return localStorage.getItem(K.PROTECT) === '1'; // default OFF — opt-in only
+      return true;
     },
+    // Terms acceptance is deliberately NOT persisted. It lives in memory for
+    // the current page only, so the box is always unchecked on load and the
+    // shopper has to tick it themselves every time.
     getTerms() {
-      return localStorage.getItem(K.TERMS) === '1';
+      return _termsAccepted;
     },
     getCount() {
       return this.getItems().reduce(function (s, i) { return s + i.qty; }, 0);
@@ -27,12 +39,12 @@
     },
 
     // ── Setters ────────────────────────────────────────────────
-    setProtect(v) {
-      localStorage.setItem(K.PROTECT, v ? '1' : '0');
+    // Kept for API compatibility — protection is mandatory, so this is a no-op.
+    setProtect() {
       this.emit();
     },
     setTerms(v) {
-      localStorage.setItem(K.TERMS, v ? '1' : '0');
+      _termsAccepted = !!v;
       this.emit();
     },
 
