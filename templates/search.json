@@ -12,23 +12,6 @@
     "main": {
       "type": "main-search",
       "blocks": {
-        "ef14fdc7-ce7b-4dbc-be5b-00f7ec30317b": {
-          "type": "image",
-          "settings": {
-            "show_block": true,
-            "heading": "Recent Post",
-            "image": "shopify://shop_images/man.jpg",
-            "link": ""
-          }
-        },
-        "5a0fb7c5-12a4-42a9-b392-71bff2428b7c": {
-          "type": "text",
-          "settings": {
-            "show_block": true,
-            "heading": "Custom Block",
-            "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-          }
-        },
         "ac51c45c-4e78-4292-8cc6-51a9b2151175": {
           "type": "category",
           "settings": {
@@ -40,8 +23,6 @@
         }
       },
       "block_order": [
-        "ef14fdc7-ce7b-4dbc-be5b-00f7ec30317b",
-        "5a0fb7c5-12a4-42a9-b392-71bff2428b7c",
         "ac51c45c-4e78-4292-8cc6-51a9b2151175"
       ],
       "settings": {
@@ -58,7 +39,7 @@
         "mg_bottom_tablet": 45,
         "mg_bottom_mobile": 40,
         "show_infinite_scrolling": "infinite",
-        "show_sidebar": true,
+        "show_sidebar": false,
         "show_sidebar_collapse": true,
         "enable_sticky": false,
         "sidebar_layout": "layout_1",

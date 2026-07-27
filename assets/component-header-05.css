@@ -8,6 +8,10 @@
 	pointer-events: none;
 }
 
+.shopify-section-header-sticky .rb-header {
+	pointer-events: auto;
+}
+
 .header-05 .header-top--right .cart-count-bubble{
 	position: absolute;
 	top: -14px;
@@ -326,6 +330,7 @@
     --rb-gray-3:      #52525B;
     --rb-border:      #E4E4E7;
     --rb-red:         #DC2626;
+    --rb-green:       #2D6A2F;
     --rb-font:        'Manrope', sans-serif;
 }
 
@@ -472,8 +477,18 @@
     transition: color 0.15s;
 }
 
-.header-05 .fixed-right .header__icon:hover .lucide-icon {
-    color: var(--rb-red);
+.header-05 .fixed-right .header__icon:hover .lucide-icon,
+.header-05 .fixed-right .header__icon:focus-within .lucide-icon {
+    color: var(--rb-green);
+}
+
+/* Kill pink/salmon background from base theme on search icon open state */
+.header-05 .fixed-right .header__icon--search,
+.header-05 .fixed-right details[open] > .header__icon--search,
+.header-05 .fixed-right .header__icon--search:hover,
+.header-05 .fixed-right .header__icon--search:focus {
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 /* Thin brand bottom border on header */

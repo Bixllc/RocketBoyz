@@ -229,13 +229,7 @@
                             <ul class="productListing {% if layout == '1' %} productList{% else %} productGrid column-{{ layout }}{% endif %} list-{{ layout }} list-unstyled" id="main-collection-product-grid" data-id="{{ section.id }}">
                                 {%- for product in collection.products -%}
                                     <li class="product">
-                                        {% render 'product-grid-layout',
-                                            product_card_product: product,
-                                            serial: forloop.index,
-                                            sectionId: section.id,
-                                            show_list: true,
-                                            loading: true
-                                        %}
+                                        {% render 'rb-product-card', product: product %}
                                     </li>
                                 {%- endfor -%}
                             </ul>

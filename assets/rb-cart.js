@@ -13,7 +13,7 @@
       try { return JSON.parse(localStorage.getItem(K.ITEMS) || '[]'); } catch { return []; }
     },
     getProtect() {
-      return localStorage.getItem(K.PROTECT) !== '0'; // default ON
+      return localStorage.getItem(K.PROTECT) === '1'; // default OFF — opt-in only
     },
     getTerms() {
       return localStorage.getItem(K.TERMS) === '1';
@@ -36,21 +36,48 @@
       this.emit();
     },
 
+    // Identify the ShipInsure / package-protection line item so it is never
+    // shown as an editable cart product. It stays in the real Shopify cart
+    // (auto-added by the ShipInsure app) but is represented in our UI by the
+    // dedicated "Shipping Protection" row/toggle instead of a normal line item.
+    isProtectionItem(i) {
+      var t  = (i.product_title || i.title || '').toLowerCase();
+      var v  = (i.vendor || '').toLowerCase();
+      var pt = (i.product_type || '').toLowerCase();
+      var h  = (i.handle || '').toLowerCase();
+      if (v.indexOf('shipinsure') !== -1) return true;
+      if (t.indexOf('shipinsure') !== -1) return true;
+      if (t.indexOf('package protection') !== -1) return true;
+      if (t.indexOf('shipping protection') !== -1) return true;
+      if (pt.indexOf('protection') !== -1) return true;
+      if (h.indexOf('shipinsure') !== -1 || h.indexOf('package-protection') !== -1 || h.indexOf('shipping-protection') !== -1) return true;
+      if (i.properties) {
+        for (var k in i.properties) {
+          if (k.toLowerCase().indexOf('shipinsure') !== -1) return true;
+        }
+      }
+      return false;
+    },
+
     // ── Shopify cart operations ────────────────────────────────
     async fetchCart() {
+      var self = this;
       try {
         var r = await fetch('/cart.js');
         var cart = await r.json();
-        var items = cart.items.map(function (i) {
-          return {
-            key: i.key,
-            name: i.product_title,
-            sub: (i.variant_title && i.variant_title !== 'Default Title') ? i.variant_title : '',
-            price: i.price,
-            qty: i.quantity,
-            img: i.featured_image ? i.featured_image.url : (i.image || '')
-          };
-        });
+        var items = cart.items
+          .filter(function (i) { return !self.isProtectionItem(i); })
+          .map(function (i) {
+            return {
+              key: i.key,
+              vid: i.variant_id || i.id,
+              name: i.product_title,
+              sub: (i.variant_title && i.variant_title !== 'Default Title') ? i.variant_title : '',
+              price: i.price,
+              qty: i.quantity,
+              img: i.featured_image ? i.featured_image.url : (i.image || '')
+            };
+          });
         localStorage.setItem(K.ITEMS, JSON.stringify(items));
         this.emit();
         return items;
@@ -59,18 +86,41 @@
       }
     },
 
-    async updateQty(key, qty) {
-      try {
-        await fetch('/cart/change.js', {
+    // Optimistically update quantity in localStorage + repaint the UI
+    // immediately, so +/- feels instant instead of waiting on the network.
+    setLocalQty(key, qty) {
+      var items = this.getItems().map(function (i) {
+        return i.key === key ? Object.assign({}, i, { qty: qty }) : i;
+      }).filter(function (i) { return i.qty > 0; });
+      localStorage.setItem(K.ITEMS, JSON.stringify(items));
+      this.emit();
+    },
+
+    // Debounced server sync, keyed per line item. Rapid clicks reschedule the
+    // timer with the latest absolute quantity, so N clicks = 1 request.
+    _syncTimers: {},
+    queueSync(key, qty) {
+      var self = this;
+      if (this._syncTimers[key]) clearTimeout(this._syncTimers[key]);
+      this._syncTimers[key] = setTimeout(function () {
+        delete self._syncTimers[key];
+        fetch('/cart/change.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id: key, quantity: qty })
-        });
-      } catch (e) {}
-      return this.fetchCart();
+        })
+          .then(function () { return self.fetchCart(); }) // reconcile with server truth
+          .catch(function () {});
+      }, 250);
     },
 
-    async removeItem(key) {
+    updateQty(key, qty) {
+      this.setLocalQty(key, qty); // instant UI
+      this.queueSync(key, qty);   // background sync
+      return Promise.resolve(this.getItems());
+    },
+
+    removeItem(key) {
       return this.updateQty(key, 0);
     },
 
@@ -111,6 +161,37 @@
       // Re-sync whenever an item is added (from product cards / PDP)
       document.addEventListener('rb-cart', function (e) {
         if (e.detail && e.detail._fromAdd) self.fetchCart();
+      });
+
+      // Intercept redesigned product-card "Add to Cart" forms. Without this
+      // they do a NATIVE submit to /cart/add and navigate away (to the cart,
+      // and onward to checkout depending on the cart-action setting). We add
+      // via AJAX instead and open the drawer as the "added" notification.
+      document.addEventListener('submit', function (e) {
+        var form = e.target;
+        if (!form.classList || !form.classList.contains('rb-product-card__form')) return;
+        e.preventDefault();
+        var btn = form.querySelector('[type="submit"]');
+        if (btn && btn.disabled) return;
+        var origHTML = btn ? btn.innerHTML : '';
+        if (btn) { btn.disabled = true; btn.dataset.rbAdding = '1'; }
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        })
+          .then(function (r) { return r.json(); })
+          .then(function () { return self.fetchCart(); })
+          .then(function () {
+            self.openDrawer(); // notification: reveal the newly added item
+            if (btn) { btn.innerHTML = origHTML; btn.disabled = false; delete btn.dataset.rbAdding; }
+          })
+          .catch(function () {
+            // Fall back to a native submit only if the AJAX add truly failed.
+            if (btn) { btn.innerHTML = origHTML; btn.disabled = false; }
+            form.submit();
+          });
       });
     }
   };

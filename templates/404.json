@@ -1,33 +1,19 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "main-404",
+      "type": "rb-404",
       "settings": {
-        "background_image": "shopify://shop_images/not-found-image_77ab7954-4829-4494-bbb0-1cd7fe193d98.jpg",
-        "background_image_mb": "shopify://shop_images/not-found-image-mb_c34b40a8-6f5d-447b-a508-f6277a339ca9.jpg",
-        "background_color": "#eeeeee",
-        "text_color": "#232323",
-        "border_color": "#efc3c0",
-        "alignment": "30",
-        "mg_top_desktop": 0,
-        "mg_top_tablet": 0,
-        "mg_top_mobile": 0,
-        "mg_bottom_desktop": 0,
-        "mg_bottom_tablet": 0,
-        "mg_bottom_mobile": 0
-      }
+        "heading": "Lost in the snack aisle",
+        "text": "This page took a wrong turn. Let's get you back to the good stuff — Caribbean snacks, drinks and more."
+      },
+      "blocks": {
+        "cat_snacks": { "type": "category_link", "settings": { "label": "Snacks", "url": "shopify://collections/snacks" } },
+        "cat_beverages": { "type": "category_link", "settings": { "label": "Beverages", "url": "shopify://collections/beverages" } },
+        "cat_sweets": { "type": "category_link", "settings": { "label": "Sweets", "url": "shopify://collections/sweets" } },
+        "cat_grocery": { "type": "category_link", "settings": { "label": "Grocery", "url": "shopify://collections/grocery" } }
+      },
+      "block_order": ["cat_snacks", "cat_beverages", "cat_sweets", "cat_grocery"]
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

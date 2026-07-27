@@ -1,0 +1,8 @@
+# Browser automation output (Playwright MCP console logs)
+.playwright-mcp/
+
+# macOS
+.DS_Store
+
+# Shopify CLI
+.shopify/

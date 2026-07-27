@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "cs_hero": {
@@ -7,14 +16,58 @@
     "cs_faq": {
       "type": "cs-faq",
       "blocks": {
-        "faq_1": { "type": "faq", "settings": { "question": "How fast will my order arrive?", "answer": "Most orders ship within 24 hours and arrive in 2–3 business days. Wholesale pallets ship within 48 hours nationwide." } },
-        "faq_2": { "type": "faq", "settings": { "question": "Do you ship to all 50 states?", "answer": "Yes — we ship to all 50 states via UPS and USPS. Expedited options are available at checkout." } },
-        "faq_3": { "type": "faq", "settings": { "question": "How does the Snack Box subscription work?", "answer": "Choose your box size, and we'll curate and ship a fresh selection of Caribbean snacks each month. You can pause or cancel any time from your account." } },
-        "faq_4": { "type": "faq", "settings": { "question": "My snacks arrived damaged — what now?", "answer": "We're sorry about that! Email us at help@rocketboyz.com with a photo and your order number and we'll make it right within one business day." } },
-        "faq_5": { "type": "faq", "settings": { "question": "Can I set up a wholesale account?", "answer": "Absolutely. Fill out our wholesale inquiry form or email help@rocketboyz.com. We offer Net-30 terms, mixed pallets, and a dedicated account manager." } },
-        "faq_6": { "type": "faq", "settings": { "question": "What is your return policy?", "answer": "We accept returns within 30 days of delivery for unopened items. Damaged or incorrect items are replaced at no charge — just send us a photo." } }
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How fast will my order arrive?",
+            "answer": "Most orders ship within 24 hours and arrive in 2–3 business days. Wholesale pallets ship within 48 hours nationwide."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship to all 50 states?",
+            "answer": "Yes — we ship to all 50 states via UPS and USPS. Expedited options are available at checkout."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the Snack Box subscription work?",
+            "answer": "Choose your box size, and we'll curate and ship a fresh selection of Caribbean snacks each month. You can pause or cancel any time from your account."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "My snacks arrived damaged — what now?",
+            "answer": "We're sorry about that! Email us at help@rocketboyz.com with a photo and your order number and we'll make it right within one business day."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I set up a wholesale account?",
+            "answer": "Absolutely. Fill out our wholesale inquiry form or email help@rocketboyz.com. We offer Net-30 terms, mixed pallets, and a dedicated account manager."
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "We accept returns within 30 days of delivery for unopened items. Damaged or incorrect items are replaced at no charge — just send us a photo."
+          }
+        }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"]
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {}
     },
     "cs_contact_cta": {
       "type": "cs-contact-cta",
@@ -23,5 +76,9 @@
       }
     }
   },
-  "order": ["cs_hero", "cs_faq", "cs_contact_cta"]
+  "order": [
+    "cs_hero",
+    "cs_faq",
+    "cs_contact_cta"
+  ]
 }

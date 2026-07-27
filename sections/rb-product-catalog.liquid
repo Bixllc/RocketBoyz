@@ -1,0 +1,562 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  .rb-cat {
+    --rb-cat-green: #2D6A2F;
+    --rb-cat-green-light: #5cae5f;
+    --rb-cat-green-deep: #1e5220;
+    --rb-cat-bg: #ffffff;
+    --rb-cat-ink: #1b1a16;
+    --rb-cat-muted: #54514a;
+    --rb-cat-display: 'Anton', sans-serif;
+    --rb-cat-body: 'Hanken Grotesk', sans-serif;
+    --rb-cat-mono: 'DM Mono', monospace;
+    background: var(--rb-cat-bg);
+  }
+
+  /* ── Hero ── */
+  .rb-cat-hero {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 48px;
+    text-align: center;
+  }
+
+  .rb-cat-hero__title {
+    font-family: var(--rb-cat-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--rb-cat-ink);
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin: 0 0 24px;
+  }
+
+  .rb-cat-hero p {
+    font-family: var(--rb-cat-body);
+    color: var(--rb-cat-muted);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0 0 14px;
+  }
+
+  .rb-cat-hero p:last-child { margin-bottom: 0; }
+
+  /* ── Banner ── */
+  .rb-cat-banner {
+    max-width: 1280px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+  }
+
+  .rb-cat-banner__inner {
+    border-radius: 32px;
+    background: linear-gradient(115deg, #3f8c42, #2D6A2F 52%, #1e5220);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 56px 48px;
+    overflow: hidden;
+  }
+
+  .rb-cat-banner__heading {
+    font-family: var(--rb-cat-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-size: clamp(32px, 4.5vw, 56px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  /* ── Banner product showcase stage ── */
+  .rb-cat-stage {
+    position: relative;
+    height: 380px;
+  }
+
+  .rb-cat-stage__img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-height: 340px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    transform: translate(160%, -50%) rotate(-4deg);
+    opacity: 0;
+    transition: transform .7s cubic-bezier(.2, .8, .2, 1), opacity .5s ease;
+    filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.35));
+  }
+
+  .rb-cat-stage__img.is-active {
+    transform: translate(-50%, -50%) rotate(-4deg);
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rb-cat-stage__img { transition: none; }
+    .rb-cat-stage__img:not(.is-active) { display: none; }
+  }
+
+  .rb-cat-stage__empty {
+    font-family: var(--rb-cat-mono);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  /* ── Download button ── */
+  .rb-cat-download-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 48px 0 56px;
+    padding: 0 24px;
+  }
+
+  .rb-cat-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--rb-cat-green);
+    color: #ffffff;
+    font-family: var(--rb-cat-body);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 15px 30px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color .2s;
+  }
+
+  .rb-cat-download-btn:hover,
+  .rb-cat-download-btn:focus-visible {
+    background: var(--rb-cat-green-deep);
+  }
+
+  /* ── Top Picks heading ── */
+  .rb-cat-picks {
+    padding-bottom: 72px;
+  }
+
+  .rb-cat-picks__heading {
+    font-family: var(--rb-cat-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--rb-cat-ink);
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -0.01em;
+    margin: 0 0 36px;
+  }
+
+  /* ── Top Picks infinite marquee ── */
+  .rb-cat-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .rb-cat-marquee__row + .rb-cat-marquee__row {
+    margin-top: 22px;
+  }
+
+  .rb-cat-marquee__track {
+    display: flex;
+    width: max-content;
+    gap: 26px;
+    will-change: transform;
+  }
+
+  .rb-cat-marquee__row--a .rb-cat-marquee__track {
+    animation: rbCatMarqueeA 40s linear infinite;
+  }
+
+  .rb-cat-marquee__row--b .rb-cat-marquee__track {
+    animation: rbCatMarqueeB 46s linear infinite;
+  }
+
+  .rb-cat-marquee:hover .rb-cat-marquee__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes rbCatMarqueeA {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes rbCatMarqueeB {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rb-cat-marquee__track { animation: none !important; }
+    .rb-cat-marquee { overflow-x: auto; }
+  }
+
+  .rb-cat-picks__empty {
+    font-family: var(--rb-cat-mono);
+    font-size: 13px;
+    color: var(--rb-cat-muted);
+    text-align: center;
+  }
+
+  /* ── Product card ── */
+  .rb-cat-card {
+    flex: 0 0 auto;
+    width: 170px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .rb-cat-card__frame {
+    width: 170px;
+    height: 190px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, var(--rb-cat-green-light), var(--rb-cat-green) 55%, var(--rb-cat-green-deep));
+    padding: 3px;
+  }
+
+  .rb-cat-card__well {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+  }
+
+  .rb-cat-card__well img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .rb-cat-card__name {
+    font-family: var(--rb-cat-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--rb-cat-muted);
+    text-align: center;
+    margin: 10px 0 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .rb-cat-banner__inner {
+      grid-template-columns: 1fr;
+      padding: 40px 28px;
+      text-align: center;
+    }
+
+    .rb-cat-stage {
+      height: 260px;
+    }
+
+    .rb-cat-stage__img {
+      max-height: 220px;
+    }
+
+    .rb-cat-hero {
+      padding: 56px 20px 36px;
+    }
+
+    .rb-cat-picks {
+      padding-bottom: 56px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .rb-cat-card,
+    .rb-cat-card__frame {
+      width: 140px;
+    }
+
+    .rb-cat-card__frame {
+      height: 160px;
+    }
+
+    .rb-cat-download-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<div class="rb-cat">
+
+  <!-- Hero -->
+  <div class="rb-cat-hero">
+    <h1 class="rb-cat-hero__title">{{ section.settings.hero_heading }}</h1>
+    <p>{{ section.settings.hero_text_1 }}</p>
+    <p>{{ section.settings.hero_text_2 }}</p>
+  </div>
+
+  <!-- Catalog banner -->
+  <div class="rb-cat-banner">
+    <div class="rb-cat-banner__inner">
+      <div class="rb-cat-banner__left">
+        <h2 class="rb-cat-banner__heading">{{ section.settings.banner_heading }}</h2>
+      </div>
+      <div class="rb-cat-banner__right">
+        <div class="rb-cat-stage" data-rb-cat-stage>
+          {%- assign banner_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'banner_image' and block.settings.image -%}
+              <img
+                class="rb-cat-stage__img{% if banner_index == 0 %} is-active{% endif %}"
+                src="{{ block.settings.image | image_url: width: 500 }}"
+                alt="{{ block.settings.alt | escape }}"
+                loading="{% if banner_index == 0 %}eager{% else %}lazy{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+              {%- assign banner_index = banner_index | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if request.design_mode and banner_index == 0 -%}
+            <p class="rb-cat-stage__empty">Upload images on the "Banner image" blocks below to power this animation.</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download button -->
+  {%- if section.settings.catalog_pdf_url != blank or request.design_mode -%}
+    <div class="rb-cat-download-wrap">
+      <a
+        class="rb-cat-download-btn"
+        {% if section.settings.catalog_pdf_url != blank %}href="{{ section.settings.catalog_pdf_url }}"{% else %}href="#" aria-disabled="true"{% endif %}
+        download
+        target="_blank"
+        rel="noopener"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        {{ section.settings.download_label }}
+      </a>
+    </div>
+  {%- endif -%}
+
+  <!-- Top Picks -->
+  <div class="rb-cat-picks">
+    <h2 class="rb-cat-picks__heading">{{ section.settings.picks_heading }}</h2>
+
+    {%- assign top_pick_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'top_pick' and block.settings.product != blank -%}
+        {%- assign top_pick_count = top_pick_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if top_pick_count > 0 -%}
+      <div class="rb-cat-marquee">
+        <div class="rb-cat-marquee__row rb-cat-marquee__row--a">
+          <div class="rb-cat-marquee__track">
+            {%- for copy in (1..2) -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'top_pick' and block.settings.product != blank -%}
+                  {%- assign p = block.settings.product -%}
+                  <a href="{{ p.url }}" class="rb-cat-card"{% if copy == 2 %} aria-hidden="true" tabindex="-1"{% endif %}>
+                    <div class="rb-cat-card__frame">
+                      <div class="rb-cat-card__well">
+                        {%- if p.featured_image -%}
+                          <img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" loading="lazy">
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag }}
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    <p class="rb-cat-card__name">{{ p.title }}</p>
+                  </a>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="rb-cat-marquee__row rb-cat-marquee__row--b">
+          <div class="rb-cat-marquee__track">
+            {%- for copy in (1..2) -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'top_pick' and block.settings.product != blank -%}
+                  {%- assign p = block.settings.product -%}
+                  <a href="{{ p.url }}" class="rb-cat-card" aria-hidden="true" tabindex="-1">
+                    <div class="rb-cat-card__frame">
+                      <div class="rb-cat-card__well">
+                        {%- if p.featured_image -%}
+                          <img src="{{ p.featured_image | image_url: width: 300 }}" alt="{{ p.title | escape }}" loading="lazy">
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag }}
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    <p class="rb-cat-card__name">{{ p.title }}</p>
+                  </a>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- elsif request.design_mode -%}
+      <p class="rb-cat-picks__empty">Add "Top pick" blocks below and select a product on each to populate this row.</p>
+    {%- endif -%}
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var section = document.currentScript.closest('.shopify-section') || document;
+  var stage = section.querySelector('[data-rb-cat-stage]');
+  if (!stage) return;
+
+  var imgs = stage.querySelectorAll('.rb-cat-stage__img');
+  if (imgs.length < 2) return;
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  var idx = 0;
+  var timer = setInterval(function () {
+    imgs[idx].classList.remove('is-active');
+    idx = (idx + 1) % imgs.length;
+    imgs[idx].classList.add('is-active');
+  }, 2200);
+
+  function stop() { clearInterval(timer); }
+
+  document.addEventListener('shopify:section:unload', function (e) {
+    if (e.target === section || e.target.contains(section)) stop();
+  });
+  window.addEventListener('pagehide', stop);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "RB Product Catalog",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "View our full catalog"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text_1",
+      "label": "Hero paragraph 1",
+      "default": "Explore our full range of trending and must-have items, all in one convenient PDF. Whether you're stocking up, browsing, or planning your next haul, this catalog has everything you need."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text_2",
+      "label": "Hero paragraph 2",
+      "default": "For orders or inquiries, contact us anytime, we're ready to serve you fast!"
+    },
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "text",
+      "id": "banner_heading",
+      "label": "Banner heading",
+      "default": "View our full catalog"
+    },
+    {
+      "type": "header",
+      "content": "Download button"
+    },
+    {
+      "type": "text",
+      "id": "download_label",
+      "label": "Button label",
+      "default": "Download catalog"
+    },
+    {
+      "type": "url",
+      "id": "catalog_pdf_url",
+      "label": "Catalog PDF link",
+      "info": "Upload the PDF in Settings → Files, then paste its link here."
+    },
+    {
+      "type": "header",
+      "content": "Top Picks"
+    },
+    {
+      "type": "text",
+      "id": "picks_heading",
+      "label": "Top Picks heading",
+      "default": "Top Picks"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner_image",
+      "name": "Banner image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "info": "Short description for accessibility (not shown on the page)"
+        }
+      ]
+    },
+    {
+      "type": "top_pick",
+      "name": "Top pick",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "RB Product Catalog",
+      "blocks": [
+        { "type": "banner_image" },
+        { "type": "banner_image" },
+        { "type": "banner_image" },
+        { "type": "top_pick" },
+        { "type": "top_pick" },
+        { "type": "top_pick" },
+        { "type": "top_pick" },
+        { "type": "top_pick" },
+        { "type": "top_pick" }
+      ]
+    }
+  ]
+}
+{% endschema %}

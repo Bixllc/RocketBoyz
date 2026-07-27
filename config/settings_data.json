@@ -403,16 +403,6 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
-          "announcement_FcT9E7": {
-            "type": "announcement",
-            "settings": {
-              "text": "Free shipping on orders over $60",
-              "btn_color": "#f84248",
-              "btn_border_color": "#ffffff",
-              "btn_bg_color": "#ffffff",
-              "btn_bg_color_gradient": ""
-            }
-          },
           "announcement_zFkWyw": {
             "type": "announcement",
             "settings": {
@@ -425,7 +415,6 @@
           }
         },
         "block_order": [
-          "announcement_FcT9E7",
           "announcement_zFkWyw"
         ],
         "settings": {
@@ -434,7 +423,7 @@
           "arrow_active": false,
           "enable_close": false,
           "color_text": "#ffffff",
-          "bg_color_text": "#042f2e",
+          "bg_color_text": "#2d6a2f",
           "bg_color_text_gradient": "",
           "font_size_text": 14,
           "font_style_text": "normal",
@@ -446,35 +435,98 @@
       "header": {
         "type": "header",
         "blocks": {
-          "dropdown_item_g4GXWY": {
+          "dropdown_snacks": {
             "type": "dropdown_item",
             "settings": {
-              "title": "Snack Box",
+              "title": "Snacks",
               "subtitle": "",
-              "url": ""
+              "url": "/collections/snacks"
             }
           },
-          "dropdown_item_UtABhj": {
+          "dropdown_beverages": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Beverages",
+              "subtitle": "",
+              "url": "/collections/beverages"
+            }
+          },
+          "dropdown_sweets": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Sweets",
+              "subtitle": "",
+              "url": "/collections/sweets"
+            }
+          },
+          "dropdown_household": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Household",
+              "subtitle": "",
+              "url": "/collections/household"
+            }
+          },
+          "dropdown_grocery": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Grocery",
+              "subtitle": "",
+              "url": "/collections/grocery"
+            }
+          },
+          "dropdown_wholesale": {
             "type": "dropdown_item",
             "settings": {
               "title": "Wholesale",
               "subtitle": "",
-              "url": ""
+              "url": "/pages/wholesale"
             }
           },
-          "dropdown_item_My4yVw": {
+          "dropdown_health": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Health & Beauty",
+              "subtitle": "",
+              "url": "/collections/health-beauty"
+            }
+          },
+          "dropdown_snack_box": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Snack Box",
+              "subtitle": "",
+              "url": "/pages/snack-box"
+            }
+          },
+          "dropdown_dollar_menu": {
             "type": "dropdown_item",
             "settings": {
               "title": "Dollar Menu",
               "subtitle": "",
-              "url": ""
+              "url": "/pages/dollar-menu"
+            }
+          },
+          "dropdown_catalog": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Product Catalog",
+              "subtitle": "",
+              "url": "/pages/product-catalog"
             }
           }
         },
         "block_order": [
-          "dropdown_item_g4GXWY",
-          "dropdown_item_UtABhj",
-          "dropdown_item_My4yVw"
+          "dropdown_snacks",
+          "dropdown_beverages",
+          "dropdown_sweets",
+          "dropdown_grocery",
+          "dropdown_health",
+          "dropdown_household",
+          "dropdown_snack_box",
+          "dropdown_dollar_menu",
+          "dropdown_wholesale",
+          "dropdown_catalog"
         ],
         "settings": {
           "logo": "shopify://shop_images/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp",
@@ -1415,6 +1467,20 @@
           "bg_mega_menu_style_4": "#f8f8f8",
           "az_brand_link_text_color": "#000000"
         }
+      },
+      "rb-footer": {
+        "type": "rb-footer",
+        "settings": {
+          "logo": "shopify://shop_images/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp",
+          "tagline": "Caribbean snacks, distributed with love and shipped with speed. Keep the culture in stock.",
+          "follow_heading": "Follow Wi Pon Dem Ya",
+          "facebook_url": "https://www.facebook.com/p/Rocket-Boyz-LLC-100033225196839/",
+          "instagram_url": "https://www.instagram.com/rocketboyzllc?igsh=MXRnM20wNXl6ZWJicQ%3D%3D",
+          "tiktok_url": "https://www.tiktok.com/@rocketboyz",
+          "contact_email": "",
+          "contact_phone": "",
+          "copyright": "© 2026 Rocket Boyz Distribution. All rights reserved."
+        }
       }
     },
     "content_for_index": [],
@@ -1471,14 +1537,14 @@
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
         "settings": {
+          "greeting_message": "Wah Gwan? Wi deh ya fi help.",
           "button_color": "#ffffff",
           "secondary_color": "#000000",
           "ternary_color": "#52525B",
           "button_icon": "hand_wave",
           "button_text": "need_help",
           "button_horizontal_position": "bottom_right",
-          "button_vertical_position": "lowest",
-          "greeting_message": "Wah Gwan? Wi deh ya fi help."
+          "button_vertical_position": "lowest"
         }
       },
       "2567389343055140935": {

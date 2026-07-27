@@ -1,9 +1,33 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "snack_box_product": {
       "type": "snack-box-product",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/snackbox_1.png",
+        "title": "Snack Box",
+        "subtitle": "Hand-packed island snacks, curated and shipped monthly.",
+        "price": "$20.69",
+        "variant1_label": "Original (12+ Snacks)",
+        "variant2_label": "Hungry Man (30+ Snacks)",
+        "variant3_label": "",
+        "sub_label": "Snack Box Subscribe & save",
+        "sub_badge": "SAVE 10%",
+        "sub_price": "$18.62",
+        "cta_text": "Add to cart",
+        "cta_url": ""
+      }
     }
   },
-  "order": ["snack_box_product"]
+  "order": [
+    "snack_box_product"
+  ]
 }

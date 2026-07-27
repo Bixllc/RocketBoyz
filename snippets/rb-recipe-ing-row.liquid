@@ -1,0 +1,36 @@
+{%- comment -%}
+  Renders a single ingredient product row.
+  Expects: product (product object), note (string)
+{%- endcomment -%}
+{%- assign p = product -%}
+{%- assign p_variant = p.variants | first -%}
+<div class="rb-rp__ing-row">
+  <a href="{{ p.url }}" class="rb-rp__ing-img-link" tabindex="-1">
+    {%- if p.featured_image -%}
+      <img src="{{ p.featured_image | image_url: width: 100 }}" alt="{{ p.title | escape }}" class="rb-rp__ing-img" loading="lazy" width="52" height="52">
+    {%- else -%}
+      <div class="rb-rp__ing-img-placeholder"></div>
+    {%- endif -%}
+  </a>
+  <div class="rb-rp__ing-info">
+    <a href="{{ p.url }}" class="rb-rp__ing-name">{{ p.title }}</a>
+    {%- if note != blank -%}
+      <span class="rb-rp__ing-note">{{ note }}</span>
+    {%- elsif p_variant.title != 'Default Title' -%}
+      <span class="rb-rp__ing-note">{{ p_variant.title }}</span>
+    {%- endif -%}
+  </div>
+  <span class="rb-rp__ing-price">{{ p.price | money }}</span>
+  {%- if p.available -%}
+    <form class="rb-rp__ing-form" data-atc-form>
+      <input type="hidden" name="id" value="{{ p_variant.id }}">
+      <button type="submit" class="rb-rp__ing-atc-btn" aria-label="Add {{ p.title | escape }} to cart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </form>
+  {%- else -%}
+    <div class="rb-rp__ing-atc-btn rb-rp__ing-atc-btn--soldout" aria-label="Sold out" title="Sold out">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg>
+    </div>
+  {%- endif -%}
+</div>

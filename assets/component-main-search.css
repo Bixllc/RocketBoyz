@@ -76,7 +76,8 @@
 
 /* link listing grid */
 .search-container #main-page-article-grid {
-	margin-top: -30px;
+	margin-top: 40px;
+	clear: both;
 }
 
 .search-container #main-page-article-grid .resultTable {
@@ -86,7 +87,51 @@
 }
 
 .search-container #main-page-article-grid .resultTable .item {
-	padding: 29px;
+	padding: 24px;
+	background: #ffffff;
+	border: 1px solid #E4E4E7;
+	border-radius: 16px;
+}
+
+/* ── Brand styling for the pages/articles result cards ── */
+.search-container #main-page-article-grid .resultTable .item .title a,
+.search-container #main-page-article-grid .resultTable .item .title .text {
+	font-family: 'Manrope', sans-serif;
+	font-weight: 700;
+	color: #1b1a16;
+}
+.search-container #main-page-article-grid .resultTable .item .summary {
+	font-family: 'Manrope', sans-serif;
+	color: #52525B;
+	font-size: 14px;
+	line-height: 1.6;
+	margin: 8px 0 16px;
+}
+.search-container #main-page-article-grid .resultTable .item .button--primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background: #1b1a16;
+	color: #ffffff;
+	font-family: 'Manrope', sans-serif;
+	font-size: 13px;
+	font-weight: 700;
+	border-radius: 999px;
+	padding: 11px 26px;
+	border: none;
+	min-width: 0;
+	width: auto;
+	overflow: visible;
+	white-space: nowrap;
+	transition: color 0.15s, background 0.15s;
+}
+.search-container #main-page-article-grid .resultTable .item .button--primary:hover {
+	background: #000000;
+	color: #4CC46A;
+}
+.search-container #main-page-article-grid .resultTable .item .button--primary .text {
+	color: inherit;
 }
 
 .search-container #main-page-article-grid .resultTitle {

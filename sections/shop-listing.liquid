@@ -826,7 +826,6 @@
       <div class="rb-shop-mobile-density">
         <button type="button" class="rb-shop-density-btn" data-mobile-density="1" aria-label="1 column"><span></span></button>
         <button type="button" class="rb-shop-density-btn is-active" data-mobile-density="2" aria-label="2 columns"><span></span><span></span></button>
-        <button type="button" class="rb-shop-density-btn" data-mobile-density="3" aria-label="3 columns"><span></span><span></span><span></span></button>
       </div>
     </div>
 
@@ -1009,57 +1008,51 @@
               data-rating="{{ rating }}"
               data-original-idx="{{ forloop.index }}"
             >
-              <button class="rb-btn-wish" aria-label="Add to wishlist" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1b1a16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
-              </button>
-
-              <a href="{{ product.url }}" style="display:block; text-decoration:none;">
-                <div class="rb-shop-card__imgwrap" style="position:relative; border-radius:14px; background:#efece6; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:14px;">
+              <!-- Image area -->
+              <div class="rb-product-card__img-wrap">
+                {%- if product.tags contains 'bestseller' or product.tags contains 'Bestseller' -%}
+                  <span class="rb-product-card__badge">Bestseller</span>
+                {%- endif -%}
+                <button class="rb-btn-wish" aria-label="Add to wishlist" aria-pressed="false" type="button" data-product-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+                <a href="{{ product.url }}" class="rb-product-card__img-link" tabindex="-1" aria-hidden="true">
                   {%- if product.featured_image -%}
                     <img
                       src="{{ product.featured_image | image_url: width: 400 }}"
-                      alt="{{ product.featured_image.alt | escape }}"
-                      style="max-height:86%; max-width:86%; object-fit:contain; filter:drop-shadow(0 14px 16px rgba(0,0,0,0.2));"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      class="rb-product-card__img"
                       loading="lazy"
                       width="400"
                     >
                   {%- endif -%}
-                  {%- unless product.available -%}
-                    <div class="rb-shop-oos-overlay"><span class="rb-shop-oos-chip">Out of stock</span></div>
-                  {%- endunless -%}
-                </div>
-              </a>
+                </a>
+              </div>
 
-              <a href="{{ product.url }}" style="text-decoration:none; color:#1b1a16;">
-                <p class="rb-shop-card__title">{{ product.title }}</p>
-              </a>
-
-              <div class="rb-shop-card__footer">
-                <span>
-                  {%- if price_mode == 'case' -%}
-                    <span style="font-family:'Manrope', sans-serif; font-size:22px; font-weight:700; color:#1b1a16;">{{ variant.price | money }}</span>
-                    <span class="rb-shop-case-label">/ case of {{ case_size }}</span>
-                  {%- else -%}
-                    <span style="font-family:'Manrope', sans-serif; font-size:22px; font-weight:700; color:#1b1a16;">{{ variant.price | money }}</span>
-                  {%- endif -%}
-                </span>
-
-                {%- if product.available -%}
-                  {%- form 'product', product, class: 'rb-product-card__add-form', data-shop-add-form: true -%}
+              <!-- Info area -->
+              <div class="rb-product-card__info">
+                <a href="{{ product.url }}" class="rb-product-card__title-link">{{ product.title }}</a>
+                <div class="rb-product-card__bottom">
+                  <span class="rb-product-card__price">{{ variant.price | money }}</span>
+                  {%- form 'product', product, class: 'rb-product-card__form' -%}
                     <input type="hidden" name="id" value="{{ variant.id }}">
-                    <input type="hidden" name="quantity" value="{% if price_mode == 'case' %}{{ case_size }}{% else %}1{% endif %}">
-                    <button type="submit" class="rb-btn-sm-outline" data-shop-add-btn>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    <input type="hidden" name="quantity" value="1">
+                    <button
+                      type="submit"
+                      class="rb-btn-atc{% unless variant.available %} is-soldout{% endunless %}"
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
+                        <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
                       </svg>
-                      <span data-shop-add-label>{% if price_mode == 'case' %}Add case{% else %}Add to cart{% endif %}</span>
+                      {% if variant.available %}Add to Cart{% else %}Sold out{% endif %}
                     </button>
                   {%- endform -%}
-                {%- else -%}
-                  <a href="{{ product.url }}" class="rb-btn-sm-outline">Notify me</a>
-                {%- endif -%}
+                </div>
               </div>
             </div>
           {%- endfor -%}

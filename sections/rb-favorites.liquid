@@ -1,0 +1,404 @@
+<style>
+  .rb-fav {
+    --rb-fav-green: #2D6A2F;
+    --rb-fav-ink: #1b1a16;
+    --rb-fav-muted: #54514a;
+    --rb-fav-border: #E4E4E7;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 32px 96px;
+  }
+
+  /* The empty-state card, grid, and Add-all button all set their own explicit
+     `display` (flex/grid/inline-flex), which — at equal CSS specificity —
+     overrides the browser's default [hidden] { display: none } rule. Without
+     this, toggling the `hidden` property via JS silently does nothing. */
+  .rb-fav [hidden] {
+    display: none !important;
+  }
+
+  .rb-fav-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .rb-fav-hero__title {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--rb-fav-ink);
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .rb-fav-divider {
+    border: none;
+    border-top: 1px solid var(--rb-fav-border);
+    margin: 0 0 32px;
+  }
+
+  /* ── Empty state ── */
+  .rb-fav-empty {
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid var(--rb-fav-border);
+    padding: 72px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .rb-fav-empty__badge {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 24px -12px rgba(27, 26, 22, 0.25);
+    margin-bottom: 24px;
+  }
+  /* Override base.css `svg { fill/stroke: currentColor }` which otherwise
+     turns this heart into a solid black shape. Keep it a green outline. */
+  .rb-fav-empty__badge svg {
+    fill: none;
+    stroke: #2D6A2F;
+  }
+
+  .rb-fav-empty__heading {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--rb-fav-ink);
+    font-size: clamp(22px, 3vw, 30px);
+    margin: 0 0 12px;
+  }
+
+  .rb-fav-empty__body {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--rb-fav-muted);
+    max-width: 440px;
+    margin: 0 0 28px;
+  }
+
+  /* ── Populated wishlist grid ── */
+  .rb-fav-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 64px;
+  }
+
+  @media (max-width: 900px) {
+    .rb-fav-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .rb-fav-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  }
+
+  /* ── Crowd Favorites ── */
+  .rb-fav-crowd__head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .rb-fav-crowd__label {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rb-fav-ink);
+    white-space: nowrap;
+  }
+
+  .rb-fav-crowd__rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rb-fav-border);
+  }
+
+  .rb-fav-crowd__hint {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #A1A1AA;
+    white-space: nowrap;
+  }
+
+  .rb-fav-crowd__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .rb-fav-crowd__empty-note {
+    font-family: 'Manrope', sans-serif;
+    color: var(--rb-fav-muted);
+    font-size: 14px;
+    padding: 24px 0;
+  }
+
+  .rb-fav-crowd__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
+
+  /* Add-all-to-cart uses the sitewide .rb-btn-atc pill, just not full-width here */
+  .rb-fav-header-row .rb-btn-atc {
+    width: auto;
+    padding: 13px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .rb-fav-crowd__row { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .rb-fav-crowd__row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="rb-fav">
+
+  <div class="rb-fav-header-row">
+    <h1 class="rb-fav-hero__title">Favorites</h1>
+    <button type="button" class="rb-btn-atc" id="rb-fav-addall" data-fav-addall hidden>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
+        <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span id="rb-fav-addall-label">Add all to cart</span>
+    </button>
+  </div>
+  <hr class="rb-fav-divider">
+
+  <!-- Empty state -->
+  <div class="rb-fav-empty" id="rb-fav-empty" hidden>
+    <div class="rb-fav-empty__badge">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2D6A2F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </div>
+    <h2 class="rb-fav-empty__heading">Your list is empty</h2>
+    <p class="rb-fav-empty__body">Tap the heart on any snack and it lands right here, ready for a one-tap re-order. Start with a crowd favorite below.</p>
+    <a href="/collections/all" class="rb-btn-green-outline">Browse all products</a>
+  </div>
+
+  <!-- Populated wishlist grid (filled client-side from localStorage) -->
+  <div class="rb-fav-grid" id="rb-fav-grid" data-rb-fav-grid hidden></div>
+
+  <!-- Crowd Favorites (server-rendered, always visible) -->
+  <div class="rb-fav-crowd">
+    <div class="rb-fav-crowd__head">
+      <span class="rb-fav-crowd__label">Crowd Favorites</span>
+      <span class="rb-fav-crowd__rule"></span>
+      <span class="rb-fav-crowd__hint">Tap &#9829; to save</span>
+    </div>
+
+    <div class="rb-fav-crowd__row">
+      {%- assign rb_fav_collection = collections['best-sellers'] -%}
+      {%- if rb_fav_collection != blank -%}
+        {%- for product in rb_fav_collection.products limit: 4 -%}
+          {% render 'rb-product-card', product: product, show_vendor: true %}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if rb_fav_collection == blank or rb_fav_collection.products.size == 0 -%}
+        <p class="rb-fav-crowd__empty-note">No crowd favorites to show right now.</p>
+      {%- endif -%}
+    </div>
+
+    {%- if rb_fav_collection != blank and rb_fav_collection.products.size > 0 -%}
+      <div class="rb-fav-crowd__more">
+        <a href="/collections/best-sellers" class="rb-btn-green">See more</a>
+      </div>
+    {%- endif -%}
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var STORAGE_KEY = 'rb_wishlist';
+  var emptyEl = document.getElementById('rb-fav-empty');
+  var gridEl = document.getElementById('rb-fav-grid');
+
+  function getWishlist() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function money(cents) {
+    try {
+      return (cents / 100).toLocaleString(undefined, { style: 'currency', currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD' });
+    } catch (e) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+  }
+
+  function cardMarkup(product) {
+    var img = product.images && product.images.length ? product.images[0] : null;
+    var imgSrc = img ? (img.src || img) : '';
+    var variant = (product.variants && product.variants[0]) || {};
+    var price = variant.price ? Math.round(parseFloat(variant.price) * 100) : (product.price || 0);
+    var available = variant.available !== false;
+
+    var sizedSrc = imgSrc ? imgSrc + (imgSrc.indexOf('?') !== -1 ? '&' : '?') + 'width=400' : '';
+    var imgTag = sizedSrc
+      ? '<img src="' + sizedSrc + '" alt="' + escapeHtml(product.title) + '" class="rb-product-card__img" loading="lazy" width="400">'
+      : '';
+
+    return (
+      '<div class="rb-product-card" data-rb-fav-card="' + escapeHtml(product.handle) + '">' +
+        '<div class="rb-product-card__img-wrap">' +
+          '<button class="rb-btn-wish is-wished" aria-label="Remove from wishlist" aria-pressed="true" type="button" data-product-handle="' + escapeHtml(product.handle) + '" data-product-id="' + product.id + '">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
+          '</button>' +
+          '<a href="/products/' + escapeHtml(product.handle) + '" class="rb-product-card__img-link" tabindex="-1" aria-hidden="true">' + imgTag + '</a>' +
+        '</div>' +
+        '<div class="rb-product-card__info">' +
+          (product.vendor ? '<p class="rb-product-card__vendor">' + escapeHtml(product.vendor) + '</p>' : '') +
+          '<a href="/products/' + escapeHtml(product.handle) + '" class="rb-product-card__title-link">' + escapeHtml(product.title) + '</a>' +
+          '<div class="rb-product-card__bottom">' +
+            '<span class="rb-product-card__price">' + money(price) + '</span>' +
+            '<form action="/cart/add" method="post" enctype="multipart/form-data" class="rb-product-card__form">' +
+              '<input type="hidden" name="id" value="' + (variant.id || '') + '">' +
+              '<input type="hidden" name="quantity" value="1">' +
+              '<button type="submit" class="rb-btn-atc' + (available ? '' : ' is-soldout') + '"' + (available ? '' : ' disabled') + '>' +
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line fill="none" x1="3" y1="6" x2="21" y2="6"/><path fill="none" d="M16 10a4 4 0 0 1-8 0"/></svg>' +
+                (available ? 'Add to Cart' : 'Sold out') +
+              '</button>' +
+            '</form>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function escapeHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var addAllBtn = document.getElementById('rb-fav-addall');
+  var addAllLabel = document.getElementById('rb-fav-addall-label');
+  var addAllVariantIds = [];
+  var renderGeneration = 0;
+
+  function renderFavorites() {
+    var handles = getWishlist();
+    var thisGeneration = ++renderGeneration;
+
+    if (!handles.length) {
+      if (emptyEl) emptyEl.hidden = false;
+      if (gridEl) { gridEl.hidden = true; gridEl.innerHTML = ''; }
+      if (addAllBtn) addAllBtn.hidden = true;
+      addAllVariantIds = [];
+      return;
+    }
+
+    if (emptyEl) emptyEl.hidden = true;
+    if (!gridEl) return;
+
+    var fetches = handles.map(function (handle) {
+      return fetch('/products/' + encodeURIComponent(handle) + '.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) { return data && data.product; })
+        .catch(function () { return null; });
+    });
+
+    Promise.all(fetches).then(function (products) {
+      // A newer renderFavorites() call has started since this one began —
+      // discard this stale result so it can't overwrite the current state.
+      if (thisGeneration !== renderGeneration) return;
+
+      var html = '';
+      var variantIds = [];
+      products.forEach(function (product) {
+        if (!product) return;
+        html += cardMarkup(product);
+        var v = product.variants && product.variants[0];
+        if (v && v.available !== false) variantIds.push(v.id);
+      });
+
+      gridEl.hidden = false;
+      gridEl.innerHTML = html;
+      addAllVariantIds = variantIds;
+      if (addAllBtn) addAllBtn.hidden = variantIds.length === 0;
+    });
+  }
+
+  if (addAllBtn) {
+    addAllBtn.addEventListener('click', function () {
+      if (!addAllVariantIds.length || addAllBtn.disabled) return;
+      addAllBtn.disabled = true;
+      var originalLabel = addAllLabel ? addAllLabel.textContent : '';
+      if (addAllLabel) addAllLabel.textContent = 'Adding…';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: addAllVariantIds.map(function (id) { return { id: id, quantity: 1 }; })
+        })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function () {
+          if (addAllLabel) addAllLabel.textContent = 'Added to cart ✓';
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          setTimeout(function () {
+            if (addAllLabel) addAllLabel.textContent = originalLabel;
+            addAllBtn.disabled = false;
+          }, 2000);
+        })
+        .catch(function () {
+          if (addAllLabel) addAllLabel.textContent = originalLabel;
+          addAllBtn.disabled = false;
+        });
+    });
+  }
+
+  document.addEventListener('rb:wishlist:change', renderFavorites);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderFavorites);
+  } else {
+    renderFavorites();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "RB Favorites",
+  "settings": [],
+  "presets": [
+    {
+      "name": "RB Favorites"
+    }
+  ]
+}
+{% endschema %}

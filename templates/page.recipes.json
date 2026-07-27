@@ -1,10 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "recipes_hero": {
       "type": "recipes-hero",
       "settings": {
-        "heading": "Cook With The Snacks You Love",
-        "subheading": "Every recipe uses snacks we keep in stock. See what you'll need, then add the whole ingredient list to your cart in one tap."
+        "heading": "Cook With The Ingredients You Love",
+        "subheading": "Every recipe uses items we keep in stock. See what you'll need, then add the whole ingredient list to your cart in one tap."
       }
     },
     "recipes_grid": {
@@ -16,15 +25,30 @@
             "title": "Jerk Chicken",
             "category": "CHICKEN",
             "cook_time": "45 MIN",
+            "difficulty": "Easy",
+            "serves": "Serves 4",
+            "rating_value": "",
+            "rating_count": "",
             "description": "Marinated in Walkerswood Jerk Seasoning and slow-grilled to perfection — a true Jamaican classic.",
-            "ing_1_name": "Walkerswood Jerk Seasoning",
+            "hero_image": "shopify://shop_images/Jamaican-Style-Jerk-Chicken-Grill.jpg",
+            "full_ingredients": "",
+            "instructions": "",
+            "ing_1_product": "walkers-wood-jerk-seasoning",
             "ing_1_note": "3 oz, marinade",
-            "ing_2_name": "Whole Chicken",
+            "ing_2_product": "pimento-seeds",
             "ing_2_note": "1 whole, 3 lb",
-            "ing_3_name": "Old Bay Seasoning",
+            "ing_3_product": "",
             "ing_3_note": "1 tbsp",
-            "ing_4_name": "Gravy Master",
-            "ing_4_note": "1 tbsp"
+            "ing_4_product": "",
+            "ing_4_note": "1 tbsp",
+            "ing_5_product": "",
+            "ing_5_note": "",
+            "ing_6_product": "",
+            "ing_6_note": "",
+            "ing_7_product": "",
+            "ing_7_note": "",
+            "ing_8_product": "",
+            "ing_8_note": ""
           }
         },
         "recipe_2": {
@@ -33,20 +57,41 @@
             "title": "Jamaican Oats Porridge",
             "category": "BREAKFAST",
             "cook_time": "15 MIN",
+            "difficulty": "Easy",
+            "serves": "Serves 4",
+            "rating_value": "",
+            "rating_count": "",
             "description": "Creamy island-style oats sweetened with condensed milk, scented with vanilla and nutmeg.",
-            "ing_1_name": "Foska Quick Oats",
+            "full_ingredients": "",
+            "instructions": "",
+            "ing_1_product": "",
             "ing_1_note": "65g porridge oats",
-            "ing_2_name": "Condensed Milk",
+            "ing_2_product": "",
             "ing_2_note": "3 tbsp, to sweeten",
-            "ing_3_name": "Vanilla Extract",
+            "ing_3_product": "",
             "ing_3_note": "½ tsp",
-            "ing_4_name": "Nutmeg & Cinnamon",
-            "ing_4_note": "pinch each"
+            "ing_4_product": "",
+            "ing_4_note": "pinch each",
+            "ing_5_product": "",
+            "ing_5_note": "",
+            "ing_6_product": "",
+            "ing_6_note": "",
+            "ing_7_product": "",
+            "ing_7_note": "",
+            "ing_8_product": "",
+            "ing_8_note": ""
           }
         }
       },
-      "block_order": ["recipe_1", "recipe_2"]
+      "block_order": [
+        "recipe_1",
+        "recipe_2"
+      ],
+      "settings": {}
     }
   },
-  "order": ["recipes_hero", "recipes_grid"]
+  "order": [
+    "recipes_hero",
+    "recipes_grid"
+  ]
 }

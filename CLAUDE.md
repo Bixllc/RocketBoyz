@@ -13,52 +13,99 @@ The live site must never be touched — all work is on the duplicate theme only.
 - Do not remove existing Shopify Liquid logic (cart, product, collection functionality)
 - Only change the visual layer unless explicitly told otherwise
 
-## Brand Kit
+## Brand Kit (ACTIVE — audited against assets/rb-design.css, 2026-07-25)
+
+This section reflects the tokens **actually in the CSS today**. The source of truth is the
+`:root` block at `assets/rb-design.css:17-32`. If you change a token, change it there first.
 
 ### Fonts
-- Primary: Clash Display (Fontshare)
-- Import: @import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
-- Use Clash Display for ALL text — headings, nav, buttons, body
+Loaded in `layout/theme.liquid:68` (Google Fonts — the ONLY global font load):
+```
+Big+Shoulders+Display:wght@800  +  Manrope:wght@500;600;700
+```
+- `--rb-font-head: 'Big Shoulders Display', sans-serif` — headings. Uppercase, weight 400 in
+  `.rb-heading`, line-height 0.95. **Note:** only weight 800 is loaded, so 400 renders as 800.
+- `--rb-font-body: 'Manrope', sans-serif` — body, nav, buttons, labels. Weights 500/600/700.
+- `--rb-font-mono: 'Manrope', sans-serif` — aliased to Manrope; there is no true mono face.
+- Use `.rb-heading` and `.rb-mono` helpers rather than hardcoding font-family.
 
-### Colors
-- Brand Yellow: #FFD400
-- White: #FFFFFF
-- Deep Black: #030213
-- Secondary Text: #27272A
-- Tertiary Text: #52525B
-- Red Accent: #DC2626
-- Primary Gradient: linear-gradient(to right, #DC2626, #FACC15)
-- Border: #E4E4E7
+### Colors — brand
+- Brand Green (primary): `#2D6A2F` — `--rb-gradient` and `--rb-teal` both hold this value.
+  Primary CTA fill, active/selected states, links on account pages, gradient-text replacement.
+- Green hover/pressed: `#245526`
+- Green (bright, on-dark hover text): `#4CC46A`
+- Green (success/status): `#1f7a3a` — `--rb-green`
 
-### Buttons
-- Primary CTA: background #FFD400, text zinc-900, font-weight bold, border-radius rounded-full
-- Secondary: border-2 zinc-800, text zinc-800, rounded-full
-- Hover: yellow shifts to #EAB308
+### Colors — ink & surface
+- `--rb-black: #1b1a16` — primary text, dark buttons
+- Deep Black `#030213` — borders/text on product + PDP surfaces
+- `--rb-text-muted: #54514a` — body copy
+- Tertiary text `#52525B`, muted UI `#71717A`, faint `#A1A1AA`
+- `--rb-cream: #f3f1ec` / `#f3f0e9` — light text on dark backgrounds
+- `--rb-card-bg: #fbfaf7` — card surfaces
+- White `#FFFFFF` — page background
+- Border: `--rb-border: rgba(27,26,22,0.12)`; also `#E4E4E7` on product/PDP surfaces.
+  Stronger variants: `rgba(27,26,22,0.2)` and `0.22` on outline buttons.
+
+### Colors — legacy accents (still present, use sparingly)
+- `--rb-red: #E63946`, `--rb-orange: #FF9F1C` — retained in `:root`, largely superseded by green
+- `#DC2626` — wishlist/heart hover stroke only
+
+### Buttons (all pill-shaped: `border-radius: 999px`)
+- **Primary / Add to Cart** (`.rb-btn-atc`): bg `#2D6A2F`, white text, Manrope 700, 13px,
+  padding `10px 16px`. Hover: `opacity 0.88` + `translateY(-1px)`.
+- **Sold out** (`.rb-btn-atc.is-soldout`): transparent bg, `#030213` text, `1.5px solid #030213`.
+- **Outline** (`.rb-btn-outline`): transparent, `--rb-black` text, `1.5px solid rgba(27,26,22,0.22)`,
+  15px/700, padding `16px 28px`. Hover: fills `--rb-black`, text `#4CC46A`, `translateY(-2px)`.
+- **Dark** (`.rb-btn-dark`): bg `--rb-black`, text `#f3f0e9`, 13px/700, padding `9px 16px 9px 14px`.
+  Hover: bg `#000`, text `#4CC46A`.
+- **Small outline** (`.rb-btn-sm-outline`): 13px/700, padding `9px 15px`, `1.5px solid rgba(27,26,22,0.2)`.
+- **Wishlist** (`.rb-btn-wish`): 34px circle, white, `1px solid rgba(27,26,22,0.1)`,
+  stroke `#71717A` → `#DC2626` on hover.
 
 ### Icons
-- Library: Lucide (use SVG equivalents in Liquid)
-- Size: w-5 h-5 (20px) for nav icons
-- Color: #030213 default, #DC2626 on hover
+- Library: Lucide (inline SVG in Liquid)
+- Size: 20px for nav icons
+- Default `#030213`; green `#2D6A2F` for active, `#DC2626` for wishlist hover
 
 ### Cards
-- Border radius: rounded-2xl
-- Border: 1px solid #E4E4E7
-- Shadow on hover: shadow-lg
-- Product price: gradient text (red to yellow)
-- Add to Cart button: hidden by default, visible on hover
+- `.rb-product-card`: `border-radius: 20px`, `1.5px` transparent border over a
+  `rgba(27,26,22,0.12)` border-box gradient, white fill
+- Hover: `translateY(-4px)` + `box-shadow: 0 16px 32px -16px rgba(20,22,18,0.18)`
+- Info padding: `14px 16px 16px`
+
+### Radii
+`999px` (buttons/pills — dominant) · `50%` (icon buttons) · `20px` (product cards) ·
+`14px` / `16px` (image wells, panels) · `12px` / `10px` / `8px` (small UI)
+
+### Shadows
+- Card hover: `0 16px 32px -16px rgba(20,22,18,0.18)`
+- Soft panel: `0 8px 24px rgba(0,0,0,0.08)`
+- Sticky bar (upward): `0 -4px 24px -8px rgba(3,2,19,0.12)`
 
 ### Spacing
-- Container max-width: 1280px
-- Section padding: py-16 md:py-24
-- Mobile padding: px-4, tablet: px-6, desktop: px-8
+- Container: `.rb-container` — max-width `1280px` (`--rb-max-w`), padding `32px` left/right
+- Section padding: ~64–80px vertical
 
 ### Animations
-- Standard: transition-colors duration-200
+- Standard: `transition: ... 0.2s` (0.15s for small UI)
+- Keyframes in `rb-design.css:35-38`: `rb-marquee`, `rb-fadeUp`, `rb-popIn`, `rb-bob`
 - Dropdowns: fade in + slide down (opacity 0→1, y 8→0, 150ms)
 
-## Design Tokens v2 (reference only — not active, do not apply without explicit instruction)
-This is an alternate design token set under consideration. It conflicts with the active Brand Kit above
-(different fonts/colors) and must NOT be used in any file until the user explicitly says to switch to it.
+### Known token drift (fix before porting to app)
+- **`'Clash Display'` is never loaded anywhere** — 26 declarations in `rb-design.css`
+  (PDP/`.productView`, lines ~597-860) and 26 more across `sections/` silently fall back to
+  system sans. Either load it or replace with `--rb-font-head`/`--rb-font-body`.
+- `'Anton'`, `'Hanken Grotesk'`, `'DM Mono'` load **only** via `snippets/cart-drawer.liquid:1`.
+  Sections using them outside the cart drawer are unreliable.
+- `--rb-gradient` is a **flat green**, not a gradient. `.rb-gradient-text` sets `color: #2D6A2F`.
+  The old red→yellow gradient is retired; do not reintroduce it.
+
+## Design Tokens v2 (SUPERSEDED — historical reference only)
+This was an alternate token set under consideration. The site has since moved to the green-based
+Brand Kit above, which is the audited source of truth. Parts of v2 leaked into the codebase
+(Anton / Hanken Grotesk / DM Mono in `snippets/cart-drawer.liquid` and some sections) — treat
+those as drift to clean up, not as intent. Do NOT apply anything from this section to new work.
 
 ### Colors — Brand / accent
 - --brand-red: #E63946 — Gradient start, accents
@@ -117,24 +164,39 @@ Section padding ~64–80px vertical, 32px horizontal. Container max-width 1280px
 
 ## Dev Commands
 - Start dev server: shopify theme dev --store snacks-by-rocket.myshopify.com
-- Push to working theme: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208336642
 - Push single file: shopify theme push --store snacks-by-rocket.myshopify.com --theme 161208336642 --only <file>
 - Local preview: http://127.0.0.1:9292
+
+## Theme sync safety (IMPORTANT)
+**Never run a bare `shopify theme push`.** The repo and the working theme are in genuine two-way
+drift: template JSONs are edited in the theme editor and exist only on the remote, while `sections/`
+and `assets/` are edited locally. A full push silently overwrites the editor-only work.
+
+- Always push with explicit `--only <file>` flags, one per file you actually changed.
+- Before pushing, verify local vs remote by pulling into a scratchpad dir and diffing:
+  `shopify theme pull --store snacks-by-rocket.myshopify.com --theme 161208336642 --path <scratch> --only <file>`
+- `config/settings_data.json` is whole-theme settings — pushing it overwrites every setting.
+  Diff it against remote first and confirm the delta is only your intended keys.
+- Templates known to carry remote-only editor work (pull before editing locally):
+  `templates/index.json`, `page.about.json`, `page.recipes.json`, `blog.recipes.json`,
+  `product.snack-box.json`, `page.customer-service.json`
 
 ## Navigation
 - Active header nav menu handle: header-nav (Shop w/ dropdown, About, Recipes, Customer Service)
 - Do not touch main-menu handle — used by other parts of the theme
 
 ## Do's
-- Always use Clash Display font
-- Always use #FFD400 for primary CTAs
-- Apply gradient to all major headings
+- Use Big Shoulders Display (via `.rb-heading`) for headings, Manrope for everything else
+- Use #2D6A2F for primary CTAs and active states
+- Use pill buttons (`border-radius: 999px`) for all CTAs
 - Keep white backgrounds throughout
 - Maintain all existing Shopify Liquid tags and functionality
 - Use inline Lucide SVGs for all icons in Liquid files
+- Reference the `:root` vars in `assets/rb-design.css` rather than hardcoding hex values
 
 ## Don'ts
-- Do not use any font other than Clash Display
+- Do not use Clash Display — it is not loaded and renders as system sans
+- Do not reintroduce the red→yellow gradient or #FFD400 yellow CTAs
 - Do not use colored backgrounds (white only)
 - Do not break existing cart/product/collection Liquid logic
 - Do not touch the main-menu navigation handle

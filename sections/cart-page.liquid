@@ -30,20 +30,21 @@
 .rbc__product { display: flex; align-items: center; gap: 16px; }
 .rbc__thumb {
   width: 92px; height: 92px; border-radius: 14px;
-  background: #f4f1ea; object-fit: contain; padding: 8px; flex-shrink: 0;
+  background: #ffffff; border: 1px solid rgba(27,26,22,0.08);
+  object-fit: contain; padding: 8px; flex-shrink: 0;
 }
 .rbc__item-name { font-size: 15px; font-weight: 700; color: #1b1a16; margin: 0 0 3px; }
 .rbc__item-sub  { font-size: 12px; color: #7a7567; margin: 0 0 5px; }
 .rbc__item-unit { font-size: 12px; color: #9a9488; margin: 0; }
 
 /* Stepper */
-.rbc__stepper { display: inline-flex; align-items: center; border: 1.5px solid rgba(27,26,22,0.14); border-radius: 999px; overflow: hidden; }
+.rbc__stepper { display: inline-flex; align-items: center; border: 1.5px solid rgba(27,26,22,0.14); border-radius: 999px; overflow: hidden; justify-self: start; }
 .rbc__step-btn { background: none; border: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 17px; color: #1b1a16; transition: background 0.15s; }
 .rbc__step-btn:hover { background: #f4f1ea; }
 .rbc__step-qty { min-width: 30px; text-align: center; font-size: 14px; font-weight: 700; color: #1b1a16; border-left: 1.5px solid rgba(27,26,22,0.12); border-right: 1.5px solid rgba(27,26,22,0.12); line-height: 36px; }
 
 .rbc__line-total { font-size: 16px; font-weight: 800; color: #1b1a16; }
-.rbc__remove { background: none; border: none; cursor: pointer; color: #9a9488; padding: 4px; display: flex; align-items: center; transition: color 0.15s; }
+.rbc__remove { background: none; border: none; cursor: pointer; color: #1b1a16; padding: 6px; display: flex; align-items: center; transition: color 0.15s; }
 .rbc__remove:hover { color: #E63946; }
 
 /* Shipping protection */
@@ -60,10 +61,69 @@
 .rbc__protect-price { font-size: 14px; font-weight: 700; color: #1b1a16; }
 
 /* Terms + continue */
-.rbc__terms { display: flex; align-items: center; gap: 9px; margin: 16px 0 20px; font-size: 13px; color: #54514a; cursor: pointer; }
+.rbc__terms { display: flex; align-items: center; gap: 9px; margin: 16px 0 20px; font-size: 13px; color: #54514a; cursor: pointer; border-radius: 8px; padding: 6px 8px; margin-left: -8px; transition: background 0.2s, box-shadow 0.2s; }
 .rbc__terms a { color: #1b1a16; text-decoration: underline; }
+.rbc__terms.is-error { background: rgba(230,57,70,0.08); box-shadow: 0 0 0 1px rgba(230,57,70,0.5); }
+.rbc__terms.is-error .rb-check { border-color: #E63946; }
+.rbc__terms-warn { font-size: 12px; color: #E63946; font-weight: 600; margin: -4px 0 8px; text-align: center; }
+
+/* Protection toggle switch */
+.rb-toggle {
+  display: inline-block !important; /* override base.css *:empty { display:none } */
+  width: 44px; height: 26px;
+  background: #d1d5db; border-radius: 999px;
+  position: relative; cursor: pointer; border: none;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.rb-toggle.is-on { background: #2D6A2F; }
+.rb-toggle::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  background: #fff; border-radius: 50%;
+  top: 3px; left: 3px;
+  transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+}
+.rb-toggle.is-on::after { left: 21px; }
+
+/* Terms checkbox — scoped selector (0,2,0) to override base.css
+   input[type=checkbox] (0,1,1) which hides native checkboxes at 1x1px/clipped */
+.rbc__terms .rb-check {
+  display: inline-block;
+  position: relative; clip: auto; overflow: visible;
+  width: 18px; height: 18px;
+  border: 1.5px solid rgba(27,26,22,0.5);
+  border-radius: 4px;
+  appearance: none; -webkit-appearance: none;
+  cursor: pointer; flex-shrink: 0;
+  background: #fff;
+  transition: background 0.15s, border-color 0.15s;
+}
+.rbc__terms .rb-check:checked { background: #1b1a16; border-color: #1b1a16; }
+.rbc__terms .rb-check:checked::after {
+  content: '';
+  position: absolute; left: 4px; top: 1px;
+  width: 5px; height: 9px;
+  border: 2px solid #fff;
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
 .rbc__continue { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; color: #54514a; text-decoration: none; transition: color 0.15s; }
 .rbc__continue:hover { color: #1b1a16; }
+
+/* Additional comments */
+.rbc__note { margin-top: 28px; }
+.rbc__note-label { display: block; font-size: 14px; font-weight: 700; color: #1b1a16; margin-bottom: 8px; }
+.rbc__note-input {
+  width: 100%; box-sizing: border-box; min-height: 96px; resize: vertical;
+  border: 1px solid rgba(27,26,22,0.18); border-radius: 12px; padding: 12px 14px;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; color: #1b1a16; background: #fff;
+  transition: border-color 0.15s;
+}
+.rbc__note-input:focus { outline: none; border-color: #2D6A2F; }
+.rbc__note-input::placeholder { color: #9a9488; }
+.rbc__note-saved { display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 600; color: #1f8a3a; }
 
 /* Order summary card */
 .rbc__summary { background: #fbfaf7; border-radius: 20px; border: 1px solid rgba(27,26,22,0.08); padding: 28px 24px; position: sticky; top: 100px; }
@@ -77,7 +137,7 @@
 .rbc__sum-tax { font-size: 11px; color: #9a9488; margin-bottom: 20px; }
 
 /* CTA buttons shared */
-.rb-cta-gradient { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 999px; border: none; background: #105020; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; text-decoration: none; transition: opacity 0.15s; margin-bottom: 10px; }
+.rb-cta-gradient { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 999px; border: none; background: #2D6A2F; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; text-decoration: none; transition: opacity 0.15s; margin-bottom: 10px; }
 .rb-cta-gradient:hover { opacity: 0.9; color: #1b1a16; }
 .rb-secure { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: #9a9488; margin-top: 10px; }
 
@@ -93,7 +153,7 @@
 .rbc__empty { text-align: center; padding: 80px 20px; }
 .rbc__empty-title { font-family: 'Anton', sans-serif; font-size: 48px; text-transform: uppercase; color: #1b1a16; margin: 20px 0 8px; }
 .rbc__empty-sub { font-size: 16px; color: #7a7567; margin-bottom: 32px; }
-.rbc__empty-cta { background: #105020; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; padding: 16px 44px; border-radius: 999px; text-decoration: none; display: inline-block; }
+.rbc__empty-cta { background: #2D6A2F; color: #1b1a16; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; font-weight: 800; padding: 16px 44px; border-radius: 999px; text-decoration: none; display: inline-block; }
 
 @media (max-width: 960px) {
   .rbc__grid { grid-template-columns: 1fr; }
@@ -106,16 +166,103 @@
   .rbc__wrap { padding: 0 16px; }
   .rbc__title { font-size: 52px; }
 }
+
+/* ── Urgency countdown banner ── */
+.rbc__countdown {
+  display: flex; align-items: center; gap: 10px;
+  background: #fbf3e2; border: 1px solid #f0e2c4; border-radius: 12px;
+  padding: 12px 16px; margin-bottom: 24px;
+  font-size: 13.5px; color: #6b5a2e;
+}
+.rbc__countdown svg { flex-shrink: 0; color: #b8892b; }
+.rbc__countdown .rbc__cd-time { font-weight: 800; color: #1b1a16; }
+
+/* ── Gift wrap ── */
+.rbc__gift {
+  display: flex; align-items: center; gap: 12px;
+  background: #fbfaf7; border: 1px solid rgba(27,26,22,0.09);
+  border-radius: 16px; padding: 14px 16px; margin: 14px 0 0;
+}
+.rbc__gift-icon { width: 36px; height: 36px; flex-shrink: 0; color: #1b1a16; display: flex; align-items: center; justify-content: center; }
+.rbc__gift-body { flex: 1; font-size: 13.5px; color: #1b1a16; }
+.rbc__gift-body strong { font-weight: 800; }
+.rbc__gift-btn {
+  flex-shrink: 0; border: 1.5px solid #1b1a16; background: #fff; color: #1b1a16;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; font-weight: 800;
+  border-radius: 999px; padding: 8px 20px; cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.rbc__gift-btn:hover { background: #1b1a16; color: #fff; }
+.rbc__gift-btn.is-added { background: #2D6A2F; border-color: #2D6A2F; color: #fff; }
+
+/* ── Shipping estimator + coupon (summary) ── */
+.rbc__est { margin: 4px 0 16px; }
+.rbc__est-title { font-size: 13px; font-weight: 700; color: #1b1a16; margin: 0 0 10px; }
+.rbc__est-field { position: relative; margin-bottom: 10px; }
+.rbc__est-field select, .rbc__est-field input {
+  width: 100%; box-sizing: border-box; border: 1px solid rgba(27,26,22,0.18);
+  border-radius: 10px; padding: 11px 13px; font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 14px; color: #1b1a16; background: #fff; appearance: none; -webkit-appearance: none;
+}
+.rbc__est-field select:focus, .rbc__est-field input:focus { outline: none; border-color: #2D6A2F; }
+.rbc__est-field.rbc__est-select::after {
+  content: ''; position: absolute; right: 14px; top: 50%; width: 8px; height: 8px;
+  border-right: 2px solid #6e6a60; border-bottom: 2px solid #6e6a60;
+  transform: translateY(-70%) rotate(45deg); pointer-events: none;
+}
+.rbc__est-btn {
+  width: 100%; border: none; background: #1b1a16; color: #fff;
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 800;
+  border-radius: 10px; padding: 12px; cursor: pointer; transition: opacity 0.15s;
+}
+.rbc__est-btn:hover { opacity: 0.9; }
+.rbc__est-btn[disabled] { opacity: 0.6; cursor: default; }
+.rbc__est-result { margin-top: 10px; font-size: 13px; }
+.rbc__est-result.is-error { color: #E63946; }
+.rbc__est-result ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.rbc__est-result li { display: flex; justify-content: space-between; padding: 5px 0; color: #54514a; border-top: 1px solid rgba(27,26,22,0.08); }
+.rbc__est-result li strong { color: #1b1a16; font-weight: 700; }
+
+.rbc__coupon { margin: 0 0 16px; }
+.rbc__coupon-title { font-size: 13px; font-weight: 700; color: #1b1a16; margin: 0 0 10px; }
+.rbc__coupon-row { display: flex; gap: 8px; }
+.rbc__coupon-row input {
+  flex: 1; min-width: 0; box-sizing: border-box; border: 1px solid rgba(27,26,22,0.18);
+  border-radius: 10px; padding: 11px 13px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; color: #1b1a16; background: #fff;
+}
+.rbc__coupon-row input:focus { outline: none; border-color: #2D6A2F; }
+.rbc__coupon-apply {
+  flex-shrink: 0; border: none; background: #1b1a16; color: #fff; font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 13px; font-weight: 800; border-radius: 10px; padding: 0 18px; cursor: pointer; transition: opacity 0.15s;
+}
+.rbc__coupon-apply:hover { opacity: 0.9; }
+.rbc__coupon-note { font-size: 11px; color: #9a9488; margin: 8px 0 0; }
+.rbc__sum-divider { border: none; border-top: 1px solid rgba(27,26,22,0.1); margin: 4px 0 16px; }
+
+/* ── Secure shopping guarantee ── */
+.rbc__guarantee { display: flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 13px; color: #7a7567; }
+.rbc__guarantee svg { color: #1b1a16; flex-shrink: 0; }
 </style>
+
+{%- liquid
+  assign gift_handle = settings.cart_product_gift | default: 'gift-wrapping'
+  assign gift_product = all_products[gift_handle]
+  assign gift_variant = gift_product.selected_or_first_available_variant
+  assign countdown_minutes = section.settings.cart_countdown_time | default: 40
+-%}
 
 <div class="rbc">
   <div class="rbc__wrap">
-    <nav class="rbc__crumb"><a href="/">Home</a> / Cart</nav>
-
     <div class="rbc__head">
       <h1 class="rbc__title">Your Cart</h1>
       <span class="rbc__count" id="rbc-count"></span>
     </div>
+
+    {%- if section.settings.show_cart_countdown -%}
+      <div class="rbc__countdown" id="rbc-countdown" data-minutes="{{ countdown_minutes }}" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Please, hurry! Someone has placed an order on one of the items you have in the cart. We'll keep it for you for <span class="rbc__cd-time" id="rbc-cd-time">{{ countdown_minutes }}:00</span> minutes.</span>
+      </div>
+    {%- endif -%}
 
     <!-- Empty state -->
     <div class="rbc__empty" id="rbc-empty" hidden>
@@ -149,9 +296,22 @@
           </div>
           <div class="rbc__protect-right">
             <span class="rbc__protect-price">$1.55</span>
-            <button class="rb-toggle is-on" id="rbc-protect" type="button" aria-label="Toggle shipping protection"></button>
+            <button class="rb-toggle" id="rbc-protect" type="button" aria-label="Toggle shipping protection"></button>
           </div>
         </div>
+
+        {%- if gift_variant and gift_variant.available -%}
+          <!-- Gift wrap -->
+          <div class="rbc__gift" id="rbc-gift" data-variant="{{ gift_variant.id }}">
+            <div class="rbc__gift-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+            </div>
+            <div class="rbc__gift-body">
+              Do you want a gift wrap? <strong>Only for {{ gift_variant.price | money }}</strong>
+            </div>
+            <button class="rbc__gift-btn" id="rbc-gift-btn" type="button">Add</button>
+          </div>
+        {%- endif -%}
 
         <!-- Terms -->
         <label class="rbc__terms">
@@ -163,6 +323,13 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
           Continue shopping
         </a>
+
+        <!-- Additional comments (saved as cart note) -->
+        <div class="rbc__note">
+          <label class="rbc__note-label" for="rbc-note">Additional Comments</label>
+          <textarea id="rbc-note" class="rbc__note-input" rows="4" placeholder="Special instruction for seller..."></textarea>
+          <span class="rbc__note-saved" id="rbc-note-saved" hidden>Saved ✓</span>
+        </div>
       </div>
 
       <!-- RIGHT: order summary -->
@@ -177,10 +344,46 @@
           <span class="rbc__sum-total-val" id="rbc-subtotal">$0.00</span>
         </div>
         <p class="rbc__sum-tax">Tax included and shipping calculated at checkout</p>
-        <a href="/pages/checkout" class="rb-cta-gradient">Checkout →</a>
+
+        <hr class="rbc__sum-divider">
+
+        <!-- Shipping estimator -->
+        <div class="rbc__est">
+          <p class="rbc__est-title">Estimate Shipping Rates</p>
+          <div class="rbc__est-field rbc__est-select">
+            <select id="rbc-est-country" aria-label="Country/Region">{{ all_country_option_tags }}</select>
+          </div>
+          <div class="rbc__est-field rbc__est-select" id="rbc-est-prov-wrap" style="display:none;">
+            <select id="rbc-est-province" aria-label="State/Province"></select>
+          </div>
+          <div class="rbc__est-field">
+            <input type="text" id="rbc-est-zip" placeholder="Postal Code" autocomplete="postal-code">
+          </div>
+          <button type="button" class="rbc__est-btn" id="rbc-est-btn">Calculate Shipping</button>
+          <div class="rbc__est-result" id="rbc-est-result" hidden></div>
+        </div>
+
+        <!-- Coupon code -->
+        <div class="rbc__coupon">
+          <p class="rbc__coupon-title">Coupon Code</p>
+          <div class="rbc__coupon-row">
+            <input type="text" id="rbc-coupon" placeholder="Enter Coupon Code" autocomplete="off">
+            <button type="button" class="rbc__coupon-apply" id="rbc-coupon-apply">Apply</button>
+          </div>
+          <p class="rbc__coupon-note">Coupon code will be applied on the checkout page</p>
+        </div>
+
+        <hr class="rbc__sum-divider">
+
+        <a href="/cart/checkout" class="rb-cta-gradient" id="rbc-checkout">Checkout →</a>
+        <p class="rbc__terms-warn" id="rbc-terms-warn" hidden>Please accept the Terms &amp; Conditions to continue.</p>
         <div class="rb-secure">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           Secure checkout · encrypted payment
+        </div>
+        <div class="rbc__guarantee">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          Secure Shopping Guarantee
         </div>
       </div>
 
@@ -230,22 +433,30 @@
         + '</div>'
         + '<span class="rbc__line-total">' + fmt(item.price * item.qty) + '</span>'
         + '<button class="rbc__remove" data-act="del" data-key="' + item.key + '" type="button" aria-label="Remove">'
-        +   '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>'
+        +   '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>'
         + '</button>'
         + '</div>';
     }).join('');
   }
 
+  var cartBusy = false;
   document.getElementById('rbc-items').addEventListener('click', async function (e) {
     var btn = e.target.closest('[data-act]');
-    if (!btn || !window.RBCart) return;
+    if (!btn || !window.RBCart || cartBusy) return;
     var key  = btn.dataset.key;
     var act  = btn.dataset.act;
     var item = window.RBCart.getItems().find(function (i) { return i.key === key; });
-    if (act === 'inc') await window.RBCart.updateQty(key, item.qty + 1);
-    else if (act === 'dec') await window.RBCart.updateQty(key, Math.max(0, item.qty - 1));
-    else if (act === 'del') await window.RBCart.removeItem(key);
-    render();
+    if (!item && act !== 'del') return;
+
+    cartBusy = true;
+    try {
+      if (act === 'inc') await window.RBCart.updateQty(key, item.qty + 1);
+      else if (act === 'dec') await window.RBCart.updateQty(key, Math.max(0, item.qty - 1));
+      else if (act === 'del') await window.RBCart.removeItem(key);
+      render();
+    } finally {
+      cartBusy = false;
+    }
   });
 
   document.getElementById('rbc-protect').addEventListener('click', function () {
@@ -253,9 +464,253 @@
   });
   document.getElementById('rbc-terms').addEventListener('change', function () {
     if (window.RBCart) window.RBCart.setTerms(this.checked);
+    if (this.checked) {
+      document.querySelector('.rbc__terms').classList.remove('is-error');
+      document.getElementById('rbc-terms-warn').hidden = true;
+    }
+  });
+
+  // Terms must be accepted before checkout
+  document.getElementById('rbc-checkout').addEventListener('click', function (e) {
+    var termsEl = document.getElementById('rbc-terms');
+    if (!termsEl.checked) {
+      e.preventDefault();
+      var wrap = document.querySelector('.rbc__terms');
+      wrap.classList.add('is-error');
+      document.getElementById('rbc-terms-warn').hidden = false;
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   });
 
   document.addEventListener('rb-cart', render);
+
+  // ── Additional comments → Shopify cart note ──
+  (function () {
+    var noteEl  = document.getElementById('rbc-note');
+    var savedEl = document.getElementById('rbc-note-saved');
+    if (!noteEl) return;
+
+    // Prefill from the current cart note
+    fetch('/cart.js')
+      .then(function (r) { return r.json(); })
+      .then(function (c) { if (c && c.note) noteEl.value = c.note; })
+      .catch(function () {});
+
+    var noteTimer;
+    noteEl.addEventListener('input', function () {
+      savedEl.hidden = true;
+      clearTimeout(noteTimer);
+      noteTimer = setTimeout(function () {
+        fetch('/cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note: noteEl.value })
+        })
+          .then(function () {
+            savedEl.hidden = false;
+            setTimeout(function () { savedEl.hidden = true; }, 2000);
+          })
+          .catch(function () {});
+      }, 600);
+    });
+  })();
+
+  // ── Urgency countdown ──
+  (function () {
+    var el = document.getElementById('rbc-countdown');
+    if (!el) return;
+    var timeEl = document.getElementById('rbc-cd-time');
+    var mins = parseInt(el.getAttribute('data-minutes'), 10) || 40;
+    var KEY = 'rb_cd_start';
+    var iv, expired = false;
+
+    function hasItems() {
+      return window.RBCart ? window.RBCart.getItems().length > 0 : false;
+    }
+
+    // Timer only runs while there are items. Starting point persists for the
+    // browser session and resets whenever the cart goes empty, so an empty
+    // cart never counts down.
+    function getStart() {
+      var s = parseInt(sessionStorage.getItem(KEY), 10);
+      if (!s || isNaN(s)) { s = Date.now(); sessionStorage.setItem(KEY, s); }
+      return s;
+    }
+
+    async function expire() {
+      if (expired) return;
+      expired = true;
+      clearInterval(iv);
+      el.hidden = true;
+      sessionStorage.removeItem(KEY);
+      // Actually release the held items — empty the cart.
+      try {
+        await fetch('/cart/clear.js', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+      } catch (e) {}
+      if (window.RBCart) await window.RBCart.fetchCart(); // repaint -> empty state
+    }
+
+    function tick() {
+      if (!hasItems()) {
+        // No items to hold: hide banner, reset the clock for next time.
+        el.hidden = true;
+        sessionStorage.removeItem(KEY);
+        return;
+      }
+      var remaining = (mins * 60) - Math.floor((Date.now() - getStart()) / 1000);
+      if (remaining <= 0) { expire(); return; }
+      el.hidden = false;
+      var m = Math.floor(remaining / 60), s = remaining % 60;
+      timeEl.textContent = m + ':' + (s < 10 ? '0' + s : s);
+    }
+
+    function begin() {
+      if (!window.RBCart) { setTimeout(begin, 60); return; }
+      tick();
+      iv = setInterval(tick, 1000);
+    }
+    begin();
+  })();
+
+  // ── Gift wrap ──
+  (function () {
+    var gift = document.getElementById('rbc-gift');
+    if (!gift) return;
+    var btn = document.getElementById('rbc-gift-btn');
+    var giftId = parseInt(gift.getAttribute('data-variant'), 10);
+    var busy = false;
+
+    function inCart() {
+      var items = window.RBCart ? window.RBCart.getItems() : [];
+      return items.filter(function (i) { return i.vid === giftId; })[0] || null;
+    }
+    function syncBtn() {
+      if (inCart()) { btn.textContent = 'Added ✓'; btn.classList.add('is-added'); }
+      else { btn.textContent = 'Add'; btn.classList.remove('is-added'); }
+    }
+
+    btn.addEventListener('click', async function () {
+      if (busy || !window.RBCart) return;
+      busy = true;
+      var existing = inCart();
+      try {
+        if (existing) {
+          await window.RBCart.removeItem(existing.key);
+        } else {
+          await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: [{ id: giftId, quantity: 1 }] })
+          });
+          await window.RBCart.fetchCart();
+        }
+      } catch (e) {}
+      syncBtn();
+      busy = false;
+    });
+
+    document.addEventListener('rb-cart', syncBtn);
+    syncBtn();
+  })();
+
+  // ── Coupon code ──
+  (function () {
+    var apply = document.getElementById('rbc-coupon-apply');
+    var input = document.getElementById('rbc-coupon');
+    if (!apply || !input) return;
+    function go() {
+      var code = input.value.trim();
+      if (!code) { input.focus(); return; }
+      window.location.href = '/discount/' + encodeURIComponent(code) + '?redirect=/cart';
+    }
+    apply.addEventListener('click', go);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); go(); } });
+  })();
+
+  // ── Shipping rate estimator ──
+  (function () {
+    var countryEl = document.getElementById('rbc-est-country');
+    var provWrap  = document.getElementById('rbc-est-prov-wrap');
+    var provEl    = document.getElementById('rbc-est-province');
+    var zipEl     = document.getElementById('rbc-est-zip');
+    var btn       = document.getElementById('rbc-est-btn');
+    var resultEl  = document.getElementById('rbc-est-result');
+    if (!countryEl || !btn) return;
+
+    function updateProvinces() {
+      var opt = countryEl.options[countryEl.selectedIndex];
+      var provinces = [];
+      try { provinces = JSON.parse(opt.getAttribute('data-provinces') || '[]'); } catch (e) {}
+      if (provinces.length) {
+        provEl.innerHTML = provinces.map(function (p) {
+          return '<option value="' + p[0] + '">' + p[1] + '</option>';
+        }).join('');
+        provWrap.style.display = '';
+      } else {
+        provEl.innerHTML = '';
+        provWrap.style.display = 'none';
+      }
+    }
+
+    // Default country
+    var def = 'United States';
+    for (var i = 0; i < countryEl.options.length; i++) {
+      if (countryEl.options[i].value === def) { countryEl.selectedIndex = i; break; }
+    }
+    updateProvinces();
+    countryEl.addEventListener('change', updateProvinces);
+
+    btn.addEventListener('click', function () {
+      var country  = countryEl.value;
+      var province = provWrap.style.display !== 'none' ? provEl.value : '';
+      var zip      = zipEl.value.trim();
+      btn.disabled = true;
+      btn.textContent = 'Calculating...';
+      resultEl.hidden = true;
+      resultEl.classList.remove('is-error');
+
+      var q = 'shipping_address[country]=' + encodeURIComponent(country)
+            + '&shipping_address[province]=' + encodeURIComponent(province)
+            + '&shipping_address[zip]=' + encodeURIComponent(zip);
+
+      fetch('/cart/shipping_rates.json?' + q)
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          resultEl.hidden = false;
+          if (res.ok && res.j && res.j.shipping_rates) {
+            var rates = res.j.shipping_rates;
+            if (!rates.length) {
+              resultEl.textContent = 'There is no shipping rate available for this order and destination.';
+              return;
+            }
+            var head = rates.length === 1
+              ? 'There is one shipping rate available for ' + (zip || country) + '.'
+              : 'There are ' + rates.length + ' shipping rates available for ' + (zip || country) + ', starting at $' + parseFloat(rates[0].price).toFixed(2) + '.';
+            resultEl.innerHTML = '<p style="margin:0 0 4px;color:#1b1a16;font-weight:600;">' + head + '</p>'
+              + '<ul>' + rates.map(function (rt) {
+                  return '<li><span>' + rt.name + '</span><strong>$' + parseFloat(rt.price).toFixed(2) + '</strong></li>';
+                }).join('') + '</ul>';
+          } else {
+            resultEl.classList.add('is-error');
+            var msg = 'Error: Please enter right shipping information';
+            if (res.j) {
+              if (res.j.zip) msg = 'ZIP/Postal: ' + res.j.zip[0];
+              else if (res.j.message) msg = res.j.message;
+            }
+            resultEl.textContent = msg;
+          }
+        })
+        .catch(function () {
+          resultEl.hidden = false;
+          resultEl.classList.add('is-error');
+          resultEl.textContent = 'Error: Please enter right shipping information';
+        })
+        .finally(function () {
+          btn.disabled = false;
+          btn.textContent = 'Calculate Shipping';
+        });
+    });
+  })();
 
   function tryRender() {
     if (window.RBCart) render();
@@ -268,6 +723,23 @@
 {% schema %}
 {
   "name": "Cart Page",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_cart_countdown",
+      "label": "Show urgency countdown banner",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cart_countdown_time",
+      "label": "Countdown minutes",
+      "min": 5,
+      "max": 90,
+      "step": 5,
+      "unit": "min",
+      "default": 40
+    }
+  ]
 }
 {% endschema %}

@@ -98,7 +98,7 @@
     color: #030213;
     background: #fff;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    transition: border-color 0.15s, background 0.15s, color 0.15s, opacity 0.15s;
   }
 
   .sbp__var-btn.is-active {
@@ -107,8 +107,14 @@
     color: #fff;
   }
 
-  .sbp__var-btn:hover:not(.is-active) {
+  .sbp__var-btn:hover:not(.is-active):not(:disabled) {
     border-color: #030213;
+  }
+
+  .sbp__var-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
   }
 
   .sbp__qty-row {
@@ -241,32 +247,18 @@
     white-space: nowrap;
   }
 
-  .sbp__atc {
-    width: 100%;
-    padding: 17px 24px;
-    background: #fff;
-    color: #030213;
-    border: 1.5px solid #D4D4D8;
-    border-radius: 999px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  .sbp .rb-btn-atc {
     margin-top: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    text-align: center;
-    text-decoration: none;
-    letter-spacing: 0.01em;
+    padding: 17px 24px;
+    font-size: 16px;
   }
 
-  .sbp__atc:hover {
-    border-color: #030213;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
+  .sbp__missing {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    color: #71717A;
+    padding: 40px 0;
+    grid-column: 1 / -1;
   }
 
   @media (max-width: 768px) {
@@ -286,105 +278,130 @@
   }
 </style>
 
+{%- assign product = all_products[section.settings.product_handle] -%}
+
 <div class="sbp" data-sbp-root>
 
-  <!-- Left: image -->
-  <div class="sbp__img-wrap">
-    {%- if section.settings.image != blank -%}
-      <img
-        src="{{ section.settings.image | image_url: width: 1000 }}"
-        alt="{{ section.settings.title | escape }}"
-        loading="eager"
-      >
-    {%- else -%}
-      <div class="sbp__img-placeholder">Add a product image in section settings</div>
-    {%- endif -%}
-  </div>
+  {%- if product == blank -%}
+    <p class="sbp__missing">
+      No product found for handle "{{ section.settings.product_handle }}". Check the handle in the section settings, or that the product exists and is published.
+    </p>
+  {%- else -%}
+    {%- assign current_variant = product.selected_or_first_available_variant -%}
 
-  <!-- Right: details -->
-  <div class="sbp__details">
-
-    <h1 class="sbp__title">{{ section.settings.title | default: 'Snack Box' }}</h1>
-    {%- if section.settings.subtitle != blank -%}
-      <p class="sbp__subtitle">{{ section.settings.subtitle }}</p>
-    {%- endif -%}
-
-    <p class="sbp__price">{{ section.settings.price | default: '$20.69' }}</p>
-
-    <hr class="sbp__divider">
-
-    <!-- Variants -->
-    {%- if section.settings.variant1_label != blank -%}
-      <p class="sbp__field-label">
-        Size: <span id="sbp-size-val">{{ section.settings.variant1_label }}</span>
-      </p>
-      <div class="sbp__variants">
-        <button type="button" class="sbp__var-btn is-active" data-sbp-var="{{ section.settings.variant1_label }}">
-          {{ section.settings.variant1_label }}
-        </button>
-        {%- if section.settings.variant2_label != blank -%}
-          <button type="button" class="sbp__var-btn" data-sbp-var="{{ section.settings.variant2_label }}">
-            {{ section.settings.variant2_label }}
-          </button>
-        {%- endif -%}
-        {%- if section.settings.variant3_label != blank -%}
-          <button type="button" class="sbp__var-btn" data-sbp-var="{{ section.settings.variant3_label }}">
-            {{ section.settings.variant3_label }}
-          </button>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
-    <!-- Quantity -->
-    <p class="sbp__field-label">Quantity:</p>
-    <div class="sbp__qty-row">
-      <button type="button" class="sbp__qty-btn" data-sbp-qty="-1" aria-label="Decrease">−</button>
-      <div class="sbp__qty-val" id="sbp-qty">1</div>
-      <button type="button" class="sbp__qty-btn" data-sbp-qty="1" aria-label="Increase">+</button>
+    <!-- Left: image -->
+    <div class="sbp__img-wrap">
+      {%- assign display_image = section.settings.image | default: product.featured_image -%}
+      {%- if display_image != blank -%}
+        <img
+          id="sbp-img"
+          src="{{ display_image | image_url: width: 1000 }}"
+          alt="{{ product.title | escape }}"
+          loading="eager"
+        >
+      {%- else -%}
+        <div class="sbp__img-placeholder">No product image</div>
+      {%- endif -%}
     </div>
 
-    <hr class="sbp__divider">
+    <!-- Right: details -->
+    <div class="sbp__details">
 
-    <!-- Purchase options -->
-    <p class="sbp__options-heading">Purchase options</p>
+      <h1 class="sbp__title">{{ product.title }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="sbp__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
 
-    <div class="sbp__plan-card is-selected" data-sbp-plan="onetime" role="button" tabindex="0">
-      <div class="sbp__plan-left">
-        <div class="sbp__radio"></div>
-        <span class="sbp__plan-name">One-time purchase</span>
+      <p class="sbp__price" id="sbp-price">{{ current_variant.price | money }}</p>
+
+      <hr class="sbp__divider">
+
+      <!-- Variants (real, from the product's Size option) -->
+      {%- if product.variants.size > 1 -%}
+        <p class="sbp__field-label">
+          Size: <span id="sbp-size-val">{{ current_variant.title }}</span>
+        </p>
+        <div class="sbp__variants">
+          {%- for variant in product.variants -%}
+            <button
+              type="button"
+              class="sbp__var-btn{% if variant.id == current_variant.id %} is-active{% endif %}"
+              data-variant-id="{{ variant.id }}"
+              data-variant-title="{{ variant.title | escape }}"
+              data-variant-price="{{ variant.price }}"
+              data-variant-available="{{ variant.available }}"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              {{ variant.title }}{% unless variant.available %} (Sold out){% endunless %}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Quantity -->
+      <p class="sbp__field-label">Quantity:</p>
+      <div class="sbp__qty-row">
+        <button type="button" class="sbp__qty-btn" data-sbp-qty="-1" aria-label="Decrease">−</button>
+        <div class="sbp__qty-val" id="sbp-qty">1</div>
+        <button type="button" class="sbp__qty-btn" data-sbp-qty="1" aria-label="Increase">+</button>
       </div>
-      <span class="sbp__plan-price">{{ section.settings.price | default: '$20.69' }}</span>
-    </div>
 
-    {%- if section.settings.sub_label != blank -%}
-      <div class="sbp__plan-card" data-sbp-plan="sub" role="button" tabindex="0">
+      <hr class="sbp__divider">
+
+      <!-- Purchase options -->
+      {%- assign sub_plan = blank -%}
+      {%- assign sub_group = product.selling_plan_groups.first -%}
+      {%- if sub_group != blank -%}
+        {%- for plan in sub_group.selling_plans -%}
+          {%- assign adjustment = plan.price_adjustments.first -%}
+          {%- if adjustment.value_type == 'percentage' and adjustment.value == 10 -%}
+            {%- assign sub_plan = plan -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if sub_plan == blank -%}
+          {%- assign sub_plan = sub_group.selling_plans.first -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- assign sub_discount = sub_plan.price_adjustments.first.value | default: 0 -%}
+      {%- assign sub_multiplier = 100 | minus: sub_discount -%}
+      {%- assign sub_price_cents = current_variant.price | times: sub_multiplier | divided_by: 100 -%}
+
+      <p class="sbp__options-heading">Purchase options</p>
+
+      <div class="sbp__plan-card is-selected" data-sbp-plan="onetime" data-selling-plan-id="" role="button" tabindex="0">
         <div class="sbp__plan-left">
           <div class="sbp__radio"></div>
-          <span class="sbp__plan-name">
-            {{ section.settings.sub_label }}
-            {%- if section.settings.sub_badge != blank -%}
-              <span class="sbp__badge">{{ section.settings.sub_badge }}</span>
-            {%- endif -%}
-          </span>
+          <span class="sbp__plan-name">One-time purchase</span>
         </div>
-        <span class="sbp__plan-price">{{ section.settings.sub_price | default: section.settings.price }}</span>
+        <span class="sbp__plan-price" id="sbp-onetime-price">{{ current_variant.price | money }}</span>
       </div>
-    {%- endif -%}
 
-    <!-- CTA -->
-    {%- if section.settings.cta_url != blank -%}
-      <a href="{{ section.settings.cta_url }}" class="sbp__atc">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        {{ section.settings.cta_text | default: 'Add to cart' }}
-      </a>
-    {%- else -%}
-      <button type="button" class="sbp__atc">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        {{ section.settings.cta_text | default: 'Add to cart' }}
+      {%- if sub_plan != blank -%}
+        <div class="sbp__plan-card" data-sbp-plan="sub" data-selling-plan-id="{{ sub_plan.id }}" data-discount="{{ sub_discount }}" role="button" tabindex="0">
+          <div class="sbp__plan-left">
+            <div class="sbp__radio"></div>
+            <span class="sbp__plan-name">
+              {{ product.title }} Subscribe &amp; save
+              <span class="sbp__badge">Save {{ sub_discount }}%</span>
+            </span>
+          </div>
+          <span class="sbp__plan-price" id="sbp-sub-price">{{ sub_price_cents | money }}</span>
+        </div>
+      {%- endif -%}
+
+      <!-- Add to cart -->
+      <button type="button" class="rb-btn-atc" id="sbp-atc-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
+          <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span id="sbp-atc-label">{% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}</span>
       </button>
-    {%- endif -%}
 
-  </div>
+    </div>
+  {%- endif -%}
 </div>
 
 <script>
@@ -392,16 +409,67 @@
   var root = document.querySelector('[data-sbp-root]');
   if (!root) return;
 
-  /* Variant buttons */
-  var varBtns = root.querySelectorAll('[data-sbp-var]');
+  function money(cents) {
+    try {
+      return (cents / 100).toLocaleString(undefined, { style: 'currency', currency: (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD' });
+    } catch (e) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+  }
+
+  var currentVariantId = null;
+  var currentVariantPrice = 0;
+  var currentVariantAvailable = true;
+
+  /* Variant buttons (real variants) */
+  var varBtns = root.querySelectorAll('[data-variant-id]');
   var sizeVal = root.querySelector('#sbp-size-val');
+  var priceEl = root.querySelector('#sbp-price');
+  var onetimePriceEl = root.querySelector('#sbp-onetime-price');
+  var subPriceEl = root.querySelector('#sbp-sub-price');
+  var subCard = root.querySelector('[data-sbp-plan="sub"]');
+  var atcLabel = root.querySelector('#sbp-atc-label');
+  var atcBtn = root.querySelector('#sbp-atc-btn');
+
+  function updatePrices() {
+    if (priceEl) priceEl.textContent = money(currentVariantPrice);
+    if (onetimePriceEl) onetimePriceEl.textContent = money(currentVariantPrice);
+    if (subPriceEl && subCard) {
+      var discount = parseFloat(subCard.dataset.discount || '0');
+      var adjusted = Math.round(currentVariantPrice * (1 - discount / 100));
+      subPriceEl.textContent = money(adjusted);
+    }
+    if (atcLabel) atcLabel.textContent = currentVariantAvailable ? 'Add to cart' : 'Sold out';
+    if (atcBtn) atcBtn.disabled = !currentVariantAvailable;
+  }
+
   varBtns.forEach(function (btn) {
+    if (btn.classList.contains('is-active')) {
+      currentVariantId = btn.dataset.variantId;
+      currentVariantPrice = Math.round(parseFloat(btn.dataset.variantPrice) * 100);
+      currentVariantAvailable = btn.dataset.variantAvailable === 'true';
+    }
     btn.addEventListener('click', function () {
+      if (this.disabled) return;
       varBtns.forEach(function (b) { b.classList.remove('is-active'); });
       this.classList.add('is-active');
-      if (sizeVal) sizeVal.textContent = this.dataset.sbpVar;
+      currentVariantId = this.dataset.variantId;
+      currentVariantPrice = Math.round(parseFloat(this.dataset.variantPrice) * 100);
+      currentVariantAvailable = this.dataset.variantAvailable === 'true';
+      if (sizeVal) sizeVal.textContent = this.dataset.variantTitle;
+      updatePrices();
     });
   });
+
+  // Single-variant products have no pills above, so read the initial variant
+  // straight off the one-time purchase card / page render if not set by a pill.
+  if (currentVariantId === null) {
+    var onetimeCard = root.querySelector('[data-sbp-plan="onetime"]');
+    if (onetimeCard && onetimePriceEl) {
+      // Price text was server-rendered already; just trust availability from the ATC button state.
+      currentVariantAvailable = atcLabel ? atcLabel.textContent.indexOf('Sold out') === -1 : true;
+    }
+  }
 
   /* Quantity stepper */
   var qtyEl = root.querySelector('#sbp-qty');
@@ -415,12 +483,56 @@
 
   /* Purchase option cards */
   var planCards = root.querySelectorAll('.sbp__plan-card');
+  var selectedPlan = 'onetime';
   planCards.forEach(function (card) {
     card.addEventListener('click', function () {
       planCards.forEach(function (c) { c.classList.remove('is-selected'); });
       this.classList.add('is-selected');
+      selectedPlan = this.dataset.sbpPlan;
     });
   });
+
+  /* Add to cart (real AJAX) */
+  if (atcBtn) {
+    atcBtn.addEventListener('click', function () {
+      if (atcBtn.disabled || !currentVariantId) return;
+      var qty = parseInt(qtyEl ? qtyEl.textContent : '1', 10) || 1;
+      var selectedCard = root.querySelector('.sbp__plan-card.is-selected');
+      var sellingPlanId = selectedCard ? selectedCard.dataset.sellingPlanId : '';
+
+      var item = { id: parseInt(currentVariantId, 10), quantity: qty };
+      if (sellingPlanId) item.selling_plan = parseInt(sellingPlanId, 10);
+
+      var originalLabel = atcLabel ? atcLabel.textContent : '';
+      atcBtn.disabled = true;
+      if (atcLabel) atcLabel.textContent = 'Adding…';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [item] })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.status) {
+            // Shopify error response (e.g. sold out, invalid selling plan)
+            if (atcLabel) atcLabel.textContent = originalLabel;
+            atcBtn.disabled = false;
+            return;
+          }
+          if (atcLabel) atcLabel.textContent = 'Added ✓';
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          setTimeout(function () {
+            if (atcLabel) atcLabel.textContent = originalLabel;
+            atcBtn.disabled = false;
+          }, 2000);
+        })
+        .catch(function () {
+          if (atcLabel) atcLabel.textContent = originalLabel;
+          atcBtn.disabled = false;
+        });
+    });
+  }
 })();
 </script>
 
@@ -431,85 +543,23 @@
   "class": "section",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Product image"
+      "type": "text",
+      "id": "product_handle",
+      "label": "Product handle",
+      "info": "The real Shopify product this page pulls from",
+      "default": "snack-box-pay-what-you-want"
     },
     {
-      "type": "text",
-      "id": "title",
-      "label": "Product title",
-      "default": "Snack Box"
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image override (optional)",
+      "info": "Leave blank to use the product's own featured image"
     },
     {
       "type": "textarea",
       "id": "subtitle",
-      "label": "Subtitle / description",
+      "label": "Subtitle / tagline",
       "default": "Hand-packed island snacks, curated and shipped monthly."
-    },
-    {
-      "type": "text",
-      "id": "price",
-      "label": "Price (display only)",
-      "default": "$20.69"
-    },
-    {
-      "type": "header",
-      "content": "Size variants"
-    },
-    {
-      "type": "text",
-      "id": "variant1_label",
-      "label": "Variant 1 label",
-      "default": "Original (12+ Snacks)"
-    },
-    {
-      "type": "text",
-      "id": "variant2_label",
-      "label": "Variant 2 label",
-      "default": "Hungry Man (30+ Snacks)"
-    },
-    {
-      "type": "text",
-      "id": "variant3_label",
-      "label": "Variant 3 label (optional)"
-    },
-    {
-      "type": "header",
-      "content": "Subscription option"
-    },
-    {
-      "type": "text",
-      "id": "sub_label",
-      "label": "Subscribe option label",
-      "default": "Snack Box Subscribe & save"
-    },
-    {
-      "type": "text",
-      "id": "sub_badge",
-      "label": "Badge text",
-      "default": "SAVE 10%"
-    },
-    {
-      "type": "text",
-      "id": "sub_price",
-      "label": "Subscribe price (display only)",
-      "default": "$18.62"
-    },
-    {
-      "type": "header",
-      "content": "Button"
-    },
-    {
-      "type": "text",
-      "id": "cta_text",
-      "label": "Button text",
-      "default": "Add to cart"
-    },
-    {
-      "type": "url",
-      "id": "cta_url",
-      "label": "Button URL (leave blank until product exists)"
     }
   ],
   "presets": [{ "name": "Snack Box Product" }]

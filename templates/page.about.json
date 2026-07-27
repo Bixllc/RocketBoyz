@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "about_hero": {
@@ -18,12 +27,55 @@
         "feat3_sub": "Wholesale pricing for everyone"
       }
     },
+    "mamma_mia_cart": {
+      "type": "mamma-mia-cart",
+      "blocks": {
+        "pill_1": {
+          "type": "pill",
+          "settings": {
+            "label": "20+",
+            "text": "Real-fruit flavors"
+          }
+        },
+        "pill_2": {
+          "type": "pill",
+          "settings": {
+            "label": "100%",
+            "text": "Made fresh, no junk"
+          }
+        },
+        "pill_3": {
+          "type": "pill",
+          "settings": {
+            "label": "V+GF",
+            "text": "Options for everyone"
+          }
+        },
+        "pill_4": {
+          "type": "pill",
+          "settings": {
+            "label": "Any",
+            "text": "Event, any size"
+          }
+        }
+      },
+      "block_order": [
+        "pill_1",
+        "pill_2",
+        "pill_3",
+        "pill_4"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/mammamiacart.png",
+        "heading_line1": "Mamma Mia",
+        "heading_line2": "Cart",
+        "description": "Beyond the snacks, we roll out our artisan popsicle cart for events all over South Florida — weddings, birthdays, block parties, grand openings, you name it. Real-fruit pops, served with a whole lot of flavor.",
+        "cta_text": "Learn more",
+        "cta_url": "https://www.mammamiatreats.com/"
+      }
+    },
     "our_journey": {
       "type": "our-journey",
-      "settings": {
-        "eyebrow": "Our Journey",
-        "heading": "From Kingston to Your Door"
-      },
       "blocks": {
         "milestone_1": {
           "type": "milestone",
@@ -66,12 +118,36 @@
           }
         }
       },
-      "block_order": ["milestone_1", "milestone_2", "milestone_3", "milestone_4", "milestone_5"]
+      "block_order": [
+        "milestone_1",
+        "milestone_2",
+        "milestone_3",
+        "milestone_4",
+        "milestone_5"
+      ],
+      "settings": {
+        "eyebrow": "Our Journey",
+        "heading": "From Kingston to Your Door"
+      }
     },
     "about_gallery": {
       "type": "about-gallery",
-      "settings": {}
+      "settings": {
+        "image_1": "shopify://shop_images/798C1507-5CCD-4BD4-B68B-79393967A23F.heic",
+        "alt_1": "",
+        "image_2": "shopify://shop_images/IMG_1250_2.heic",
+        "alt_2": "",
+        "image_3": "shopify://shop_images/Screenshot_2026-07-19_at_10.03.39_AM.png",
+        "alt_3": "",
+        "image_4": "shopify://shop_images/IMG_4861_2.heic",
+        "alt_4": ""
+      }
     }
   },
-  "order": ["about_hero", "our_journey", "about_gallery"]
+  "order": [
+    "about_hero",
+    "mamma_mia_cart",
+    "our_journey",
+    "about_gallery"
+  ]
 }

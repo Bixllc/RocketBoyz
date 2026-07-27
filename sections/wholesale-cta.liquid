@@ -58,7 +58,12 @@
     display: flex;
     gap: 12px;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .rb-wholesale-cta-wrap { gap: 6px; }
+    .rb-wholesale-btn { padding: 10px 12px; font-size: 12px; gap: 5px; }
   }
 
   .rb-wholesale-btn {
@@ -71,29 +76,25 @@
     font-size: 15px;
     font-weight: 700;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-  }
-
-  .rb-wholesale-btn--primary {
     background: transparent;
-    color: #030213;
-    border: 2px solid #030213;
+    color: #1b1a16;
+    border: 1.5px solid rgba(27, 26, 22, 0.22);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .rb-wholesale-btn--primary:hover {
-    background: #030213;
-    color: #fff;
-  }
-
+  .rb-wholesale-btn--primary,
   .rb-wholesale-btn--secondary {
     background: transparent;
-    color: #030213;
-    border: 2px solid #030213;
+    color: #1b1a16;
+    border: 1.5px solid rgba(27, 26, 22, 0.22);
   }
 
+  .rb-wholesale-btn--primary:hover,
   .rb-wholesale-btn--secondary:hover {
-    background: #030213;
+    background: #2D6A2F;
     color: #fff;
+    border-color: transparent;
+    transform: translateY(-2px);
   }
 
   .rb-wholesale-badges {

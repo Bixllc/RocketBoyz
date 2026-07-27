@@ -16,7 +16,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    background: #105020;
+    background: #2D6A2F;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -47,11 +47,11 @@
   }
 
   .about-hero-heading-gradient {
-    background: #105020;
+    background: #2D6A2F;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    display: block;
+    display: inline;
   }
 
   /* Right: copy */
@@ -79,10 +79,11 @@
     transition: background 0.2s, border-color 0.2s, color 0.2s;
   }
 
-  .about-hero-cta:hover {
-    background: #030213;
+  .about-hero-cta:hover,
+  .about-hero-cta:active {
+    background: #2D6A2F;
     color: #fff;
-    border-color: #030213;
+    border-color: #2D6A2F;
   }
 
   /* Features bar */
@@ -114,7 +115,7 @@
     position: absolute;
     inset: -2px;
     border-radius: 18px;
-    background: #105020;
+    background: #2D6A2F;
     z-index: 0;
     opacity: 0;
     transition: opacity 0.25s ease;
@@ -136,7 +137,7 @@
     height: 52px;
     flex-shrink: 0;
     border-radius: 50%;
-    background: #105020;
+    background: #2D6A2F;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -194,15 +195,17 @@
 <section class="about-hero-section">
   <div class="about-hero-inner">
 
-    <p class="about-hero-eyebrow">{{ section.settings.eyebrow | default: 'Our Story' }}</p>
+    {%- if section.settings.eyebrow != blank -%}<p class="about-hero-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
 
     <div class="about-hero-grid">
 
       <!-- Left: Heading -->
       <div>
         <h1 class="about-hero-heading">
-          {%- if section.settings.heading_before != blank -%}<span class="about-hero-heading__line">{{ section.settings.heading_before }}</span>{%- else -%}<span class="about-hero-heading__line">About</span>{%- endif -%}
-          <span class="about-hero-heading-gradient">{{ section.settings.heading_gradient | default: 'RocketBoyz' }}</span>
+          <span class="about-hero-heading__line">
+            {%- if section.settings.heading_before != blank -%}{{ section.settings.heading_before }}{%- else -%}About{%- endif -%}
+            &nbsp;<span class="about-hero-heading-gradient">{{ section.settings.heading_gradient | default: 'Rocket Boyz' }}</span>
+          </span>
           {%- if section.settings.heading_after != blank -%}<span class="about-hero-heading__line">{{ section.settings.heading_after }}</span>{%- else -%}<span class="about-hero-heading__line">Distributors</span>{%- endif -%}
         </h1>
       </div>

@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "rb-blog-recipes",
+      "blocks": {
+        "ingredient_ANHKXa": {
+          "type": "ingredient",
+          "settings": {
+            "recipe_handle": "jamaican-oats-porridge",
+            "product": "betty-milk",
+            "note": ""
+          }
+        },
+        "ingredient_dBaJbL": {
+          "type": "ingredient",
+          "settings": {
+            "recipe_handle": "jamaican-oats-porridge",
+            "product": "foska-oats",
+            "note": ""
+          }
+        },
+        "ingredient_RtgyhV": {
+          "type": "ingredient",
+          "settings": {
+            "recipe_handle": "jerk-chicken",
+            "product": "walkers-wood-jerk-seasoning",
+            "note": ""
+          }
+        },
+        "ingredient_EKmia6": {
+          "type": "ingredient",
+          "settings": {
+            "recipe_handle": "jerk-chicken",
+            "product": "pimento-seeds",
+            "note": ""
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_ANHKXa",
+        "ingredient_dBaJbL",
+        "ingredient_RtgyhV",
+        "ingredient_EKmia6"
+      ],
+      "settings": {
+        "heading": "Recipes",
+        "subheading": "Every recipe uses snacks we keep in stock. Cook Caribbean, ship fast.",
+        "posts_per_page": 12
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,308 @@
+<style>
+  .mmc-section {
+    padding: 0 32px 72px;
+  }
+
+  .mmc-card {
+    max-width: 1280px;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 460px;
+  }
+
+  /* Left: photo */
+  .mmc-image-side {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+  }
+
+  .mmc-image-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .mmc-image-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 420px;
+    background: #2a2a1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* Right: copy */
+  .mmc-copy {
+    background: #18180f;
+    padding: 60px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .mmc-heading {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin: 0 0 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .mmc-heading__white {
+    display: block;
+    color: #ffffff;
+  }
+
+  .mmc-heading__green {
+    display: block;
+    color: #2D6A2F;
+  }
+
+  .mmc-body {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #b8b4a8;
+    margin: 0 0 32px;
+    max-width: 440px;
+  }
+
+  /* Feature pills grid */
+  .mmc-pills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+
+  .mmc-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #242418;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    padding: 10px 16px;
+  }
+
+  .mmc-pill-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #2D6A2F;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .mmc-pill-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  /* CTA */
+  .mmc-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #2D6A2F;
+    color: #ffffff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    width: fit-content;
+    transition: background 0.2s ease;
+  }
+
+  .mmc-cta:hover {
+    background: #245526;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .mmc-section {
+      padding: 0 16px 48px;
+    }
+
+    .mmc-card {
+      grid-template-columns: 1fr;
+    }
+
+    /* copy on top, image on bottom */
+    .mmc-copy {
+      order: 1;
+      padding: 36px 24px;
+    }
+
+    .mmc-image-side {
+      order: 2;
+      aspect-ratio: 4 / 3;
+      min-height: unset;
+    }
+
+    .mmc-image-side img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mmc-pills {
+      grid-template-columns: 1fr;
+    }
+    /* Let the label + text share the full width and wrap instead of cramping */
+    .mmc-pill-text {
+      white-space: normal;
+    }
+
+    .mmc-heading {
+      font-size: clamp(36px, 11vw, 52px);
+    }
+
+    .mmc-body {
+      font-size: 15px;
+    }
+  }
+</style>
+
+<div class="mmc-section">
+  <div class="mmc-card">
+
+    <!-- Left: Image -->
+    <div class="mmc-image-side">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 900 }}"
+          alt="{{ section.settings.heading_line1 | escape }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div class="mmc-image-placeholder">Add an image</div>
+      {%- endif -%}
+    </div>
+
+    <!-- Right: Copy -->
+    <div class="mmc-copy">
+      <h2 class="mmc-heading">
+        <span class="mmc-heading__white">{{ section.settings.heading_line1 | default: 'Mamma Mia' }}</span>
+        <span class="mmc-heading__green">{{ section.settings.heading_line2 | default: 'Cart' }}</span>
+      </h2>
+
+      {%- if section.settings.description != blank -%}
+        <p class="mmc-body">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      <div class="mmc-pills">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'pill' -%}
+            <div class="mmc-pill" {{ block.shopify_attributes }}>
+              <span class="mmc-pill-label">{{ block.settings.label }}</span>
+              <span class="mmc-pill-text">{{ block.settings.text }}</span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.cta_text != blank -%}
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="mmc-cta">
+          {{ section.settings.cta_text }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Mamma Mia Cart",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading line 1 (white)",
+      "default": "Mamma Mia"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Heading line 2 (green)",
+      "default": "Cart"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Beyond the snacks, we roll out our artisan popsicle cart for events all over South Florida — weddings, birthdays, block parties, grand openings, you name it. Real-fruit pops, served with a whole lot of flavor."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Feature pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label (green, e.g. \"20+\")",
+          "default": "20+"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "Real-fruit flavors"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mamma Mia Cart",
+      "blocks": [
+        { "type": "pill", "settings": { "label": "20+", "text": "Real-fruit flavors" } },
+        { "type": "pill", "settings": { "label": "100%", "text": "Made fresh, no junk" } },
+        { "type": "pill", "settings": { "label": "V+GF", "text": "Options for everyone" } },
+        { "type": "pill", "settings": { "label": "Any", "text": "Event, any size" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

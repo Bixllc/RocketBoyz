@@ -54,7 +54,7 @@
     font-size: 12px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    background: #105020;
+    background: #2D6A2F;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -77,7 +77,7 @@
   }
 
   .brand-story-heading__gradient {
-    background: #105020;
+    background: #2D6A2F;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -112,7 +112,7 @@
     margin-top: 32px;
     padding: 15px 28px;
     border-radius: 999px;
-    background: #105020;
+    background: #2D6A2F;
     color: #ffffff;
     font-family: 'Manrope', sans-serif;
     font-size: 15px;
@@ -195,11 +195,10 @@
       <p class="brand-story-eyebrow">{{ section.settings.eyebrow | default: 'More than just snacks' }}</p>
 
       <h2 class="brand-story-heading">
-        {%- if section.settings.heading_before != blank -%}
-          <span class="brand-story-heading__line">{{ section.settings.heading_before }}</span>
-        {%- endif -%}
         {%- if section.settings.heading_gradient != blank -%}
-          <span class="brand-story-heading__gradient">{{ section.settings.heading_gradient }}</span>
+          <span class="brand-story-heading__line">
+            {%- if section.settings.heading_before != blank -%}{{ section.settings.heading_before }}&nbsp;{%- endif -%}<span class="brand-story-heading__gradient" style="display:inline">{{ section.settings.heading_gradient }}</span>
+          </span>
           {%- if section.settings.heading_after != blank -%}
             <span class="brand-story-heading__line">{{ section.settings.heading_after }}</span>
           {%- endif -%}

@@ -182,15 +182,8 @@
                                 <ul class="productListing{% if section.settings.collection_results_per_row == 1 %} productList{% else %} productGrid column-{{ layout }} {% endif %} list-{{ layout }} list-unstyled" id="main-collection-product-grid" data-id="{{ section.id }}">
                                     {%- for item in search.results -%}
                                         {%- if item.object_type == 'product'-%}
-                                            <li class="product">    
-                                                {% render 'product-grid-layout',
-                                                    product_card_product: item,
-                                                    show_add_to_cart: true,
-                                                    serial: forloop.index,
-                                                    sectionId: section.id,
-                                                    show_list: true,
-                                                    loading: true
-                                                %}
+                                            <li class="product">
+                                                {% render 'rb-product-card', product: item %}
                                             </li>   
                                         {%- endif -%}
                                     {%- endfor -%}

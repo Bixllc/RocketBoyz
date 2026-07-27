@@ -1,0 +1,163 @@
+<style>
+  .rb-404 {
+    font-family: 'Manrope', sans-serif;
+    background: #ffffff;
+    min-height: 64vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px 96px;
+  }
+  .rb-404__inner { max-width: 640px; margin: 0 auto; }
+  .rb-404__code {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: clamp(96px, 20vw, 200px);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    background: linear-gradient(180deg, #2D6A2F 0%, #52A354 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .rb-404__title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(26px, 4.4vw, 44px);
+    color: #1b1a16;
+    line-height: 1;
+    margin: 0 0 16px;
+    letter-spacing: 0.01em;
+  }
+  .rb-404__text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #52525B;
+    margin: 0 auto 32px;
+    max-width: 460px;
+  }
+  .rb-404__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .rb-404__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #2D6A2F;
+    color: #ffffff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 14px 28px;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .rb-404__btn:hover { opacity: 0.9; transform: translateY(-1px); color: #fff; }
+  .rb-404__btn--outline {
+    background: transparent;
+    color: #1b1a16;
+    border: 1.5px solid rgba(27,26,22,0.22);
+  }
+  .rb-404__btn--outline:hover { border-color: #2D6A2F; color: #2D6A2F; background: transparent; }
+
+  .rb-404__cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  .rb-404__cat {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #27272A;
+    background: #fff;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 999px;
+    padding: 7px 16px;
+    text-decoration: none;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .rb-404__cat:hover { border-color: #2D6A2F; color: #2D6A2F; }
+
+  @media (max-width: 600px) {
+    .rb-404 { padding: 56px 20px 72px; }
+    .rb-404__text { font-size: 15px; }
+  }
+</style>
+
+<section class="rb-404">
+  <div class="rb-404__inner">
+    <p class="rb-404__code">404</p>
+    <h1 class="rb-404__title">{{ section.settings.heading | default: 'Lost in the snack aisle' }}</h1>
+    <p class="rb-404__text">{{ section.settings.text | default: "This page took a wrong turn. Let's get you back to the good stuff — Caribbean snacks, drinks and more." }}</p>
+
+    <div class="rb-404__actions">
+      <a href="{{ routes.all_products_collection_url }}" class="rb-404__btn">
+        Shop all snacks
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+      <a href="{{ routes.root_url }}" class="rb-404__btn rb-404__btn--outline">Back home</a>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <nav class="rb-404__cats" aria-label="Shop by category">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'category_link' -%}
+            {%- assign url = block.settings.url | default: '/collections/all' -%}
+            <a href="{{ url }}" class="rb-404__cat"{{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "RB 404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Lost in the snack aisle"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Message",
+      "default": "This page took a wrong turn. Let's get you back to the good stuff — Caribbean snacks, drinks and more."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_link",
+      "name": "Category link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Snacks" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "RB 404",
+      "blocks": [
+        { "type": "category_link", "settings": { "label": "Snacks", "url": "shopify://collections/snacks" } },
+        { "type": "category_link", "settings": { "label": "Beverages", "url": "shopify://collections/beverages" } },
+        { "type": "category_link", "settings": { "label": "Sweets", "url": "shopify://collections/sweets" } },
+        { "type": "category_link", "settings": { "label": "Grocery", "url": "shopify://collections/grocery" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

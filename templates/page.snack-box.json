@@ -1,9 +1,10 @@
 {
   "sections": {
     "snack_box_product": {
-      "type": "snack-box-product",
+      "type": "rb-pdp",
       "settings": {
-        "product_handle": "snack-box"
+        "product_handle": "snack-box-pay-what-you-want",
+        "hide_eyebrow": true
       }
     }
   },

@@ -126,7 +126,7 @@
     text-decoration: none;
     border: none;
     border-bottom: 2px solid transparent;
-    border-image: #105020;
+    border-image: #2D6A2F;
     border-image-slice: 1;
     transition: gap 0.2s ease;
     width: fit-content;
@@ -135,7 +135,7 @@
   .rb-shop-cat__view-all:hover { gap: 15px; }
 
   .rb-shop-cat__view-all-text {
-    background: #105020;
+    background: #2D6A2F;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -245,11 +245,19 @@
   @media (max-width: 900px) {
     .rb-shop-cat { padding: 48px 20px 24px; }
 
-    .rb-shop-cat__pills { gap: 8px; }
+    .rb-shop-cat__pills {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      justify-content: center;
+      justify-items: center;
+      gap: 8px;
+    }
 
     .rb-shop-cat__pill {
       padding: 8px 16px;
       font-size: 13px;
+      width: 100%;
+      text-align: center;
     }
 
     .rb-shop-cat__card { height: auto; }
@@ -504,7 +512,7 @@
           "settings": {
             "name": "Groceries",
             "blurb": "Pantry staples and seasoning blends to cook like home.",
-            "link": "/collections/groceries"
+            "link": "/collections/grocery"
           }
         },
         {

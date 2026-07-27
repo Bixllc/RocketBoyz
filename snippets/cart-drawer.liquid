@@ -5,7 +5,7 @@
 .rb-overlay {
   position: fixed; inset: 0;
   background: rgba(20,22,18,0.42);
-  z-index: 9000;
+  z-index: 9600; /* above the PDP sticky add-to-cart bar (9400) */
   opacity: 0; pointer-events: none;
   transition: opacity 0.25s;
 }
@@ -15,7 +15,7 @@
   position: fixed; top: 0; right: 0; bottom: 0;
   width: min(440px, 100vw);
   background: #fff;
-  z-index: 9001;
+  z-index: 9601;
   display: flex; flex-direction: column;
   transform: translateX(100%);
   transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
@@ -34,7 +34,7 @@
   font-family: 'Anton', sans-serif;
   font-size: 22px; font-weight: 400;
   text-transform: uppercase;
-  color: #105020;
+  color: #2D6A2F;
   margin: 0;
 }
 .rb-drawer__pill {
@@ -63,7 +63,8 @@
 }
 .rb-drawer__thumb {
   width: 74px; height: 74px;
-  border-radius: 12px; background: #f4f1ea;
+  border-radius: 12px; background: #ffffff;
+  border: 1px solid rgba(27,26,22,0.08);
   object-fit: contain; padding: 6px;
   flex-shrink: 0;
 }
@@ -109,7 +110,7 @@
 .rb-drawer__del {
   position: absolute; top: 14px; right: 16px;
   background: none; border: none; cursor: pointer;
-  color: #9a9488; padding: 4px;
+  color: #1b1a16; padding: 4px;
   display: flex; align-items: center;
   transition: color 0.15s;
 }
@@ -121,6 +122,9 @@
   align-items: center; justify-content: center;
   padding: 64px 24px; text-align: center; gap: 10px;
 }
+.rb-drawer__empty-logo {
+  width: 96px; height: auto; margin: 0 auto 6px; display: block;
+}
 .rb-drawer__empty-title {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 18px; font-weight: 700; color: #1b1a16; margin: 0;
@@ -131,12 +135,20 @@
 }
 .rb-drawer__empty-cta {
   margin-top: 8px;
-  background: #1b1a16; color: #f3f0e9;
+  background: transparent; color: #2D6A2F;
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 14px; font-weight: 700;
   padding: 12px 28px; border-radius: 999px;
-  border: none; cursor: pointer; text-decoration: none;
+  border: 1.5px solid #2D6A2F; cursor: pointer; text-decoration: none;
   display: inline-block;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.rb-drawer__empty-cta:hover,
+.rb-drawer__empty-cta:active,
+.rb-drawer__empty-cta:focus-visible {
+  background: #2D6A2F;
+  border-color: #2D6A2F;
+  color: #ffffff !important;
 }
 
 /* Footer */
@@ -176,12 +188,13 @@
 
 /* Toggle */
 .rb-toggle {
+  display: inline-block !important; /* override base.css *:empty { display:none } */
   width: 44px; height: 26px;
   background: #d1d5db; border-radius: 999px;
   position: relative; cursor: pointer; border: none;
   transition: background 0.2s; flex-shrink: 0;
 }
-.rb-toggle.is-on { background: #2563eb; }
+.rb-toggle.is-on { background: #2D6A2F; }
 .rb-toggle::after {
   content: '';
   position: absolute;
@@ -200,19 +213,28 @@
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 13px; color: #54514a;
   cursor: pointer;
+  border-radius: 8px; padding: 6px 8px; margin-left: -8px;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 .rb-terms a { color: #1b1a16; text-decoration: underline; }
-.rb-check {
+.rb-terms.is-error { background: rgba(230,57,70,0.08); box-shadow: 0 0 0 1px rgba(230,57,70,0.5); }
+.rb-terms.is-error .rb-check { border-color: #E63946; }
+.rb-terms-warn { font-family: 'Hanken Grotesk', sans-serif; font-size: 12px; color: #E63946; font-weight: 600; margin: -6px 0 10px; text-align: center; }
+/* Terms checkbox — scoped selector (0,2,0) to override base.css
+   input[type=checkbox] (0,1,1) which hides native checkboxes at 1x1px/clipped */
+.rb-terms .rb-check {
+  display: inline-block;
+  position: relative; clip: auto; overflow: visible;
   width: 18px; height: 18px;
-  border: 1.5px solid rgba(27,26,22,0.28);
+  border: 1.5px solid rgba(27,26,22,0.5);
   border-radius: 4px;
   appearance: none; -webkit-appearance: none;
   cursor: pointer; flex-shrink: 0;
-  background: #fff; position: relative;
+  background: #fff;
   transition: background 0.15s, border-color 0.15s;
 }
-.rb-check:checked { background: #1b1a16; border-color: #1b1a16; }
-.rb-check:checked::after {
+.rb-terms .rb-check:checked { background: #1b1a16; border-color: #1b1a16; }
+.rb-terms .rb-check:checked::after {
   content: '';
   position: absolute; left: 4px; top: 1px;
   width: 5px; height: 9px;
@@ -244,7 +266,7 @@
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 15px;
   border-radius: 999px; border: none;
-  background: #105020;
+  background: #2D6A2F;
   color: #1b1a16;
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 16px; font-weight: 800;
@@ -275,9 +297,6 @@
 
   <!-- Header -->
   <div class="rb-drawer__head">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-    </svg>
     <h2 class="rb-drawer__title">Your Cart</h2>
     <span class="rb-drawer__pill" id="rbd-count">0 items</span>
     <button class="rb-drawer__close" id="rbd-close" aria-label="Close cart">
@@ -300,7 +319,7 @@
       </div>
       <div class="rb-protect__right">
         <span class="rb-protect__price">$1.55</span>
-        <button class="rb-toggle is-on" id="rbd-protect" aria-label="Toggle shipping protection" type="button"></button>
+        <button class="rb-toggle" id="rbd-protect" aria-label="Toggle shipping protection" type="button"></button>
       </div>
     </div>
 
@@ -315,13 +334,15 @@
     </div>
     <p class="rb-drawer__tax">Tax included and shipping calculated at checkout</p>
 
-    <a href="/pages/checkout" class="rb-cta-gradient">Checkout →</a>
+    <a href="/cart/checkout" class="rb-cta-gradient" id="rbd-checkout">Checkout →</a>
+    <p class="rb-terms-warn" id="rbd-terms-warn" hidden>Please accept the Terms &amp; Conditions to continue.</p>
     <a href="/cart" class="rb-cta-outline">View Cart</a>
   </div>
 </div>
 
 <script>
 (function () {
+  var RB_EMPTY_LOGO = 'https://shoprocketboyz.com/cdn/shop/files/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp?width=220';
   var overlay = document.getElementById('rb-overlay');
   var drawer  = document.getElementById('rb-drawer');
   var body    = document.getElementById('rbd-body');
@@ -364,7 +385,9 @@
 
     if (items.length === 0) {
       body.innerHTML = '<div class="rb-drawer__empty">'
-        + '<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#d1cdc7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
+        + (RB_EMPTY_LOGO
+            ? '<img class="rb-drawer__empty-logo" src="' + RB_EMPTY_LOGO + '" alt="Rocket Boyz" width="96">'
+            : '<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#d1cdc7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>')
         + '<p class="rb-drawer__empty-title">Your cart is empty</p>'
         + '<p class="rb-drawer__empty-sub">Add some snacks to get started!</p>'
         + '<a href="/collections/all" class="rb-drawer__empty-cta">Continue Shopping</a>'
@@ -413,6 +436,20 @@
   });
   termsEl.addEventListener('change', function () {
     if (window.RBCart) window.RBCart.setTerms(this.checked);
+    if (this.checked) {
+      document.querySelector('.rb-terms').classList.remove('is-error');
+      document.getElementById('rbd-terms-warn').hidden = true;
+    }
+  });
+
+  // Terms must be accepted before checkout
+  document.getElementById('rbd-checkout').addEventListener('click', function (e) {
+    if (!termsEl.checked) {
+      e.preventDefault();
+      var wrap = document.querySelector('.rb-terms');
+      wrap.classList.add('is-error');
+      document.getElementById('rbd-terms-warn').hidden = false;
+    }
   });
 
   document.getElementById('rbd-close').addEventListener('click', close);

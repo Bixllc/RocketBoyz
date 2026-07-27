@@ -1,0 +1,886 @@
+<style>
+  .rb-rp { background: #ffffff; padding-bottom: 96px; }
+
+  /* ── Hero ── */
+  .rb-rp__hero { text-align: center; padding: 72px 32px 56px; }
+  .rb-rp__hero-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2D6A2F;
+    line-height: 1;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .rb-rp__hero-sub {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 17px;
+    color: #52525B;
+    line-height: 1.65;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ── Recipe list ── */
+  .rb-rp__list {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .rb-rp__item {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #E4E4E7;
+    overflow: hidden;
+    height: 720px;
+  }
+
+  /* ── Image ── */
+  .rb-rp__img-wrap {
+    overflow: hidden;
+    background: #F5F2ED;
+    align-self: stretch;
+  }
+  .rb-rp__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .rb-rp__item:hover .rb-rp__img { transform: scale(1.03); }
+  .rb-rp__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Details ── */
+  .rb-rp__details { display: flex; flex-direction: column; padding: 40px; overflow-y: auto; }
+
+  .rb-rp__pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .rb-rp__pill {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #030213;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 999px;
+    padding: 5px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rb-rp__pill-dot { width: 7px; height: 7px; border-radius: 50%; background: #2D6A2F; flex-shrink: 0; }
+  .rb-rp__pill--time .rb-rp__pill-dot { background: #71717A; }
+
+  .rb-rp__title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(28px, 3vw, 48px);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #030213;
+    line-height: 1.0;
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+    display: block;
+  }
+
+  .rb-rp__excerpt {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 15px;
+    color: #52525B;
+    line-height: 1.65;
+    margin: 0 0 24px;
+  }
+
+  .rb-rp__stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E4E4E7;
+  }
+  .rb-rp__stat {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #52525B;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rb-rp__stat svg {
+    width: 14px !important;
+    height: 14px !important;
+    fill: none !important;
+    stroke: #71717A !important;
+    stroke-width: 2px;
+    flex-shrink: 0;
+  }
+
+  .rb-rp__cta {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #030213;
+    border: 2px solid #030213;
+    border-radius: 999px;
+    padding: 12px 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    transition: background 0.2s, color 0.2s;
+    align-self: flex-start;
+    margin-top: 24px;
+    margin-bottom: 28px;
+  }
+  .rb-rp__cta:hover { background: #030213; color: #fff; }
+  .rb-rp__cta svg {
+    width: 14px !important;
+    height: 14px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2.5px;
+    transition: transform 0.15s;
+  }
+  .rb-rp__cta:hover svg { transform: translateX(3px); }
+
+  .rb-rp__ingredients-label {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #71717A;
+    margin: 0 0 12px;
+  }
+  .rb-rp__ingredients-label span { color: #2D6A2F; }
+
+  /* ── Ingredient pill tags (JS fallback) ── */
+  .rb-rp__ingredient-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rb-rp__ingredient-tag {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #030213;
+    background: #F5F2ED;
+    border-radius: 999px;
+    padding: 5px 12px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .rb-rp__ingredient-tag:hover { background: #E4E4E7; }
+
+  /* ── Ingredient product rows ── */
+  .rb-rp__ing-list { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .rb-rp__ing-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #F9F9F9;
+    border: 1px solid #E4E4E7;
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .rb-rp__ing-img-link {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #E4E4E7;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .rb-rp__ing-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .rb-rp__ing-img-placeholder { width: 100%; height: 100%; background: #E4E4E7; border-radius: 7px; }
+  .rb-rp__ing-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rb-rp__ing-name {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #030213;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+  .rb-rp__ing-name:hover { color: #2D6A2F; }
+  .rb-rp__ing-note {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 11px;
+    color: #71717A;
+  }
+  .rb-rp__ing-price {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #030213;
+    flex-shrink: 0;
+  }
+  .rb-rp__ing-atc-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid #E4E4E7;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    color: #030213;
+  }
+  .rb-rp__ing-atc-btn:hover { border-color: #2D6A2F; background: #2D6A2F; color: #fff; }
+  .rb-rp__ing-atc-btn.is-done { border-color: #2D6A2F; background: #2D6A2F; color: #fff; }
+  .rb-rp__ing-atc-btn--soldout { border-color: #E4E4E7; background: #F5F2ED; color: #A1A1AA; cursor: not-allowed; }
+  .rb-rp__ing-atc-btn svg { width: 16px !important; height: 16px !important; fill: none !important; stroke: currentColor !important; stroke-width: 2.5px; }
+  .rb-rp__ing-form { display: contents; }
+  .rb-rp__add-all {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: #2D6A2F;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 4px;
+    transition: background 0.2s, opacity 0.2s;
+  }
+  .rb-rp__add-all:hover { background: #1e4e20; }
+  .rb-rp__add-all:disabled { opacity: 0.7; cursor: wait; }
+  .rb-rp__add-all svg { width: 16px !important; height: 16px !important; fill: none !important; stroke: currentColor !important; stroke-width: 2px; }
+
+  /* ── Pagination ── */
+  .rb-rp__pagination { display: flex; justify-content: center; gap: 8px; margin-top: 56px; padding: 0 32px; }
+  .rb-rp__pagination a, .rb-rp__pagination span {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1.5px solid #E4E4E7;
+    color: #030213;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .rb-rp__pagination a:hover { background: #F5F2ED; border-color: #030213; }
+  .rb-rp__pagination .current { background: #2D6A2F; border-color: #2D6A2F; color: #fff; }
+
+  /* ── Empty ── */
+  .rb-rp__empty {
+    text-align: center;
+    padding: 80px 32px;
+    font-family: 'Clash Display', sans-serif;
+    font-size: 16px;
+    color: #71717A;
+  }
+
+  /* ── Modal ── */
+  .rb-rp-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .rb-rp-modal[hidden] { display: none; }
+  .rb-rp-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 2, 19, 0.65);
+    backdrop-filter: blur(4px);
+  }
+  .rb-rp-modal__panel {
+    position: relative;
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid #E4E4E7;
+    box-shadow: 0 30px 70px -30px rgba(3, 2, 19, 0.5);
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 48px;
+  }
+  .rb-rp-modal__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    background: #F5F2ED;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #030213;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .rb-rp-modal__close:hover { background: #E4E4E7; }
+  .rb-rp-modal__image {
+    width: 100%;
+    aspect-ratio: 16/7;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    display: none;
+  }
+  .rb-rp-modal__title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2D6A2F;
+    margin: 0 0 32px;
+    line-height: 1;
+    padding-right: 48px;
+  }
+  .rb-rp-modal__cols {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 40px;
+  }
+  .rb-rp-modal__section-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #2D6A2F;
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #2D6A2F;
+  }
+  .rb-rp-modal__content {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 14px;
+    color: #27272A;
+    line-height: 1.75;
+  }
+  .rb-rp-modal__content ul,
+  .rb-rp-modal__content ol { margin: 0; padding-left: 20px; }
+  .rb-rp-modal__content li { margin-bottom: 8px; }
+  .rb-rp-modal__content p { margin: 0 0 10px; }
+  .rb-rp-modal__content strong { color: #030213; }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    .rb-rp__item { grid-template-columns: 1fr; min-height: unset; height: auto; }
+    .rb-rp__img-wrap { aspect-ratio: 4/3; }
+    .rb-rp__details { padding: 28px 24px 32px; }
+    .rb-rp__list { padding: 0 20px; gap: 16px; }
+    .rb-rp__hero { padding: 48px 20px 40px; }
+    .rb-rp-modal__panel { padding: 24px 20px 32px; }
+    .rb-rp-modal__cols { grid-template-columns: 1fr; gap: 28px; }
+    .rb-rp-modal__image { aspect-ratio: 4/3; }
+  }
+  @media (max-width: 560px) {
+    .rb-rp__list { padding: 0 16px; }
+    .rb-rp__hero { padding: 40px 16px 32px; }
+    .rb-rp__pagination { padding: 0 16px; }
+  }
+</style>
+
+<div class="rb-rp">
+
+  <div class="rb-rp__hero">
+    <h1 class="rb-rp__hero-title">{{ section.settings.heading | default: 'Recipes' }}</h1>
+    <p class="rb-rp__hero-sub">{{ section.settings.subheading | default: "Every recipe uses snacks we keep in stock. See what you'll need, then add the whole ingredient list to your cart in one tap." }}</p>
+  </div>
+
+  <div class="rb-rp__list">
+    {%- paginate blog.articles by section.settings.posts_per_page -%}
+
+      {%- if blog.articles_count > 0 -%}
+        {%- for article in blog.articles -%}
+
+          {%- assign cat_tag = '' -%}
+          {%- assign time_tag = '' -%}
+          {%- for tag in article.tags -%}
+            {%- assign tag_lower = tag | downcase -%}
+            {%- if tag_lower contains 'chicken' or tag_lower contains 'breakfast' or tag_lower contains 'seafood' or tag_lower contains 'beef' or tag_lower contains 'pork' or tag_lower contains 'vegetarian' or tag_lower contains 'snack' or tag_lower contains 'dessert' or tag_lower contains 'drink' or tag_lower contains 'jamaican' or tag_lower contains 'oats' or tag_lower contains 'rice' or tag_lower contains 'pasta' -%}
+              {%- if cat_tag == '' -%}{%- assign cat_tag = tag | upcase -%}{%- endif -%}
+            {%- elsif tag_lower contains 'min' or tag_lower contains 'hour' -%}
+              {%- assign time_tag = tag | upcase -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          <script type="application/json" class="rb-rp-content" data-id="{{ article.id }}">{{ article.content | json }}</script>
+
+          <article class="rb-rp__item">
+
+            <div class="rb-rp__img-wrap">
+              {%- if article.image -%}
+                <img
+                  src="{{ article.image | image_url: width: 900 }}"
+                  alt="{{ article.image.alt | default: article.title | escape }}"
+                  class="rb-rp__img"
+                  loading="lazy"
+                  width="900"
+                >
+              {%- else -%}
+                <div class="rb-rp__img-placeholder">
+                  <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="64" opacity="0.15">
+                    <rect x="20" y="16" width="40" height="40" rx="4" stroke="#030213" stroke-width="2"/>
+                    <circle cx="33" cy="29" r="4" stroke="#030213" stroke-width="2"/>
+                    <path d="M20 46l12-10 8 8 6-5 14 11" stroke="#030213" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="rb-rp__details">
+
+              <div class="rb-rp__pills">
+                {%- if cat_tag != '' -%}
+                  <span class="rb-rp__pill"><span class="rb-rp__pill-dot"></span>{{ cat_tag }}</span>
+                {%- endif -%}
+                {%- if time_tag != '' -%}
+                  <span class="rb-rp__pill rb-rp__pill--time"><span class="rb-rp__pill-dot"></span>{{ time_tag }}</span>
+                {%- endif -%}
+              </div>
+
+              <span class="rb-rp__title">{{ article.title }}</span>
+
+              {%- if article.excerpt != blank -%}
+                <p class="rb-rp__excerpt">{{ article.excerpt | strip_html }}</p>
+              {%- else -%}
+                {%- assign clean_body = article.content | strip_html | truncate: 180 -%}
+                {%- if clean_body != '' -%}
+                  <p class="rb-rp__excerpt">{{ clean_body }}</p>
+                {%- endif -%}
+              {%- endif -%}
+
+              <div class="rb-rp__stats">
+                {%- if time_tag != '' -%}
+                  <span class="rb-rp__stat">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {{ time_tag }}
+                  </span>
+                {%- endif -%}
+              </div>
+
+              <button
+                class="rb-rp__cta"
+                data-recipe-btn
+                data-id="{{ article.id }}"
+                data-title="{{ article.title | escape }}"
+                {% if article.image %}data-image="{{ article.image | image_url: width: 1200 }}"{% endif %}
+                aria-label="View full recipe for {{ article.title | escape }}"
+              >
+                View full recipe
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+
+              {%- comment -%} Collect ingredient blocks for this article {%- endcomment -%}
+              {%- assign ing_blocks = '' -%}
+              {%- assign article_slug = article.handle | split: '/' | last -%}
+              {%- assign has_ing_blocks = false -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'ingredient' and block.settings.recipe_handle == article_slug and block.settings.product != blank -%}
+                  {%- assign has_ing_blocks = true -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- comment -%} Fallback: check legacy shop: tags {%- endcomment -%}
+              {%- unless has_ing_blocks -%}
+                {%- assign has_shop_ings = false -%}
+                {%- for tag in article.tags -%}
+                  {%- if tag contains 'shop:' -%}{%- assign has_shop_ings = true -%}{%- break -%}{%- endif -%}
+                {%- endfor -%}
+              {%- endunless -%}
+
+              {%- if has_ing_blocks or has_shop_ings -%}
+                {%- assign all_atc_ids = '' -%}
+                <p class="rb-rp__ingredients-label"><span>Ingredients available to shop now</span></p>
+                <div class="rb-rp__ing-list">
+
+                  {%- if has_ing_blocks -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.type == 'ingredient' and block.settings.recipe_handle == article_slug and block.settings.product != blank -%}
+                        {%- assign p = all_products[block.settings.product] -%}
+                        {%- assign p_note = block.settings.note | default: '' -%}
+                        {%- if p.title != blank -%}
+                          {%- assign p_variant = p.variants | first -%}
+                          {%- if p.available -%}
+                            {%- assign all_atc_ids = all_atc_ids | append: ',' | append: p_variant.id -%}
+                          {%- endif -%}
+                          {%- render 'rb-recipe-ing-row', product: p, note: p_note %}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                  {%- elsif has_shop_ings -%}
+                    {%- for tag in article.tags -%}
+                      {%- if tag contains 'shop:' -%}
+                        {%- assign tag_parts = tag | remove_first: 'shop:' | split: '|' -%}
+                        {%- assign p_handle = tag_parts[0] | strip -%}
+                        {%- assign p_src2 = all_products[p_handle] -%}
+                        {%- assign p = p_src2 -%}
+                        {%- assign p_note = tag_parts[1] | default: '' | strip -%}
+                        {%- if p.title != blank -%}
+                          {%- assign p_variant = p.variants | first -%}
+                          {%- if p.available -%}
+                            {%- assign all_atc_ids = all_atc_ids | append: ',' | append: p_variant.id -%}
+                          {%- endif -%}
+                          {%- render 'rb-recipe-ing-row', product: p, note: p_note %}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+
+                  {%- assign all_atc_ids = all_atc_ids | remove_first: ',' -%}
+                  {%- if all_atc_ids != '' -%}
+                    <button class="rb-rp__add-all" data-add-all="{{ all_atc_ids }}">
+                      Add all ingredients to cart
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </button>
+                  {%- endif -%}
+                </div>
+
+              {%- else -%}
+                <div class="rb-rp__ingredient-tags" data-ing-tags="{{ article.id }}"></div>
+              {%- endif -%}
+
+            </div>
+          </article>
+        {%- endfor -%}
+
+        {%- if paginate.pages > 1 -%}
+          <div class="rb-rp__pagination">{{ paginate | default_pagination }}</div>
+        {%- endif -%}
+
+      {%- else -%}
+        <div class="rb-rp__empty">No recipes yet — check back soon.</div>
+      {%- endif -%}
+
+    {%- endpaginate -%}
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="rb-rp-modal" class="rb-rp-modal" role="dialog" aria-modal="true" aria-labelledby="rb-rp-modal-title" hidden>
+  <div class="rb-rp-modal__overlay" id="rb-rp-modal-overlay"></div>
+  <div class="rb-rp-modal__panel">
+    <button class="rb-rp-modal__close" id="rb-rp-modal-close" aria-label="Close recipe">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <img id="rb-rp-modal-img" class="rb-rp-modal__image" src="" alt="">
+    <h2 id="rb-rp-modal-title" class="rb-rp-modal__title"></h2>
+    <div class="rb-rp-modal__cols">
+      <div>
+        <p class="rb-rp-modal__section-title">Ingredients</p>
+        <div class="rb-rp-modal__content" id="rb-rp-modal-ing"></div>
+      </div>
+      <div>
+        <p class="rb-rp-modal__section-title">Instructions</p>
+        <div class="rb-rp-modal__content" id="rb-rp-modal-inst"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  function parseRecipe(html) {
+    if (!html) return { ingredients: '', instructions: '' };
+
+    // Returns { headingStart, contentStart }
+    //   headingStart = position of opening tag (<p>, <h2>, etc.) containing the keyword
+    //   contentStart = position of content that follows the keyword/heading
+    // Handles two patterns:
+    //   A) <p><strong>INGREDIENTS</strong><br>• items</p>  — <br> before </p>
+    //   B) <p>INGREDIENTS</p><p>• items</p>               — separate elements
+    function sliceKeyword(src, keyword) {
+      var idx = src.search(new RegExp(keyword, 'i'));
+      if (idx === -1) return null;
+      var before = src.slice(0, idx);
+      var tagOpen = Math.max(
+        before.lastIndexOf('<p'), before.lastIndexOf('<h1'),
+        before.lastIndexOf('<h2'), before.lastIndexOf('<h3'),
+        before.lastIndexOf('<h4'), before.lastIndexOf('<h5'),
+        before.lastIndexOf('<h6')
+      );
+      var headingStart = tagOpen >= 0 ? tagOpen : idx;
+      var rest = src.slice(idx);
+      var brIdx    = rest.search(/<br\s*\/?>/i);
+      var closeIdx = rest.search(/<\/(?:p|h[1-6])>/i);
+      var contentStart;
+      if (brIdx !== -1 && (closeIdx === -1 || brIdx < closeIdx)) {
+        // Pattern A: bullet items are in the same element via <br>
+        contentStart = idx + brIdx + rest.match(/<br\s*\/?>/i)[0].length;
+      } else if (closeIdx !== -1) {
+        // Pattern B: heading is its own element, content follows
+        contentStart = idx + closeIdx + rest.match(/<\/(?:p|h[1-6])>/i)[0].length;
+      } else {
+        contentStart = idx + keyword.length;
+      }
+      return { headingStart: headingStart, contentStart: contentStart };
+    }
+
+    var ingInfo  = sliceKeyword(html, 'INGREDIENTS');
+    var instInfo = sliceKeyword(html, 'INSTRUCTIONS');
+
+    var ingHTML  = '';
+    var instHTML = '';
+
+    if (ingInfo) {
+      if (instInfo && instInfo.headingStart > ingInfo.contentStart) {
+        // Slice from after INGREDIENTS heading to before INSTRUCTIONS heading
+        ingHTML  = html.slice(ingInfo.contentStart, instInfo.headingStart).trim();
+        instHTML = html.slice(instInfo.contentStart).trim();
+      } else {
+        ingHTML  = html.slice(ingInfo.contentStart).trim();
+      }
+    } else if (instInfo) {
+      // No INGREDIENTS heading — use all content before INSTRUCTIONS heading as ingredients
+      ingHTML  = html.slice(0, instInfo.headingStart).trim();
+      instHTML = html.slice(instInfo.contentStart).trim();
+    }
+
+    return { ingredients: ingHTML, instructions: instHTML };
+  }
+
+  function getContent(id) {
+    var el = document.querySelector('.rb-rp-content[data-id="' + id + '"]');
+    if (!el) return '';
+    try { return JSON.parse(el.textContent); } catch (e) { return ''; }
+  }
+
+  // Populate ingredient tags on page load (skips cards that used shop: tags server-side)
+  document.querySelectorAll('[data-recipe-btn]').forEach(function (btn) {
+    var id = btn.dataset.id;
+    var container = document.querySelector('[data-ing-tags="' + id + '"]');
+    if (!container || container.dataset.shopIngs) return;
+    var html = getContent(id);
+    if (!html) return;
+
+    var parsed = parseRecipe(html);
+    var tmp = document.createElement('div');
+    tmp.innerHTML = parsed.ingredients;
+
+    var tags = [];
+    function extractName(raw) {
+      return raw
+        .replace(/^[•·\-\*]\s*/, '')   // strip leading bullet char
+        .split(/[–—]/)[0]               // take part before em-dash (quantity follows)
+        .split(',')[0]                  // strip trailing comma
+        .replace(/^\d+[\.\)]\s*/, '')   // strip leading numbers like "1. "
+        .trim();
+    }
+    tmp.querySelectorAll('li').forEach(function (li) {
+      if (tags.length >= 6) return;
+      var name = extractName(li.textContent.trim());
+      if (name.length > 1 && name.length < 50) tags.push(name);
+    });
+
+    if (!tags.length) {
+      tmp.querySelectorAll('p').forEach(function (p) {
+        if (tags.length >= 6) return;
+        var name = extractName(p.textContent.trim());
+        if (name.length > 1 && name.length < 50 && !/^ingredient|^instruction/i.test(name)) tags.push(name);
+      });
+    }
+
+    var container = document.querySelector('[data-ing-tags="' + id + '"]');
+    if (container && tags.length) {
+      container.innerHTML = tags.map(function (t) {
+        return '<a href="/search?q=' + encodeURIComponent(t) + '" class="rb-rp__ingredient-tag">' + t + '</a>';
+      }).join('');
+    }
+  });
+
+  // Modal references
+  var modal    = document.getElementById('rb-rp-modal');
+  var modalImg = document.getElementById('rb-rp-modal-img');
+  var modalTtl = document.getElementById('rb-rp-modal-title');
+  var modalIng = document.getElementById('rb-rp-modal-ing');
+  var modalIns = document.getElementById('rb-rp-modal-inst');
+
+  function openModal(btn) {
+    var id    = btn.dataset.id;
+    var title = btn.dataset.title || '';
+    var image = btn.dataset.image || '';
+    var parsed = parseRecipe(getContent(id));
+
+    modalTtl.textContent = title;
+    if (image) {
+      modalImg.src = image;
+      modalImg.alt = title;
+      modalImg.style.display = 'block';
+    } else {
+      modalImg.style.display = 'none';
+    }
+
+    // Ingredients: prefer blog post content, fall back to product names from the card
+    var ingContent = parsed.ingredients;
+    if (!ingContent) {
+      var articleCard = btn.closest('.rb-rp__item');
+      if (articleCard) {
+        var ingRows = articleCard.querySelectorAll('.rb-rp__ing-row');
+        if (ingRows.length > 0) {
+          var items = [];
+          ingRows.forEach(function (row) {
+            var nameEl = row.querySelector('.rb-rp__ing-name');
+            var noteEl = row.querySelector('.rb-rp__ing-note');
+            if (nameEl) {
+              var text = nameEl.textContent.trim();
+              if (noteEl) text += ' — ' + noteEl.textContent.trim();
+              items.push('<li>' + text + '</li>');
+            }
+          });
+          if (items.length) ingContent = '<ul style="padding-left:1.2em;margin:0">' + items.join('') + '</ul>';
+        }
+      }
+    }
+    modalIng.innerHTML = ingContent || '<p style="color:#71717A;font-family:inherit">Add an <strong>INGREDIENTS</strong> heading to the blog post to show the list here.</p>';
+    modalIns.innerHTML = parsed.instructions || '<p style="color:#71717A;font-family:inherit">Add steps under an <strong>INSTRUCTIONS</strong> heading in the blog post.</p>';
+
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('rb-rp-modal-close').focus();
+  }
+
+  function closeModal() {
+    modal.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-recipe-btn]').forEach(function (btn) {
+    btn.addEventListener('click', function () { openModal(btn); });
+  });
+
+  document.getElementById('rb-rp-modal-close').addEventListener('click', closeModal);
+  document.getElementById('rb-rp-modal-overlay').addEventListener('click', closeModal);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+  });
+
+  // Individual ATC buttons (AJAX)
+  document.querySelectorAll('[data-atc-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var id  = form.querySelector('[name="id"]').value;
+      var btn = form.querySelector('.rb-rp__ing-atc-btn');
+      if (btn.disabled) return;
+      btn.disabled = true;
+      var orig = btn.innerHTML;
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: parseInt(id, 10), quantity: 1 })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function () {
+        btn.classList.add('is-done');
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        setTimeout(function () {
+          btn.classList.remove('is-done');
+          btn.innerHTML = orig;
+          btn.disabled = false;
+        }, 2000);
+      })
+      .catch(function () { btn.innerHTML = orig; btn.disabled = false; });
+    });
+  });
+
+  // Add all ingredients to cart
+  document.querySelectorAll('[data-add-all]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var ids   = btn.dataset.addAll.split(',');
+      var items = ids.map(function (id) { return { id: parseInt(id, 10), quantity: 1 }; });
+      btn.disabled = true;
+      var orig = btn.innerHTML;
+      btn.textContent = 'Adding…';
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function () {
+        btn.innerHTML = '✓ Added to cart';
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        setTimeout(function () { btn.innerHTML = orig; btn.disabled = false; }, 3000);
+      })
+      .catch(function () { btn.innerHTML = orig; btn.disabled = false; });
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Recipes Blog",
+  "settings": [
+    { "type": "text",    "id": "heading",        "label": "Heading",       "default": "Recipes" },
+    { "type": "textarea","id": "subheading",     "label": "Subheading",    "default": "Every recipe uses snacks we keep in stock. See what you'll need, then add the whole ingredient list to your cart in one tap." },
+    { "type": "range",   "id": "posts_per_page", "label": "Posts per page","min": 3, "max": 24, "step": 3, "default": 9 }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Recipe Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "recipe_handle",
+          "label": "Recipe handle",
+          "info": "The last part of the blog post URL. E.g. for /blogs/recipes/jerk-chicken enter: jerk-chicken"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Recipe note",
+          "placeholder": "e.g. 3 oz, marinade"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Recipes Blog" }]
+}
+{% endschema %}

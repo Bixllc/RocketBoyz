@@ -1,4 +1,7 @@
 {%- liquid
+  if section.settings.product_handle != blank
+    assign product = all_products[section.settings.product_handle]
+  endif
   assign current_variant = product.selected_or_first_available_variant
   assign form_id = 'rb-pdp-form-' | append: section.id
   assign first_col = product.collections.first
@@ -62,8 +65,12 @@
 }
 .rb-pdp__heart:hover { transform: scale(1.1); }
 .rb-pdp__heart svg path { fill: none; stroke: #71717A; transition: fill 0.2s, stroke 0.2s; }
-.rb-pdp__heart:hover svg path { stroke: #DC2626; }
-.rb-pdp__heart.is-saved svg path { fill: none; stroke: #DC2626; }
+/* Matches the product-card heart: green gradient on hover and when saved */
+.rb-pdp__heart:hover svg path,
+.rb-pdp__heart.is-wished svg path {
+  fill: url(#rb-heart-gradient);
+  stroke: url(#rb-heart-gradient);
+}
 
 .rb-pdp__thumbs {
   display: grid;
@@ -104,7 +111,7 @@
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin: 0 0 14px;
-  background: #105020;
+  background: #2D6A2F;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -156,7 +163,7 @@
 }
 .rb-pdp__pill:hover:not(.is-active):not(.is-soldout) { border-color: #030213; }
 .rb-pdp__pill.is-active {
-  background: #105020;
+  background: #2D6A2F;
   border-color: transparent;
   color: #fff;
 }
@@ -217,7 +224,7 @@
   padding: 16px 32px;
   border-radius: 999px;
   border: none;
-  background: #105020;
+  background: #2D6A2F;
   color: #fff;
   font-family: 'Clash Display', sans-serif;
   font-size: 16px;
@@ -228,6 +235,14 @@
 }
 .rb-pdp__atc:hover { opacity: 0.92; transform: translateY(-1px); }
 .rb-pdp__atc:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.rb-pdp__atc.is-soldout {
+  background: transparent;
+  color: #030213;
+  border: 1.5px solid #030213;
+  opacity: 1;
+  cursor: not-allowed;
+}
+.rb-pdp__atc.is-soldout:hover { opacity: 1; transform: none; }
 .rb-pdp__atc.is-added { background: linear-gradient(90deg, #1f8a3a, #22c55e); }
 
 /* ── Dynamic checkout (Shop Pay etc.) ────────────────────── */
@@ -302,27 +317,97 @@
     gap: 10px;
   }
 }
+
+/* ── Sticky add-to-cart bar ── */
+.rb-stickycart {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 9400;
+  background: #fff; border-top: 1px solid #E4E4E7;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  transform: translateY(110%); transition: transform 0.28s ease;
+  padding: 10px 0; will-change: transform;
+}
+.rb-stickycart.is-visible { transform: translateY(0); }
+.rb-stickycart__inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.rb-stickycart__product { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.rb-stickycart__thumb {
+  width: 52px; height: 52px; border-radius: 10px; object-fit: contain;
+  background: #fff; border: 1px solid #E4E4E7; flex-shrink: 0;
+}
+.rb-stickycart__meta { min-width: 0; }
+.rb-stickycart__title {
+  font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: #1b1a16;
+  margin: 0 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 42vw;
+}
+.rb-stickycart__price { font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: #1b1a16; margin: 0; }
+.rb-stickycart__btn {
+  flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  background: #2D6A2F; color: #fff; border: none; border-radius: 999px;
+  padding: 13px 30px; font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: opacity 0.15s; min-width: 200px;
+}
+.rb-stickycart__btn:hover { opacity: 0.88; }
+.rb-stickycart__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.rb-stickycart__btn.is-added { background: linear-gradient(90deg, #1f8a3a, #22c55e); }
+.rb-stickycart__btn svg { flex-shrink: 0; fill: none !important; }
+/* Sold out — outline style (matches product cards / PDP), never greyed */
+.rb-stickycart__btn.is-soldout,
+.rb-stickycart__btn.is-soldout:disabled {
+  background: transparent; color: #030213; border: 1.5px solid #030213;
+  opacity: 1; cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  .rb-stickycart__title { max-width: 34vw; }
+  .rb-stickycart__btn { padding: 12px 22px; font-size: 14px; min-width: 150px; }
+  .rb-stickycart__thumb { width: 44px; height: 44px; }
+}
+
+/* Lift the Shopify Inbox chat bubble above the sticky bar so it never covers
+   the Add to Cart button while the bar is visible. */
+body.rb-sticky-open #shopify-chat,
+body.rb-sticky-open #ShopifyChat,
+body.rb-sticky-open inbox-online-store-chat,
+body.rb-sticky-open shopify-chat {
+  bottom: 92px !important;
+  transition: bottom 0.28s ease;
+}
 </style>
 
 <div class="rb-pdp" data-section-id="{{ section.id }}">
   <div class="rb-pdp__inner">
 
     <!-- LEFT: Gallery -->
+    {%- liquid
+      # Snack Box uses a fixed brand image on both its dedicated page and its
+      # product page (the product's own featured image is out of date). This
+      # overrides only the display; update the product image in admin to make
+      # it propagate to cards/cart too.
+      assign is_snackbox = false
+      assign main_img_src = product.featured_image | image_url: width: 800
+      assign main_img_alt = product.featured_image.alt | default: product.title
+      if product.handle == 'snack-box-pay-what-you-want'
+        assign is_snackbox = true
+        assign main_img_src = 'https://shoprocketboyz.com/cdn/shop/files/snackbox_1.png?width=900'
+        assign main_img_alt = product.title
+      endif
+    -%}
     <div class="rb-pdp__gallery">
       <div class="rb-pdp__img-main-wrap">
-        <button class="rb-pdp__heart" type="button" aria-label="Save" data-pdp-heart>
+        <button class="rb-pdp__heart rb-btn-wish" type="button" aria-label="Add to wishlist" aria-pressed="false" data-product-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
         </button>
-        {%- if product.featured_image -%}
-          <img id="rb-pdp-main-img" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" class="rb-pdp__img-main" width="800">
+        {%- if main_img_src != blank -%}
+          <img id="rb-pdp-main-img" src="{{ main_img_src }}" alt="{{ main_img_alt | escape }}" class="rb-pdp__img-main" width="800">
         {%- else -%}
           <svg width="100" height="100" viewBox="0 0 80 80" fill="none"><rect x="20" y="16" width="40" height="40" rx="4" stroke="#C4C4C4" stroke-width="2"/><circle cx="33" cy="29" r="4" stroke="#C4C4C4" stroke-width="2"/><path d="M20 46l12-10 8 8 6-5 14 11" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         {%- endif -%}
       </div>
 
-      {%- if product.images.size > 1 -%}
+      {%- if product.images.size > 1 and is_snackbox == false -%}
         <div class="rb-pdp__thumbs">
           {%- for image in product.images limit: 4 -%}
             <button class="rb-pdp__thumb{% if forloop.first %} is-active{% endif %}" data-pdp-thumb="{{ image | image_url: width: 800 }}" type="button">
@@ -336,11 +421,21 @@
     <!-- RIGHT: Details -->
     <div class="rb-pdp__details">
 
-      {%- if product.type != blank -%}
-        <p class="rb-pdp__eyebrow">{{ product.type }}</p>
-      {%- elsif product.vendor != blank -%}
-        <p class="rb-pdp__eyebrow">{{ product.vendor }}</p>
-      {%- endif -%}
+      {%- liquid
+        assign hide_eb = section.settings.hide_eyebrow
+        # Keep the Snack Box consistent across its dedicated page and its
+        # product page (both render this section with the same product).
+        if product.handle == 'snack-box-pay-what-you-want'
+          assign hide_eb = true
+        endif
+      -%}
+      {%- unless hide_eb -%}
+        {%- if product.type != blank -%}
+          <p class="rb-pdp__eyebrow">{{ product.type }}</p>
+        {%- elsif product.vendor != blank -%}
+          <p class="rb-pdp__eyebrow">{{ product.vendor }}</p>
+        {%- endif -%}
+      {%- endunless -%}
 
       <h1 class="rb-pdp__title">{{ product.title }}</h1>
 
@@ -444,6 +539,28 @@
   {%- endif -%}
 </div>
 
+{%- unless section.settings.show_sticky_atc == false -%}
+<div class="rb-stickycart" id="rb-stickycart" aria-hidden="true">
+  <div class="rb-stickycart__inner">
+    <div class="rb-stickycart__product">
+      <img class="rb-stickycart__thumb" id="rb-stickycart-img" src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" width="52" height="52" loading="lazy">
+      <div class="rb-stickycart__meta">
+        <p class="rb-stickycart__title">{{ product.title }}</p>
+        <p class="rb-stickycart__price" id="rb-stickycart-price">{{ current_variant.price | money }}</p>
+      </div>
+    </div>
+    <button type="button" class="rb-stickycart__btn" id="rb-stickycart-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
+        <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span id="rb-stickycart-btn-label">Add to Cart</span>
+    </button>
+  </div>
+</div>
+{%- endunless -%}
+
 <script>
 (function () {
   /* Pre-rendered variant data — prices already formatted by Liquid */
@@ -466,6 +583,7 @@
 
   var numOpts = {{ product.options.size }};
   var qty = 1;
+  var RB_LOCK_MAIN_IMG = {{ is_snackbox | default: false | json }};
 
   var selected = [
     {%- for opt in product.options_with_values -%}
@@ -505,16 +623,21 @@
     if (v.has_compare) html += '<span class="was">' + v.compare_money + '</span>';
     priceEl.innerHTML = html;
 
-    /* ATC button price (total = unit × qty) */
-    var atcPrice = document.getElementById('rb-pdp-atc-price');
-    if (atcPrice) atcPrice.textContent = formatTotal(v.price_cents, qty);
-
     /* ATC availability */
     var atcBtn = document.getElementById('rb-pdp-atc');
+    var atcLabelEl = document.getElementById('rb-pdp-atc-label');
+    var dynamicCheckout = document.querySelector('.rb-pdp__dynamic-checkout');
     atcBtn.disabled = !v.available;
+    atcBtn.classList.toggle('is-soldout', !v.available);
+    if (atcLabelEl) {
+      atcLabelEl.innerHTML = v.available
+        ? 'Add to Cart · <span id="rb-pdp-atc-price">' + formatTotal(v.price_cents, qty) + '</span>'
+        : 'Sold out';
+    }
+    if (dynamicCheckout) dynamicCheckout.style.display = v.available ? '' : 'none';
 
-    /* Swap main image if variant has one */
-    if (v.img) {
+    /* Swap main image if variant has one (locked for the Snack Box override) */
+    if (v.img && !RB_LOCK_MAIN_IMG) {
       var mainImg = document.getElementById('rb-pdp-main-img');
       if (mainImg) mainImg.src = v.img;
     }
@@ -579,18 +702,8 @@
     });
   });
 
-  /* Heart / wishlist */
-  var heartBtn = document.querySelector('[data-pdp-heart]');
-  if (heartBtn) {
-    var pid = '{{ product.id }}';
-    var saved = localStorage.getItem('rb_saved_' + pid) === '1';
-    heartBtn.classList.toggle('is-saved', saved);
-    heartBtn.addEventListener('click', function () {
-      saved = !saved;
-      heartBtn.classList.toggle('is-saved', saved);
-      localStorage.setItem('rb_saved_' + pid, saved ? '1' : '0');
-    });
-  }
+  /* Heart / wishlist is handled globally by rb-wishlist.js (RBWishlist) via the
+     shared .rb-btn-wish delegation — same behavior as the product cards. */
 
   /* AJAX Add to Cart */
   var form   = document.getElementById('{{ form_id }}');
@@ -628,6 +741,68 @@
     });
   }
 
+  /* Sticky add-to-cart bar */
+  (function () {
+    var bar = document.getElementById('rb-stickycart');
+    if (!bar || !atcBtn || !form) return;
+    var sBtn   = document.getElementById('rb-stickycart-btn');
+    var sLabel = document.getElementById('rb-stickycart-btn-label');
+    var sPrice = document.getElementById('rb-stickycart-price');
+    var sImg   = document.getElementById('rb-stickycart-img');
+
+    // Mirror the main ATC's price / image / sold-out state onto the sticky bar.
+    function sync() {
+      if (sBtn.classList.contains('is-added')) return; // don't clobber "Added ✓"
+      var p = document.getElementById('rb-pdp-atc-price');
+      if (p && sPrice) sPrice.textContent = p.textContent;
+      var main = document.getElementById('rb-pdp-main-img');
+      if (main && sImg && main.src) sImg.src = main.src;
+      if (atcBtn.classList.contains('is-soldout')) {
+        sLabel.textContent = 'Sold out';
+        sBtn.classList.add('is-soldout');
+      } else {
+        sBtn.classList.remove('is-soldout');
+        sLabel.textContent = 'Add to Cart';
+      }
+    }
+    var mo = new MutationObserver(sync);
+    mo.observe(atcBtn, { attributes: true, childList: true, subtree: true });
+    sync();
+
+    // Reveal the bar once the main ATC button has scrolled up out of view.
+    // Also lift the chat bubble (body class) so it never covers the button.
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var show = !en.isIntersecting && en.boundingClientRect.top < 0;
+          bar.classList.toggle('is-visible', show);
+          document.body.classList.toggle('rb-sticky-open', show);
+        });
+      }, { threshold: 0 });
+      io.observe(atcBtn);
+    }
+
+    // Sticky button adds to cart directly (instant feedback, no proxy delay).
+    sBtn.addEventListener('click', function () {
+      if (sBtn.classList.contains('is-soldout') || sBtn.classList.contains('is-added')) return;
+      var vid = document.getElementById('rb-pdp-variant-id').value;
+      var q   = parseInt(document.getElementById('rb-pdp-qty-hidden').value, 10) || 1;
+      sBtn.classList.add('is-added');
+      sLabel.textContent = 'Added ✓';
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: vid, quantity: q })
+      })
+      .then(function () {
+        if (window.RBCart) window.RBCart.fetchCart();
+        window.dispatchEvent(new CustomEvent('rb-cart', { detail: { _fromAdd: true } }));
+      })
+      .catch(function () {});
+      setTimeout(function () { sBtn.classList.remove('is-added'); sync(); }, 1300);
+    });
+  })();
+
   /* Initial state */
   updateUI();
 })();
@@ -637,6 +812,26 @@
 {
   "name": "RB Product Detail",
   "tag": "section",
-  "class": "rb-pdp-section"
+  "class": "rb-pdp-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "product_handle",
+      "label": "Product handle override",
+      "info": "Only needed when this section is used on a Page template. On a real product page, leave blank to use the page's own product automatically."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_eyebrow",
+      "label": "Hide the category/vendor label above the title",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_atc",
+      "label": "Show sticky Add to Cart bar on scroll",
+      "default": true
+    }
+  ]
 }
 {% endschema %}

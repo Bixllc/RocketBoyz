@@ -1,0 +1,120 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "rb-product-catalog",
+      "blocks": {
+        "banner_1": {
+          "type": "banner_image",
+          "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_22_2026_12_01_57_AM.png",
+            "alt": ""
+          }
+        },
+        "banner_2": {
+          "type": "banner_image",
+          "settings": {
+            "image": "shopify://shop_images/cheeszees.webp",
+            "alt": ""
+          }
+        },
+        "banner_3": {
+          "type": "banner_image",
+          "settings": {
+            "image": "shopify://shop_images/angostura.png",
+            "alt": ""
+          }
+        },
+        "banner_4": {
+          "type": "banner_image",
+          "settings": {
+            "image": "shopify://shop_images/zoomers.webp",
+            "alt": ""
+          }
+        },
+        "pick_1": {
+          "type": "top_pick",
+          "settings": {
+            "product": "angostura-chill"
+          }
+        },
+        "pick_2": {
+          "type": "top_pick",
+          "settings": {
+            "product": "coconut-catch"
+          }
+        },
+        "pick_3": {
+          "type": "top_pick",
+          "settings": {
+            "product": "freshhh-box-juice"
+          }
+        },
+        "pick_4": {
+          "type": "top_pick",
+          "settings": {
+            "product": "tiggaz-3"
+          }
+        },
+        "pick_5": {
+          "type": "top_pick",
+          "settings": {
+            "product": "cheese-snax"
+          }
+        },
+        "pick_6": {
+          "type": "top_pick",
+          "settings": {
+            "product": "str8-vybz"
+          }
+        },
+        "pick_7": {
+          "type": "top_pick",
+          "settings": {
+            "product": "guzzler"
+          }
+        },
+        "pick_8": {
+          "type": "top_pick",
+          "settings": {
+            "product": "cheeze-balls"
+          }
+        }
+      },
+      "block_order": [
+        "banner_1",
+        "banner_2",
+        "banner_3",
+        "banner_4",
+        "pick_1",
+        "pick_2",
+        "pick_3",
+        "pick_4",
+        "pick_5",
+        "pick_6",
+        "pick_7",
+        "pick_8"
+      ],
+      "settings": {
+        "hero_heading": "Product Catalog",
+        "hero_text_1": "Explore our full range of trending and must-have items, all in one convenient PDF. Whether you're stocking up, browsing, or planning your next haul, this catalog has everything you need.",
+        "hero_text_2": "For orders or inquiries, contact us anytime, we're ready to serve you fast!",
+        "banner_heading": "View our full catalog",
+        "download_label": "Download catalog",
+        "catalog_pdf_url": "https://cdn.shopify.com/s/files/1/0098/3465/9919/files/RocketBoyz_Printed_Catalog_-_With_Case_sizes_compressed.pdf?v=1750704174",
+        "picks_heading": "Top Picks"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

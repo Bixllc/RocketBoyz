@@ -149,7 +149,7 @@ select.rbco__field { appearance: none; -webkit-appearance: none; cursor: pointer
 .rbco__pay-now {
   width: 100%; margin: 24px 0 8px;
   padding: 17px; border-radius: 999px; border: none;
-  background: #105020;
+  background: #2D6A2F;
   color: #1b1a16;
   font-family: 'Hanken Grotesk', sans-serif; font-size: 17px; font-weight: 800;
   cursor: pointer; transition: opacity 0.15s;
@@ -166,7 +166,7 @@ select.rbco__field { appearance: none; -webkit-appearance: none; cursor: pointer
 .rbco__sum-items { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 14px; }
 .rbco__sum-item { display: flex; align-items: center; gap: 14px; }
 .rbco__sum-thumb-wrap { position: relative; flex-shrink: 0; }
-.rbco__sum-thumb { width: 64px; height: 64px; border-radius: 12px; background: #f4f1ea; object-fit: contain; padding: 6px; border: 1px solid rgba(27,26,22,0.1); }
+.rbco__sum-thumb { width: 64px; height: 64px; border-radius: 12px; background: #ffffff; object-fit: contain; padding: 6px; border: 1px solid rgba(27,26,22,0.1); }
 .rbco__sum-badge { position: absolute; top: -7px; right: -7px; min-width: 20px; height: 20px; background: #54514a; color: #fff; border-radius: 999px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
 .rbco__sum-item-info { flex: 1; min-width: 0; }
 .rbco__sum-item-name { font-size: 14px; font-weight: 700; color: #1b1a16; margin: 0 0 2px; }
@@ -195,6 +195,8 @@ select.rbco__field { appearance: none; -webkit-appearance: none; cursor: pointer
   .rbco__body { grid-template-columns: 1fr; }
   .rbco__right { border-left: none; border-top: 1px solid rgba(27,26,22,0.1); padding: 32px 24px 64px; }
   .rbco__left { padding: 32px 24px 40px; max-width: 100%; }
+  /* Body is single-column here — stack City/State/ZIP so they aren't cramped */
+  .rbco__field-row3 { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 480px) {
   .rbco__express { flex-direction: column; }

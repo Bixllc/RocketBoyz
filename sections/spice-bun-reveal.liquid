@@ -31,7 +31,7 @@
   }
 
   .spice-{{ section.id }} .spice__head .spice__gradient-word {
-    background: #105020;
+    background: #2D6A2F;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -46,7 +46,7 @@
     font-family: 'Manrope', sans-serif;
     font-style: italic;
     font-size: 18px;
-    color: #D64B4A;
+    color: #2D6A2F;
     margin: 22px 0 0;
   }
 
@@ -67,7 +67,7 @@
   }
 
   .spice-{{ section.id }} .spice__btn:hover {
-    background: #105020;
+    background: #2D6A2F;
     color: #fff;
     border-color: transparent;
     transform: translateY(-2px);
@@ -251,6 +251,19 @@
     .spice-{{ section.id }} .spice__sub {
       display: flex !important;
     }
+    /* Override any stale GSAP inline transform (e.g. when the page was first
+       loaded wide, animated, then resized to mobile) so the food/bag always
+       sit at their correct static mobile positions. */
+    .spice-{{ section.id }} .food {
+      transform: translateX(-50%) !important;
+    }
+    .spice-{{ section.id }} .bagGroup {
+      transform: rotate({{ section.settings.bag_rotation }}deg) !important;
+    }
+    .spice-{{ section.id }} .spice__head,
+    .spice-{{ section.id }} .spice__sub {
+      transform: none !important;
+    }
   }
 
   @media (max-width: 520px) {
@@ -321,9 +334,27 @@
 <script src="{{ 'gsap.js' | asset_url }}" defer="defer"></script>
 <script defer="defer">
   (function () {
+    var gsapRetries = 0;
     function initSpiceReveal() {
       var root = document.querySelector('.spice-{{ section.id }}');
-      if (!root || typeof gsap === 'undefined') return;
+      if (!root) return;
+
+      // Mobile (<=900px) is a static, centered layout and the CSS already forces
+      // every element visible at its resting position. Running GSAP here left the
+      // bag/food stuck at their animation "from" offset on first scroll (only
+      // corrected after a reload once images were cached) — so skip it entirely.
+      if (window.matchMedia('(max-width: 900px)').matches) return;
+
+      // GSAP (deferred, separate <script src>) can occasionally still be mid-execution
+      // when this runs, especially on slow mobile connections — retry briefly instead of
+      // silently giving up, which left the bag/food in an unanimated, unrecovered position.
+      if (typeof gsap === 'undefined') {
+        if (gsapRetries < 40) {
+          gsapRetries++;
+          setTimeout(initSpiceReveal, 50);
+        }
+        return;
+      }
 
       var head = root.querySelector('[data-spice-head]');
       var sub = root.querySelector('[data-spice-sub]');
@@ -351,6 +382,13 @@
       }
 
       tl.play();
+
+      // Safety net: if the tab was backgrounded/throttled during load and the
+      // animation's rAF ticks stalled, force it to its end state so the bag/food
+      // never stay stuck at their offset "from" position.
+      setTimeout(function () {
+        if (tl.progress() < 1) tl.progress(1);
+      }, 2500);
     }
 
     if (document.readyState === 'complete') {

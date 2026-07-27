@@ -5,6 +5,10 @@
 
 /* ── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
+/* Reserve the scrollbar gutter permanently so opening a modal/drawer/menu
+   (which locks body scroll and hides the scrollbar) never widens the page
+   and shifts the sticky header/content. */
+html { scrollbar-gutter: stable; }
 html, body { margin: 0; padding: 0; }
 body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: #1b1a16; color: #f3f0e9; }
@@ -16,10 +20,10 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   --rb-card-bg:  #fbfaf7;
   --rb-red:      #E63946;
   --rb-orange:   #FF9F1C;
-  --rb-gradient: #105020;
+  --rb-gradient: #2D6A2F;
   --rb-text-muted: #54514a;
   --rb-border:   rgba(27,26,22,0.12);
-  --rb-teal:     #105020;
+  --rb-teal:     #2D6A2F;
   --rb-green:    #1f7a3a;
   --rb-max-w:    1280px;
   --rb-font-head: 'Big Shoulders Display', sans-serif;
@@ -45,7 +49,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   font-family: var(--rb-font-mono) !important;
 }
 .rb-gradient-text {
-  color: #105020;
+  color: #2D6A2F;
 }
 
 /* ── Layout helpers ─────────────────────────────────────────── */
@@ -73,7 +77,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   transform: translateY(-4px);
   box-shadow: 0 16px 32px -16px rgba(20,22,18,0.18);
   background: linear-gradient(#fff, #fff) padding-box,
-              #105020 border-box;
+              #2D6A2F border-box;
 }
 
 /* Image area */
@@ -150,8 +154,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   stroke: #71717A;
   transition: fill 0.15s, stroke 0.15s;
 }
-.rb-btn-wish:hover svg path,
-.rb-btn-wish.is-wished svg path {
+.rb-btn-wish:hover svg path {
   fill: none;
   stroke: #DC2626;
 }
@@ -187,11 +190,11 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 }
 .rb-product-card__title-link:hover { color: #DC2626; }
 
-/* Price + button row */
+/* Price + button — always stacked */
 .rb-product-card__bottom {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: 10px;
   margin-top: auto;
 }
@@ -204,20 +207,22 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   white-space: nowrap;
 }
 
-.rb-product-card__form { display: flex; }
+.rb-product-card__form { display: flex; width: 100%; }
 .rb-btn-atc svg { fill: none !important; }
 
-/* Add to Cart button — gradient background */
+/* Add to Cart button */
 .rb-btn-atc {
   font-family: 'Manrope', sans-serif;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
-  background: #105020;
+  width: 100%;
+  background: #2D6A2F;
   color: #fff;
   font-size: 13px;
   font-weight: 700;
-  padding: 9px 16px;
+  padding: 10px 16px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
@@ -230,8 +235,9 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   transform: translateY(-1px);
 }
 .rb-btn-atc.is-soldout {
-  background: #E4E4E7;
-  color: #71717A;
+  background: transparent;
+  color: #030213;
+  border: 1.5px solid #030213;
   cursor: not-allowed;
   transform: none;
   opacity: 1;
@@ -278,6 +284,11 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   transition: background 0.15s;
 }
 .rb-btn-dark:hover { background: #000; }
+/* Green text on hover/active (overrides the theme's orange link-hover color) */
+.rb-btn-dark:hover, .rb-btn-dark:active,
+.rb-btn-outline:hover, .rb-btn-outline:active {
+  color: #4CC46A !important;
+}
 
 .rb-btn-sm-outline {
   font-family: var(--rb-font-body) !important;
@@ -562,19 +573,12 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   }
 
   /* product card — tighter on mobile */
-  .rb-product-card__img-wrap { height: 150px; }
-  .rb-product-card__info { padding: 10px 12px 12px; }
-  .rb-product-card__title-link { font-size: 13px; }
+  .rb-product-card__img-wrap { height: 160px; }
+  .rb-product-card__info { padding: 10px 12px 14px; }
+  .rb-product-card__title-link { font-size: 13px; margin-bottom: 10px; }
   .rb-product-card__vendor { font-size: 10px; }
-
-  /* stack price above button so nothing overflows */
-  .rb-product-card__bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
   .rb-product-card__price { font-size: 15px; }
-  .rb-btn-atc { font-size: 12px; padding: 8px 12px; width: 100%; justify-content: center; }
+  .rb-btn-atc { font-size: 12px; padding: 9px 12px; }
 
 }
 
@@ -582,7 +586,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   .rb-grid-6,
   .rb-grid-5 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .rb-grid-4  { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .rb-grid-3  { grid-template-columns: 1fr; }
+  .rb-grid-3  { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
 /* =============================================================
@@ -656,7 +660,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 }
 /* Selected: gradient fill matching Add to Cart button */
 .productView .product-form__radio:checked + .product-form__label {
-  background: #105020 !important;
+  background: #2D6A2F !important;
   border-color: transparent !important;
 }
 .productView .product-form__radio:checked + .product-form__label .text {
@@ -665,10 +669,12 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   border-color: transparent !important;
 }
 .productView .product-form__label.soldout {
-  opacity: 0.4 !important;
+  opacity: 1 !important;
+  border-color: #E4E4E7 !important;
 }
 .productView .product-form__label.soldout .text {
   text-decoration: line-through !important;
+  color: #A1A1AA;
 }
 
 /* Quantity stepper */
@@ -718,7 +724,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 
 /* Add to Cart button */
 .product-form__submit.button.button--primary {
-  background: #105020 !important;
+  background: #2D6A2F !important;
   color: #1b1a16 !important;
   border: none !important;
   border-radius: 999px !important;
@@ -847,7 +853,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 /* Sticky ATC button */
 .productView-stickyCart .product-form__submit,
 .productView-stickyCart [data-btn-addToCart] {
-  background: #105020 !important;
+  background: #2D6A2F !important;
   color: #1b1a16 !important;
   border: none !important;
   border-radius: 999px !important;
@@ -888,4 +894,548 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   .productView-stickyCart .sticky-title { font-size: 13px !important; }
   .productView-stickyCart .product-form__submit,
   .productView-stickyCart [data-btn-addToCart] { font-size: 13px !important; padding: 11px 20px !important; }
+}
+
+/* ── Collection & Search grid: override old theme productGrid to match rb-product-card layout ── */
+ul.productListing.productGrid,
+ul.productListing {
+  display: grid !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 20px !important;
+}
+
+ul.productListing.productGrid.column-1 { grid-template-columns: repeat(1, 1fr) !important; }
+ul.productListing.productGrid.column-2 { grid-template-columns: repeat(2, 1fr) !important; }
+ul.productListing.productGrid.column-3 { grid-template-columns: repeat(3, 1fr) !important; }
+ul.productListing.productGrid.column-4 { grid-template-columns: repeat(4, 1fr) !important; }
+ul.productListing.productGrid.column-5 { grid-template-columns: repeat(5, 1fr) !important; }
+ul.productListing.productGrid.column-6 { grid-template-columns: repeat(6, 1fr) !important; }
+
+ul.productListing li.product {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  float: none !important;
+}
+
+/* Search results grid */
+ul.productListing:not(.productGrid) {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+
+@media (max-width: 900px) {
+  ul.productListing.productGrid.column-3,
+  ul.productListing.productGrid.column-4,
+  ul.productListing.productGrid.column-5,
+  ul.productListing.productGrid.column-6,
+  ul.productListing:not(.productGrid) {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  ul.productListing,
+  ul.productListing.productGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+}
+
+/* ── Collection page: sidebar & toolbar brand overrides ── */
+
+/* Page background */
+.template-collection .page-width,
+.collection-template,
+.facets-wrapper,
+.collection-filters {
+  background: #ffffff !important;
+}
+
+/* Sidebar heading rows (CATEGORIES, AVAILABILITY, PRICE) */
+.sidebarBlock-heading {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #030213 !important;
+  border-bottom: 1px solid #E4E4E7 !important;
+  padding: 14px 0 10px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+}
+
+/* Sidebar filter item text */
+.facet-checkbox .text,
+.facets__label .text,
+.sidebarBlock-content label {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 14px !important;
+  color: #27272A !important;
+}
+
+/* Count text in filters */
+.facet-checkbox .count,
+.facets__label .count {
+  color: #71717A !important;
+  font-size: 12px !important;
+}
+
+/* Checkbox active state: green accent */
+input[type="checkbox"]:checked ~ .facet-checkbox,
+.facets__item.is-active .facet-checkbox,
+input.facet-checkbox[type="checkbox"]:checked + label {
+  color: #2D6A2F !important;
+}
+
+/* Price range APPLY button */
+.button.button--primary.filter__price--apply,
+input.button.button--primary.filter__price--apply,
+#filter__price--apply {
+  background: #2D6A2F !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 999px !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  padding: 11px 20px !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  margin-top: 12px !important;
+  transition: background 0.2s !important;
+}
+#filter__price--apply:hover,
+.filter__price--apply:hover {
+  background: #245526 !important;
+}
+
+/* Price range input boxes */
+.price-range input[type="text"],
+.price-range input[type="number"],
+.filter__price input {
+  font-family: 'Manrope', sans-serif !important;
+  border: 1px solid #E4E4E7 !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  color: #030213 !important;
+}
+
+/* Price range slider thumb */
+input[type="range"] {
+  accent-color: #2D6A2F !important;
+}
+
+/* Toolbar wrapper */
+.toolbar-wrapper {
+  font-family: 'Manrope', sans-serif !important;
+  border-bottom: 1px solid #E4E4E7 !important;
+  padding-bottom: 14px !important;
+  margin-bottom: 20px !important;
+  align-items: center !important;
+}
+
+/* VIEW AS / ITEMS PER PAGE / SORT BY labels */
+.toolbar-label {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #52525B !important;
+  margin-right: 8px !important;
+}
+
+/* Grid/list view icons — active state */
+.toolbar-icon.icon-mode.active {
+  color: #2D6A2F !important;
+  border-color: #2D6A2F !important;
+}
+.toolbar-icon.icon-mode:hover {
+  color: #2D6A2F !important;
+  opacity: 0.8 !important;
+}
+
+/* Sort / items-per-page dropdowns */
+.toolbar-dropdown .label-tab,
+.haloSortBy .label-tab,
+.toolbar-item .label-tab {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 14px !important;
+  color: #030213 !important;
+  border: 1px solid #E4E4E7 !important;
+  border-radius: 8px !important;
+  padding: 8px 14px !important;
+  background: #ffffff !important;
+}
+
+.toolbar-dropdown .dropdown-menu,
+.haloSortBy .dropdown-menu {
+  border: 1px solid #E4E4E7 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+  font-family: 'Manrope', sans-serif !important;
+}
+
+.toolbar-dropdown .dropdown-menu li a,
+.haloSortBy .dropdown-menu li a,
+.toolbar-dropdown .dropdown-menu li span.text {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 14px !important;
+  color: #030213 !important;
+}
+
+.toolbar-dropdown .dropdown-menu li:hover,
+.haloSortBy .dropdown-menu li:hover {
+  background: #f4f4f5 !important;
+}
+
+/* Active sort/limit item */
+.toolbar-dropdown .dropdown-menu li.is-active span.text,
+.haloSortBy .dropdown-menu li.is-active span.text {
+  color: #2D6A2F !important;
+  font-weight: 600 !important;
+}
+
+/* Clear all / refined-by tag */
+.active-facets__button.facets__clear-all {
+  color: #DC2626 !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 13px !important;
+}
+
+/* Category sidebar items */
+.sidebarBlock--categories a,
+.sidebar-categories a {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 14px !important;
+  color: #27272A !important;
+}
+
+.sidebarBlock--categories a.is-active,
+.sidebar-categories a.is-active,
+.sidebarBlock--categories a:hover,
+.sidebar-categories a:hover {
+  color: #2D6A2F !important;
+  font-weight: 600 !important;
+}
+
+/* ── Hide "Scan to get our app" / smart app banner (global) ──
+   These hide rules previously lived in component-header-05.css, which only
+   loads with header layout 05. The active header is layout 01, so the banner
+   was never being hidden. Moved here (globally loaded) to hide it site-wide.
+
+   The persistent black blob is Tapcart's "Capture Kit" mobile-app-download
+   QR widget — it renders as <aside id="tc-capture-kit"> with tc-* classes
+   (Tapcart prefix), injected by the app regardless of the theme block being
+   disabled. We hide it here so the footer App Store badge is the single CTA. */
+#tc-capture-kit,
+.tc-capture-kit,
+[id^="tc-capture"],
+[class*="tapcart-qr"],
+[class*="smart-app"],
+[class*="smartbanner"],
+[class*="getapp"],
+[class*="get-our-app"],
+[id*="smart-app"],
+[id*="smartbanner"],
+[id*="getapp"],
+[id*="tapcart"],
+[class*="tapcart"],
+.smartbanner,
+[data-app-banner] {
+  display: none !important;
+}
+
+/* ── Customer / account pages — brand restyle (login, register, account,
+   addresses, order, reset, activate). Scoped to .account-page so it never
+   leaks into other templates. ── */
+.account-page {
+  font-family: 'Manrope', sans-serif !important;
+  background: #ffffff;
+  padding: 48px 0 80px;
+}
+.account-page .container { max-width: 1100px; }
+.account-page .page-header {
+  font-family: 'Anton', sans-serif !important;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+  font-size: clamp(32px, 5vw, 52px) !important;
+  color: #1b1a16 !important;
+  line-height: 1 !important;
+  margin-bottom: 28px;
+}
+.account-page .page-subheader,
+.account-page .account-title,
+.account-page .halo-page-title {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 800 !important;
+  color: #1b1a16 !important;
+}
+.account-page .account-desc,
+.account-page .login-text,
+.account-page .account-product-text { color: #52525B !important; }
+
+/* Inputs */
+.account-page .form-input,
+.account-page input[type="text"],
+.account-page input[type="email"],
+.account-page input[type="password"],
+.account-page input[type="tel"],
+.account-page select,
+.account-page textarea {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 15px !important;
+  color: #1b1a16 !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(27,26,22,0.18) !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease;
+}
+.account-page .form-input:focus,
+.account-page input:focus,
+.account-page select:focus,
+.account-page textarea:focus {
+  outline: none !important;
+  border-color: #2D6A2F !important;
+}
+
+/* Buttons */
+.account-page .button,
+.account-page .button--primary {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  border-radius: 999px !important;
+  padding: 13px 26px !important;
+  background: #2D6A2F !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: opacity 0.15s ease !important;
+}
+.account-page .button:hover,
+.account-page .button--primary:hover { opacity: 0.9 !important; color: #fff !important; }
+.account-page .button-2 {
+  background: transparent !important;
+  color: #1b1a16 !important;
+  border: 1.5px solid rgba(27,26,22,0.22) !important;
+}
+.account-page .button-2:hover { border-color: #2D6A2F !important; color: #2D6A2F !important; }
+
+/* Links */
+.account-page a:not(.button):not(.button-2) { color: #2D6A2F; }
+.account-page a:not(.button):not(.button-2):hover { color: #245526; }
+
+/* Account overview table/list cards */
+.account-page .account-list,
+.account-page table {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* =============================================================
+   Brand restyle for the remaining default templates
+   (list-collections, blog, article, page, gift_card, password).
+   Scoped to body.template-* so it never leaks elsewhere.
+   ============================================================= */
+
+/* ── Shared: fonts, page titles, buttons, links, inputs ── */
+body.template-list-collections,
+body.template-blog,
+body.template-article,
+body.template-page,
+body.template-gift_card {
+  font-family: 'Manrope', sans-serif;
+  background: #ffffff;
+}
+
+body.template-list-collections .page-header,
+body.template-blog .page-header,
+body.template-article .article-heading,
+body.template-page .page-header,
+body.template-page .main-page-title {
+  font-family: 'Anton', sans-serif !important;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+  color: #1b1a16 !important;
+  line-height: 1.02 !important;
+  letter-spacing: 0.005em;
+}
+
+/* Body copy / RTE */
+body.template-article .article-content,
+body.template-article .article-content p,
+body.template-page .rte,
+body.template-page .rte p,
+body.template-blog .article-card .summary {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #3f3f46;
+}
+body.template-article .article-content h2,
+body.template-article .article-content h3,
+body.template-page .rte h2,
+body.template-page .rte h3 {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 800 !important;
+  color: #1b1a16 !important;
+}
+
+/* Buttons → green brand pill */
+body.template-list-collections .button,
+body.template-blog .button,
+body.template-article .button,
+body.template-page .button,
+body.template-gift_card .button,
+body.template-password .button,
+body.template-list-collections .button-1,
+body.template-blog .button-1,
+body.template-article .button-1,
+body.template-page .button-1,
+body.template-password .button-1,
+body.template-password .button--primary {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  background: #2D6A2F !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: opacity 0.15s ease !important;
+}
+body.template-list-collections .button:hover,
+body.template-blog .button:hover,
+body.template-article .button:hover,
+body.template-page .button:hover,
+body.template-gift_card .button:hover,
+body.template-password .button:hover { opacity: 0.9 !important; color: #fff !important; }
+
+/* Links → green */
+body.template-article .article-content a,
+body.template-page .rte a,
+body.template-blog a.link-underline,
+body.template-list-collections a.link-underline { color: #2D6A2F; }
+
+/* Inputs (comments, password, gift card) */
+body.template-article .form-input,
+body.template-password input[type="password"],
+body.template-password input[type="email"],
+body.template-page .form-input,
+body.template-page input[type="text"],
+body.template-page input[type="email"] {
+  font-family: 'Manrope', sans-serif !important;
+  border: 1px solid rgba(27,26,22,0.18) !important;
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  box-shadow: none !important;
+}
+body.template-article .form-input:focus,
+body.template-password input:focus,
+body.template-page input:focus { outline: none !important; border-color: #2D6A2F !important; }
+
+/* ── list-collections: collection tiles ── */
+body.template-list-collections .des-collection img,
+body.template-list-collections [class*="collection"] img {
+  border-radius: 16px;
+}
+body.template-list-collections a[class*="title"],
+body.template-list-collections .collection-title {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  color: #1b1a16 !important;
+}
+
+/* ── article: media + tags ── */
+body.template-article .article-image img { border-radius: 20px; }
+body.template-article .article-tag {
+  font-family: 'Manrope', sans-serif !important;
+  background: #ffffff;
+  border: 1.5px solid #E4E4E7;
+  border-radius: 999px;
+  color: #27272A;
+}
+
+/* ── gift card ── */
+body.template-gift_card .gift-card__heading,
+body.template-gift_card .gift-card__title {
+  font-family: 'Anton', sans-serif !important;
+  text-transform: uppercase;
+  color: #1b1a16 !important;
+}
+
+/* ── Green button pair ─────────────────────────────────────────────────────
+   .rb-btn-green         → solid green pill
+   .rb-btn-green-outline → no fill by default, fills green on hover/press
+   Metrics match .rb-btn-outline so swapping between them causes no layout shift. */
+.rb-btn-green,
+.rb-btn-green-outline {
+  font-family: var(--rb-font-body) !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 16px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.rb-btn-green {
+  background: #2D6A2F;
+  color: #ffffff;
+  border: 1.5px solid #2D6A2F;
+}
+.rb-btn-green:hover,
+.rb-btn-green:active,
+.rb-btn-green:focus-visible {
+  background: #245526;
+  border-color: #245526;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+.rb-btn-green-outline {
+  background: transparent;
+  color: #2D6A2F;
+  border: 1.5px solid #2D6A2F;
+}
+/* :focus-within/:focus-visible included so keyboard users get the same fill */
+.rb-btn-green-outline:hover,
+.rb-btn-green-outline:active,
+.rb-btn-green-outline:focus-visible {
+  background: #2D6A2F;
+  border-color: #2D6A2F;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* ── Hide category nav pills on shop/collection listing pages ──────────────
+   Hides the <nav class="rb-cl-cats"> row rendered by sections/rb-collection-listing.liquid
+   (Snacks / Beverages / Sweets / Grocery / … / Product Catalog).
+
+   Hiding the nav rather than the individual .rb-cl-cat-pill items so its
+   28px margin-bottom collapses too and no empty gap is left behind.
+
+   Scope: only templates that render rb-collection-listing —
+   collection.json, collection.rb-collection.json, collection.template_full_width.json,
+   page.wholesale.json, page.dollar-menu.json, page.grocery.json.
+   Product templates never render this section, so PDPs are unaffected.
+
+   The markup is intact — the pills are plain <a> links with no JS bound to
+   them. To restore, delete this rule. */
+.rb-cl-cats {
+  display: none !important;
 }

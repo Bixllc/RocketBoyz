@@ -15,15 +15,15 @@
 
     <!-- Products Grid -->
     {% if section.settings.collection != blank %}
-      <div class="rb-grid rb-grid-2">
+      <div class="rb-grid rb-grid-4">
         {% for product in collections[section.settings.collection].products limit: section.settings.products_to_show %}
-          {% render 'product-card', product_card_product: product %}
+          {% render 'rb-product-card', product: product %}
         {% endfor %}
       </div>
     {% else %}
-      <div class="rb-grid rb-grid-2">
+      <div class="rb-grid rb-grid-4">
         {% for product in collections.all.products limit: section.settings.products_to_show %}
-          {% render 'product-card', product_card_product: product %}
+          {% render 'rb-product-card', product: product %}
         {% endfor %}
       </div>
     {% endif %}

@@ -2,6 +2,7 @@
   .cs-cta-section {
     background: #fff;
     padding: 0 32px 96px;
+    scroll-margin-top: 80px;
   }
 
   .cs-cta-inner {
@@ -12,8 +13,7 @@
   .cs-cta-card {
     background: #F5F2ED;
     border-radius: 24px;
-    padding: 64px 40px;
-    text-align: center;
+    padding: 64px 48px;
   }
 
   .cs-cta-heading {
@@ -24,6 +24,7 @@
     color: #030213;
     margin: 0 0 12px;
     line-height: 1.0;
+    text-align: center;
   }
 
   .cs-cta-sub {
@@ -32,14 +33,122 @@
     color: #52525B;
     margin: 0 0 40px;
     line-height: 1.6;
+    text-align: center;
   }
 
+  /* Contact form */
+  .cs-contact-form-wrap {
+    max-width: 680px;
+    margin: 0 auto 48px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+  }
+
+  .cs-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .cs-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .cs-form-field:last-child { margin-bottom: 0; }
+
+  .cs-form-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #030213;
+  }
+
+  .cs-form-input,
+  .cs-form-select,
+  .cs-form-textarea {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: #030213;
+    background: #fff;
+    border: 1px solid #E4E4E7;
+    border-radius: 10px;
+    padding: 13px 16px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .cs-form-input::placeholder,
+  .cs-form-textarea::placeholder { color: #A1A1AA; }
+
+  .cs-form-input:focus,
+  .cs-form-select:focus,
+  .cs-form-textarea:focus { border-color: #030213; }
+
+  .cs-form-select-wrap { position: relative; }
+
+  .cs-form-select-wrap svg {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    width: 16px !important;
+    height: 16px !important;
+    fill: none !important;
+    stroke: #71717A !important;
+    stroke-width: 2px;
+  }
+
+  .cs-form-textarea { min-height: 130px; resize: vertical; }
+
+  .cs-form-submit {
+    font-family: 'Manrope', sans-serif;
+    width: 100%;
+    padding: 16px;
+    background: #2D6A2F;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    transition: opacity 0.2s;
+  }
+
+  .cs-form-submit:hover { opacity: 0.88; }
+
+  .cs-form-success {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    color: #1f8a3a;
+    background: #f0faf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+
+  /* 3 contact method boxes */
   .cs-contact-methods {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     max-width: 800px;
-    margin: 0 auto 32px;
+    margin: 0 auto;
   }
 
   .cs-contact-method {
@@ -82,41 +191,74 @@
     font-size: 13px;
     color: #71717A;
     margin: 0;
+    text-align: center;
   }
 
-  .cs-cta-btn {
-    font-family: 'Manrope', sans-serif;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    border: 1.5px solid #030213;
-    border-radius: 999px;
-    background: transparent;
-    color: #030213;
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .cs-cta-btn:hover {
-    background: #030213;
-    color: #fff;
+  @media (max-width: 900px) {
+    .cs-cta-card { padding: 48px 24px; }
+    .cs-contact-form-wrap { padding: 28px 20px; }
   }
 
   @media (max-width: 640px) {
     .cs-cta-section { padding: 0 16px 64px; }
+    .cs-form-row { grid-template-columns: 1fr; }
     .cs-contact-methods { grid-template-columns: 1fr; }
   }
 </style>
 
-<section class="cs-cta-section">
+<section id="still-need-a-hand" class="cs-cta-section">
   <div class="cs-cta-inner">
     <div class="cs-cta-card">
       <h2 class="cs-cta-heading">{{ section.settings.heading | default: 'Still Need a Hand?' }}</h2>
       <p class="cs-cta-sub">{{ section.settings.subheading | default: 'Our team replies within one business day — usually a lot faster.' }}</p>
 
+      <!-- Contact form -->
+      <div class="cs-contact-form-wrap">
+        {%- form 'contact' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="cs-form-success">Message sent! We'll get back to you within one business day.</p>
+          {%- endif -%}
+
+          <div class="cs-form-row">
+            <div class="cs-form-field">
+              <label class="cs-form-label" for="CSContactName">Name</label>
+              <input class="cs-form-input" type="text" id="CSContactName" name="contact[name]" placeholder="Your name" autocomplete="name" required>
+            </div>
+            <div class="cs-form-field">
+              <label class="cs-form-label" for="CSContactEmail">Email</label>
+              <input class="cs-form-input" type="email" id="CSContactEmail" name="contact[email]" placeholder="you@email.com" autocomplete="email" required>
+            </div>
+          </div>
+
+          <div class="cs-form-field">
+            <label class="cs-form-label" for="CSContactTopic">Topic</label>
+            <div class="cs-form-select-wrap">
+              <select class="cs-form-select" id="CSContactTopic" name="contact[topic]">
+                <option value="">Choose a topic...</option>
+                <option>Order issue</option>
+                <option>Returns &amp; refunds</option>
+                <option>Wholesale inquiry</option>
+                <option>Snack Box subscription</option>
+                <option>Product question</option>
+                <option>Other</option>
+              </select>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+
+          <div class="cs-form-field">
+            <label class="cs-form-label" for="CSContactMessage">Message</label>
+            <textarea class="cs-form-textarea" id="CSContactMessage" name="contact[body]" placeholder="How can we help?"></textarea>
+          </div>
+
+          <button type="submit" class="cs-form-submit">
+            Send message
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        {%- endform -%}
+      </div>
+
+      <!-- 3 contact method boxes -->
       <div class="cs-contact-methods">
 
         <a href="{{ section.settings.chat_url | default: '#' }}" class="cs-contact-method">
@@ -138,11 +280,6 @@
         </a>
 
       </div>
-
-      <a href="{{ section.settings.message_url | default: '/pages/contact' }}" class="cs-cta-btn">
-        Send us a message
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
     </div>
   </div>
 </section>
@@ -151,14 +288,13 @@
 {
   "name": "CS Contact CTA",
   "settings": [
-    { "type": "text",    "id": "heading",      "label": "Heading",       "default": "Still Need a Hand?" },
-    { "type": "textarea","id": "subheading",   "label": "Subheading",    "default": "Our team replies within one business day — usually a lot faster." },
-    { "type": "text",    "id": "email",        "label": "Email address", "default": "help@rocketboyz.com" },
-    { "type": "text",    "id": "phone",        "label": "Phone (tel: link, digits only)", "default": "18007622596" },
-    { "type": "text",    "id": "phone_display","label": "Phone (display text)", "default": "1-800-SNACK-96" },
-    { "type": "text",    "id": "chat_detail",  "label": "Live chat hours", "default": "Mon–Fri, 9am–6pm ET" },
-    { "type": "url",     "id": "chat_url",     "label": "Live chat URL" },
-    { "type": "url",     "id": "message_url",  "label": "Send us a message URL" }
+    { "type": "text",     "id": "heading",       "label": "Heading",        "default": "Still Need a Hand?" },
+    { "type": "textarea", "id": "subheading",    "label": "Subheading",     "default": "Our team replies within one business day — usually a lot faster." },
+    { "type": "text",     "id": "email",         "label": "Email address",  "default": "help@rocketboyz.com" },
+    { "type": "text",     "id": "phone",         "label": "Phone (tel: link, digits only)", "default": "18007622596" },
+    { "type": "text",     "id": "phone_display", "label": "Phone (display text)", "default": "1-800-SNACK-96" },
+    { "type": "text",     "id": "chat_detail",   "label": "Live chat hours", "default": "Mon–Fri, 9am–6pm ET" },
+    { "type": "url",      "id": "chat_url",      "label": "Live chat URL" }
   ],
   "presets": [{ "name": "CS Contact CTA" }]
 }
