@@ -128,7 +128,9 @@
         "cat_health",
         "cat_household"
       ],
-      "settings": {}
+      "settings": {
+        "show_products": false
+      }
     },
     "rb_new_arrivals": {
       "type": "new-arrivals",

@@ -74,7 +74,11 @@
         </div>
       </div>
 
-      <!-- Product panels — one per category, shown/hidden by JS -->
+      <!-- Product panels — one per category, shown/hidden by JS.
+           Off by default; the category cards link out to full collections instead.
+           The panel-switching JS uses querySelectorAll().forEach(), so an absent
+           products-wrap is a safe no-op — pills and the image panel still work. -->
+      {%- if section.settings.show_products -%}
       <div class="categories-carousel__products-wrap">
         {%- for block in section.blocks -%}
           {%- if block.type == 'category' -%}
@@ -100,6 +104,7 @@
           {%- endif -%}
         {%- endfor -%}
       </div>
+      {%- endif -%}
 
     {%- else -%}
       <p class="categories-carousel__empty">Add category blocks in the theme editor to get started.</p>
@@ -478,6 +483,15 @@
   "tag": "section",
   "class": "section-categories-carousel",
   "max_blocks": 10,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_products",
+      "label": "Show product row under the category card",
+      "default": false,
+      "info": "Off by default. When on, each category tab shows the first 4 products from its assigned collection."
+    }
+  ],
   "blocks": [
     {
       "type": "category",
