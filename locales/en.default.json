@@ -418,7 +418,8 @@
       },
       "update": "Update",
       "upsell": "The following items has been added to your cart:",
-      "your_order": "Your Order"
+      "your_order": "Your Order",
+      "cart_quantity_error_prefix": "You can only add"
     },
     "footer": {
       "payment": "Payment methods"
@@ -780,5 +781,10 @@
   },
   "find_a_store": {
     "no_stores": "Sorry, we are working on our store presentation right now! Please come back later..."
+  },
+  "cart": {
+    "ajax_cart": {
+      "close": "Close"
+    }
   }
 }

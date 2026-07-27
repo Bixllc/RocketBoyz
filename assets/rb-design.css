@@ -1372,6 +1372,75 @@ body.template-gift_card .gift-card__title {
   color: #1b1a16 !important;
 }
 
+/* ── ReelUp shoppable video widget ─────────────────────────────────────────
+   ReelUp renders into the normal DOM (no shadow DOM, no iframe), so we can
+   brand it from the theme. Its admin exposes no colour controls — the black
+   buttons and red prices are applied as INLINE styles, which is why every
+   rule here needs !important to win the cascade.
+
+   Class names taken from cdn-v2.reelup.io/dynamic/playlistCarousel-App-app-0.css
+   ------------------------------------------------------------------------ */
+
+/* "Shop Now" / "Add to Cart" — the wrapper carries the background,
+   the inner button is transparent with white text */
+.reelUp_playlist_button_wrapper {
+  background: #2D6A2F !important;
+  border-radius: 999px !important;
+  height: auto !important;
+  min-height: 34px !important;
+}
+.reelUp_playlist_button_wrapper:hover {
+  background: #245526 !important;
+}
+.reelUp_playlist_button,
+.reelUp_playlist_button_text,
+.reelUp_custom_btn_text {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0 !important;
+}
+/* sold-out variant stays neutral rather than green */
+.reelUp_playlist_button_sold,
+.reelUp_playlist_button_wrapper:has(.reelUp_playlist_button_sold) {
+  background: transparent !important;
+  border: 1.5px solid #030213 !important;
+  color: #030213 !important;
+}
+
+/* Price — kill the default red, use brand ink; compare-at goes muted */
+.reelUp_slider_price,
+.reelUp_slider_price *,
+.reelUp_slider_price_container * {
+  font-family: 'Manrope', sans-serif !important;
+  color: #030213 !important;
+}
+.reelUp_saved_price,
+.reelUp_price_save {
+  color: #71717A !important;
+}
+
+/* Cards + discount badge */
+.reelUp_card,
+.reelUp_overlay_card {
+  border-radius: 20px !important;
+}
+.reelUp_product_tag_badge {
+  background: #2D6A2F !important;
+  border-radius: 999px !important;
+}
+.reelUp_product_tag_text {
+  color: #ffffff !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+/* Section heading uses the display face like every other section heading */
+.reelUp_slider_heading {
+  font-family: 'Big Shoulders Display', sans-serif !important;
+  text-transform: uppercase;
+}
+
 /* ── Green button pair ─────────────────────────────────────────────────────
    .rb-btn-green         → solid green pill
    .rb-btn-green-outline → no fill by default, fills green on hover/press
