@@ -1381,8 +1381,37 @@ body.template-gift_card .gift-card__title {
    Class names taken from cdn-v2.reelup.io/dynamic/playlistCarousel-App-app-0.css
    ------------------------------------------------------------------------ */
 
-/* "Shop Now" / "Add to Cart" — the wrapper carries the background,
-   the inner button is transparent with white text */
+/* Modal "Shop Now" — confirmed in the live DOM as
+   <button class="reelUp_custom_action reelUp_modal_shop_now_btn"
+           style="background-color: rgb(0,0,0); border: 2px solid rgb(0,0,0)">
+   Both background AND border are set inline, so both need overriding. */
+.reelUp_modal_shop_now_btn,
+.reelUp_custom_action {
+  background-color: #2D6A2F !important;
+  border: 2px solid #2D6A2F !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+}
+.reelUp_modal_shop_now_btn:hover,
+.reelUp_custom_action:hover {
+  background-color: #245526 !important;
+  border-color: #245526 !important;
+}
+
+/* Product card inside the modal grid */
+.reelUp_grid_product,
+.reelUp_ratio_img_container {
+  border-radius: 20px !important;
+}
+
+/* Savings badge — rect by default, make it a brand pill */
+.reelUp_save_badge_wrapper {
+  background: #2D6A2F !important;
+  border-radius: 999px !important;
+  color: #ffffff !important;
+}
+
+/* Carousel-layout button (different component from the modal above) */
 .reelUp_playlist_button_wrapper {
   background: #2D6A2F !important;
   border-radius: 999px !important;
@@ -1394,7 +1423,9 @@ body.template-gift_card .gift-card__title {
 }
 .reelUp_playlist_button,
 .reelUp_playlist_button_text,
-.reelUp_custom_btn_text {
+.reelUp_custom_btn_text,
+.reelUp_modal_shop_now_btn,
+.reelUp_custom_action {
   font-family: 'Manrope', sans-serif !important;
   font-weight: 700 !important;
   color: #ffffff !important;
@@ -1409,9 +1440,13 @@ body.template-gift_card .gift-card__title {
 }
 
 /* Price — kill the default red, use brand ink; compare-at goes muted */
+/* Scoped to the text container only — the Shop Now button is a SIBLING of
+   .reelUp_grid_product_info, so it keeps its white label. */
 .reelUp_slider_price,
 .reelUp_slider_price *,
-.reelUp_slider_price_container * {
+.reelUp_slider_price_container *,
+.reelUp_grid_product_details,
+.reelUp_grid_product_details * {
   font-family: 'Manrope', sans-serif !important;
   color: #030213 !important;
 }
