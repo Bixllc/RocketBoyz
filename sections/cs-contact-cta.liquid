@@ -143,11 +143,13 @@
   }
 
   /* 3 contact method boxes */
+  /* auto-fit rather than a fixed column count, so the row stays balanced
+     whether there are two cards or three */
   .cs-contact-methods {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
-    max-width: 800px;
+    max-width: 560px;
     margin: 0 auto;
   }
 
@@ -261,12 +263,6 @@
       <!-- 3 contact method boxes -->
       <div class="cs-contact-methods">
 
-        <a href="{{ section.settings.chat_url | default: '#' }}" class="cs-contact-method">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <p class="cs-contact-method-label">Live chat</p>
-          <p class="cs-contact-method-detail">{{ section.settings.chat_detail | default: 'Mon–Fri, 9am–6pm ET' }}</p>
-        </a>
-
         <a href="mailto:{{ section.settings.email | default: 'rocketboyzllc@gmail.com' }}" class="cs-contact-method">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <p class="cs-contact-method-label">Email us</p>
@@ -292,9 +288,7 @@
     { "type": "textarea", "id": "subheading",    "label": "Subheading",     "default": "Our team replies within one business day — usually a lot faster." },
     { "type": "text",     "id": "email",         "label": "Email address",  "default": "rocketboyzllc@gmail.com" },
     { "type": "text",     "id": "phone",         "label": "Phone (tel: link, digits only)", "default": "3056845170" },
-    { "type": "text",     "id": "phone_display", "label": "Phone (display text)", "default": "(305) 684-5170" },
-    { "type": "text",     "id": "chat_detail",   "label": "Live chat hours", "default": "Mon–Fri, 9am–6pm ET" },
-    { "type": "url",      "id": "chat_url",      "label": "Live chat URL" }
+    { "type": "text",     "id": "phone_display", "label": "Phone (display text)", "default": "(305) 684-5170" }
   ],
   "presets": [{ "name": "CS Contact CTA" }]
 }
