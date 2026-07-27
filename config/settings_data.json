@@ -120,7 +120,7 @@
     "type_page_title_font_size": 20,
     "type_page_title_font_weight": "700",
     "type_page_title_letter_spacing": ".05em",
-    "favicon": "shopify://shop_images/WhatsApp_Image_2024-03-09_at_6.02.51_PM_1.jpg",
+    "favicon": "shopify://shop_images/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp",
     "show_wishlist": true,
     "show_effect_close": true,
     "show_global_checkbox": false,
@@ -459,14 +459,6 @@
               "url": "/collections/sweets"
             }
           },
-          "dropdown_household": {
-            "type": "dropdown_item",
-            "settings": {
-              "title": "Household",
-              "subtitle": "",
-              "url": "/collections/household"
-            }
-          },
           "dropdown_grocery": {
             "type": "dropdown_item",
             "settings": {
@@ -475,20 +467,20 @@
               "url": "/collections/grocery"
             }
           },
-          "dropdown_wholesale": {
-            "type": "dropdown_item",
-            "settings": {
-              "title": "Wholesale",
-              "subtitle": "",
-              "url": "/pages/wholesale"
-            }
-          },
           "dropdown_health": {
             "type": "dropdown_item",
             "settings": {
               "title": "Health & Beauty",
               "subtitle": "",
               "url": "/collections/health-beauty"
+            }
+          },
+          "dropdown_household": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Household",
+              "subtitle": "",
+              "url": "/collections/household"
             }
           },
           "dropdown_snack_box": {
@@ -505,6 +497,14 @@
               "title": "Dollar Menu",
               "subtitle": "",
               "url": "/pages/dollar-menu"
+            }
+          },
+          "dropdown_wholesale": {
+            "type": "dropdown_item",
+            "settings": {
+              "title": "Wholesale",
+              "subtitle": "",
+              "url": "/pages/wholesale"
             }
           },
           "dropdown_catalog": {
@@ -1473,6 +1473,9 @@
         "settings": {
           "logo": "shopify://shop_images/ovowayne_SK07eA01a_642x_6dfde74a-b5b7-4111-b913-c9ee6b542b50.webp",
           "tagline": "Caribbean snacks, distributed with love and shipped with speed. Keep the culture in stock.",
+          "app_store_label": "Shop easier on the go",
+          "app_store_url": "",
+          "play_store_url": "",
           "follow_heading": "Follow Wi Pon Dem Ya",
           "facebook_url": "https://www.facebook.com/p/Rocket-Boyz-LLC-100033225196839/",
           "instagram_url": "https://www.instagram.com/rocketboyzllc?igsh=MXRnM20wNXl6ZWJicQ%3D%3D",
