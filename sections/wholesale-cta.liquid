@@ -61,9 +61,23 @@
     flex-wrap: nowrap;
   }
 
+  /* Mobile: stack the two CTAs instead of cramming them onto one line.
+     The previous rule shrank them to 12px/10px padding to fit side by side,
+     which left both under the 44px comfortable tap target. */
   @media (max-width: 480px) {
-    .rb-wholesale-cta-wrap { gap: 6px; }
-    .rb-wholesale-btn { padding: 10px 12px; font-size: 12px; gap: 5px; }
+    .rb-wholesale-cta-wrap {
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .rb-wholesale-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 15px;
+      gap: 8px;
+    }
   }
 
   .rb-wholesale-btn {

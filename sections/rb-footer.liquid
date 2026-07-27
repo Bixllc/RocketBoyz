@@ -514,7 +514,7 @@
 
       {%- comment -%} Column 2 — Quick Links {%- endcomment -%}
       <div class="rb-footer-col">
-        <details class="rb-footer-accordion" open>
+        <details class="rb-footer-accordion">
           <summary class="rb-footer-accordion-trigger">
             Quick Links
             <svg class="rb-footer-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -538,7 +538,7 @@
 
       {%- comment -%} Column 3 — Customer Care {%- endcomment -%}
       <div class="rb-footer-col">
-        <details class="rb-footer-accordion" open>
+        <details class="rb-footer-accordion">
           <summary class="rb-footer-accordion-trigger">
             Customer Care
             <svg class="rb-footer-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -558,7 +558,7 @@
 
       {%- comment -%} Column 4 — Newsletter {%- endcomment -%}
       <div class="rb-footer-col">
-        <details class="rb-footer-accordion" open>
+        <details class="rb-footer-accordion">
           <summary class="rb-footer-accordion-trigger">
             Newsletter
             <svg class="rb-footer-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -646,6 +646,34 @@
 
   </div>
 </footer>
+
+{%- comment -%}
+  Footer accordions ship CLOSED so mobile isn't a wall of expanded links, and
+  so there's no flash of open content before JS runs.
+
+  On desktop they must be open: the CSS sets `.rb-footer-accordion-body
+  { display: block }` to defeat the UA's details-hiding, but modern browsers
+  hide closed content via `content-visibility` on ::details-content, which
+  `display` can't override. So we set `open` explicitly above the mobile
+  breakpoint instead of relying on the CSS alone.
+{%- endcomment -%}
+<script>
+  (function () {
+    var mq = window.matchMedia('(max-width: 580px)');
+    var accordions = document.querySelectorAll('.rb-footer-accordion');
+    if (!accordions.length) return;
+
+    function sync(e) {
+      var isMobile = e.matches;
+      accordions.forEach(function (d) { d.open = !isMobile; });
+    }
+
+    sync(mq);
+    /* older Safari only has addListener */
+    if (mq.addEventListener) mq.addEventListener('change', sync);
+    else if (mq.addListener) mq.addListener(sync);
+  })();
+</script>
 
 {% schema %}
 {
