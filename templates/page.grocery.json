@@ -5,18 +5,69 @@
       "settings": {
         "collection": "grocery",
         "heading": "Grocery",
-        "products_per_page": 48
+        "products_per_page": 24
       },
       "blocks": {
-        "cat_snacks":       { "type": "category_link", "settings": { "label": "Snacks",        "url": "/collections/snacks",       "handle": "snacks" } },
-        "cat_beverages":    { "type": "category_link", "settings": { "label": "Beverages",      "url": "/collections/beverages",    "handle": "beverages" } },
-        "cat_sweets":       { "type": "category_link", "settings": { "label": "Sweets",         "url": "/collections/sweets",       "handle": "sweets" } },
-        "cat_groceries":    { "type": "category_link", "settings": { "label": "Grocery",        "url": "/collections/grocery",    "handle": "grocery" } },
-        "cat_health":       { "type": "category_link", "settings": { "label": "Health+Beauty",  "url": "/collections/health-beauty","handle": "health-beauty" } },
-        "cat_household":    { "type": "category_link", "settings": { "label": "Household",      "url": "/collections/household",    "handle": "household" } }
+        "cat_snacks": {
+          "type": "category_link",
+          "settings": {
+            "label": "Snacks",
+            "url": "/collections/snacks",
+            "handle": "snacks"
+          }
+        },
+        "cat_beverages": {
+          "type": "category_link",
+          "settings": {
+            "label": "Beverages",
+            "url": "/collections/beverages",
+            "handle": "beverages"
+          }
+        },
+        "cat_sweets": {
+          "type": "category_link",
+          "settings": {
+            "label": "Sweets",
+            "url": "/collections/sweets",
+            "handle": "sweets"
+          }
+        },
+        "cat_groceries": {
+          "type": "category_link",
+          "settings": {
+            "label": "Grocery",
+            "url": "/collections/grocery",
+            "handle": "grocery"
+          }
+        },
+        "cat_health": {
+          "type": "category_link",
+          "settings": {
+            "label": "Health+Beauty",
+            "url": "/collections/health-beauty",
+            "handle": "health-beauty"
+          }
+        },
+        "cat_household": {
+          "type": "category_link",
+          "settings": {
+            "label": "Household",
+            "url": "/collections/household",
+            "handle": "household"
+          }
+        }
       },
-      "block_order": ["cat_snacks", "cat_beverages", "cat_sweets", "cat_groceries", "cat_health", "cat_household"]
+      "block_order": [
+        "cat_snacks",
+        "cat_beverages",
+        "cat_sweets",
+        "cat_groceries",
+        "cat_health",
+        "cat_household"
+      ]
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

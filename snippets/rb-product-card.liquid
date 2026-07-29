@@ -50,11 +50,23 @@
 
       <a href="{{ product.url }}" class="rb-product-card__img-link" tabindex="-1" aria-hidden="true">
         {%- if product.featured_image -%}
+          {%- comment -%}
+            The container is a fixed 190px tall and the image caps at 84% of it,
+            so the rendered size is ~160px — a single 400px source was oversized
+            for phones. srcset lets mobile pick the small one. No height attr is
+            needed: the fixed-height container already reserves the space, so
+            there's no layout shift to guard against.
+          {%- endcomment -%}
           <img
             src="{{ product.featured_image | image_url: width: 400 }}"
+            srcset="{{ product.featured_image | image_url: width: 200 }} 200w,
+                    {{ product.featured_image | image_url: width: 300 }} 300w,
+                    {{ product.featured_image | image_url: width: 400 }} 400w"
+            sizes="(max-width: 480px) 42vw, (max-width: 1024px) 30vw, 220px"
             alt="{{ product.featured_image.alt | default: product.title | escape }}"
             class="rb-product-card__img"
             loading="lazy"
+            decoding="async"
             width="400"
           >
         {%- else -%}
