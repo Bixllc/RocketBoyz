@@ -185,6 +185,28 @@
         e.preventDefault();
         var btn = form.querySelector('[type="submit"]');
         if (btn && btn.disabled) return;
+
+        /* Multi-variant product: don't guess. Open the variant sheet and let the
+           shopper choose — the sheet performs the add itself. Without this the
+           card silently added whichever variant Liquid picked. */
+        if (btn && btn.dataset.rbVariants) {
+          var parsed = null;
+          try { parsed = JSON.parse(btn.dataset.rbVariants); } catch (err) { parsed = null; }
+          if (parsed && parsed.length > 1) {
+            document.dispatchEvent(new CustomEvent('rb-variant-sheet-open', {
+              detail: {
+                variants:   parsed,
+                title:      btn.dataset.rbProductTitle || '',
+                img:        btn.dataset.rbProductImg || '',
+                optionName: btn.dataset.rbOptionName || ''
+              }
+            }));
+            return;
+          }
+          /* Malformed data — fall through and add the default variant rather
+             than leaving the tap doing nothing. */
+        }
+
         var origHTML = btn ? btn.innerHTML : '';
         if (btn) { btn.disabled = true; btn.dataset.rbAdding = '1'; }
 

@@ -1,0 +1,295 @@
+{%- comment -%}
+  Variant selection bottom sheet.
+
+  Opened when a product card's Add to Cart is tapped on a multi-variant product,
+  so the shopper picks the flavour/size instead of silently getting whichever
+  variant Liquid chose. Selecting an option adds it and hands off to the cart
+  drawer.
+
+  Rendered once globally from layout/theme.liquid, next to the cart drawer —
+  deliberately NOT inside the header section, which has `will-change: transform`
+  and would become the containing block for a position:fixed sheet.
+
+  Notes on two theme-wide traps this markup has to survive:
+    * base.css has `*:empty { display: none }`, so every intentionally-empty
+      element here declares an explicit display.
+    * html { font-size: 10px }, so all sizes are px, never rem.
+{%- endcomment -%}
+
+<style>
+  .rb-vs {
+    position: fixed;
+    inset: 0;
+    z-index: 9700; /* above the cart drawer (9601) so it can stack over it */
+    display: none;
+  }
+  .rb-vs.is-open { display: block; }
+
+  .rb-vs__backdrop {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 22, 18, 0.45);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .rb-vs.is-open .rb-vs__backdrop { opacity: 1; }
+
+  .rb-vs__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 20px 20px 28px;
+    max-height: 82vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.26s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 -12px 40px -12px rgba(20, 22, 18, 0.3);
+  }
+  .rb-vs.is-open .rb-vs__panel { transform: translateY(0); }
+
+  .rb-vs__handle {
+    display: block !important;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #E4E4E7;
+    margin: 0 auto 16px;
+  }
+
+  .rb-vs__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .rb-vs__thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid #E4E4E7;
+    object-fit: contain;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .rb-vs__titles { flex: 1; min-width: 0; }
+  .rb-vs__label {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: #030213;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .rb-vs__product {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: #54514a;
+    margin: 2px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rb-vs__close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #E4E4E7;
+    background: #fff;
+    color: #52525B;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .rb-vs__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .rb-vs__opt {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1b1a16;
+    background: #fff;
+    border: 1.5px solid #E4E4E7;
+    border-radius: 999px;
+    padding: 14px 16px;
+    min-height: 48px; /* comfortable tap target */
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .rb-vs__opt:hover:not(:disabled) { border-color: #2D6A2F; color: #2D6A2F; }
+  .rb-vs__opt.is-busy { background: #2D6A2F; border-color: #2D6A2F; color: #fff; }
+  .rb-vs__opt:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .rb-vs__opt-price {
+    font-weight: 500;
+    font-size: 13px;
+    color: #71717A;
+  }
+  .rb-vs__opt.is-busy .rb-vs__opt-price { color: rgba(255,255,255,0.8); }
+
+  .rb-vs__error {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #DC2626;
+    margin: 14px 0 0;
+    text-align: center;
+  }
+  .rb-vs__error[hidden] { display: none; }
+
+  @media (min-width: 700px) {
+    .rb-vs__panel {
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      top: 50%;
+      width: 460px;
+      max-width: calc(100vw - 32px);
+      border-radius: 20px;
+      transform: translate(-50%, -46%) scale(0.98);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .rb-vs.is-open .rb-vs__panel {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+    .rb-vs__handle { display: none !important; }
+  }
+</style>
+
+<div class="rb-vs" id="rb-variant-sheet" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="rb-vs-label">
+  <div class="rb-vs__backdrop" data-rb-vs-close></div>
+  <div class="rb-vs__panel">
+    <div class="rb-vs__handle"></div>
+    <div class="rb-vs__head">
+      <img class="rb-vs__thumb" id="rb-vs-thumb" alt="" width="52" height="52">
+      <div class="rb-vs__titles">
+        <p class="rb-vs__label" id="rb-vs-label">Select option</p>
+        <p class="rb-vs__product" id="rb-vs-product"></p>
+      </div>
+      <button type="button" class="rb-vs__close" data-rb-vs-close aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="rb-vs__options" id="rb-vs-options"></div>
+    <p class="rb-vs__error" id="rb-vs-error" hidden>Could not add that — please try again.</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var sheet   = document.getElementById('rb-variant-sheet');
+    var optsEl  = document.getElementById('rb-vs-options');
+    var thumbEl = document.getElementById('rb-vs-thumb');
+    var prodEl  = document.getElementById('rb-vs-product');
+    var labelEl = document.getElementById('rb-vs-label');
+    var errEl   = document.getElementById('rb-vs-error');
+    if (!sheet) return;
+
+    /* Same containing-block hazard as the search modal and mobile nav: keep the
+       sheet a direct child of <body> so `inset: 0` resolves to the viewport. */
+    if (sheet.parentElement !== document.body) document.body.appendChild(sheet);
+
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      sheet.classList.add('is-open');
+      sheet.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      sheet.classList.remove('is-open');
+      sheet.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      errEl.hidden = true;
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    document.querySelectorAll('[data-rb-vs-close]').forEach(function (el) {
+      el.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sheet.classList.contains('is-open')) close();
+    });
+
+    /* Opened by rb-cart.js when a multi-variant card is submitted. */
+    document.addEventListener('rb-variant-sheet-open', function (e) {
+      var d = e.detail || {};
+      var variants = d.variants || [];
+      if (!variants.length) return;
+
+      labelEl.textContent = d.optionName ? ('Select ' + d.optionName) : 'Select option';
+      prodEl.textContent  = d.title || '';
+      if (d.img) { thumbEl.src = d.img; thumbEl.alt = d.title || ''; thumbEl.style.display = ''; }
+      else { thumbEl.style.display = 'none'; }
+
+      optsEl.innerHTML = '';
+      variants.forEach(function (v) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'rb-vs__opt';
+        b.disabled = !v.available;
+        b.innerHTML = '<span>' + String(v.title).replace(/[<>&]/g, '') + '</span>'
+          + (v.price ? '<span class="rb-vs__opt-price">' + String(v.price).replace(/[<>&]/g, '') + '</span>' : '');
+        b.addEventListener('click', function () {
+          if (b.disabled) return;
+          /* lock the whole sheet so a double-tap can't add twice */
+          optsEl.querySelectorAll('button').forEach(function (x) { x.disabled = true; });
+          b.classList.add('is-busy');
+          errEl.hidden = true;
+
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: v.id, quantity: 1 })
+          })
+            .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function () {
+              close();
+              if (window.RBCart) {
+                window.RBCart.openDrawer();   /* instant feedback */
+                window.RBCart.fetchCart();    /* fills in when confirmed */
+              }
+            })
+            .catch(function () {
+              b.classList.remove('is-busy');
+              optsEl.querySelectorAll('button').forEach(function (x) {
+                var vv = variants[[].indexOf.call(optsEl.children, x)];
+                x.disabled = vv ? !vv.available : false;
+              });
+              errEl.hidden = false;
+            });
+        });
+        optsEl.appendChild(b);
+      });
+
+      open();
+    });
+  })();
+</script>

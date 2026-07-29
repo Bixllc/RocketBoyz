@@ -258,6 +258,7 @@
         {{ 'rb-judgeme-avatars.js' | asset_url | script_tag }}
         <script src="{{ 'rb-cart.js' | asset_url }}" defer></script>
         {% render 'cart-drawer' %}
+        {% render 'rb-variant-sheet' %}
         
         <div class="background-overlay">
             {% if settings.show_effect_close %}

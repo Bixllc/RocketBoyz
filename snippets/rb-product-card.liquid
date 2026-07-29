@@ -4,6 +4,33 @@
 
 {%- if product != blank -%}
   {%- assign variant = product.selected_or_first_available_variant -%}
+
+  {%- comment -%}
+    Multi-variant products used to add `variant.id` silently, so the shopper got
+    whichever variant Liquid picked with no way to choose — 54% of the Snacks
+    collection. They also rendered "Sold out" whenever the FIRST variant was out
+    of stock, even if other variants were available.
+
+    `rb_any_available` drives the button state instead, and the variant list is
+    embedded so the sheet can open without a network round trip.
+
+    The JSON is written into a double-quoted attribute via `escape` because
+    product titles contain apostrophes (e.g. "Chick 'N Chips"), which would
+    break a single-quoted attribute. dataset reads it back decoded.
+  {%- endcomment -%}
+  {%- liquid
+    assign rb_variant_count = product.variants.size
+    assign rb_any_available = false
+    for v in product.variants
+      if v.available
+        assign rb_any_available = true
+        break
+      endif
+    endfor
+  -%}
+  {%- capture rb_variants_json -%}
+    [{% for v in product.variants %}{"id":{{ v.id }},"title":{{ v.title | json }},"available":{{ v.available }},"price":{{ v.price | money | json }}}{% unless forloop.last %},{% endunless %}{% endfor %}]
+  {%- endcapture -%}
   <div class="rb-product-card"{% if block_attributes %} {{ block_attributes }}{% endif %}>
 
     <!-- Image area -->
@@ -60,15 +87,21 @@
           <input type="hidden" name="quantity" value="1">
           <button
             type="submit"
-            class="rb-btn-atc{% unless variant.available %} is-soldout{% endunless %}"
-            {% unless variant.available %}disabled{% endunless %}
+            class="rb-btn-atc{% unless rb_any_available %} is-soldout{% endunless %}"
+            {% unless rb_any_available %}disabled{% endunless %}
+            {%- if rb_variant_count > 1 and rb_any_available %}
+              data-rb-variants="{{ rb_variants_json | strip | escape }}"
+              data-rb-product-title="{{ product.title | escape }}"
+              data-rb-product-img="{{ product.featured_image | image_url: width: 160 }}"
+              data-rb-option-name="{{ product.options.first | escape }}"
+            {%- endif %}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path fill="none" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
               <line fill="none" x1="3" y1="6" x2="21" y2="6"/>
               <path fill="none" d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            {% if variant.available %}Add to Cart{% else %}Sold out{% endif %}
+            {% if rb_any_available %}Add to Cart{% else %}Sold out{% endif %}
           </button>
         {%- endform -%}
       </div>
