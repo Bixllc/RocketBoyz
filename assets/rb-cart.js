@@ -236,12 +236,19 @@
             if (btn) { btn.innerHTML = origHTML; btn.disabled = false; delete btn.dataset.rbAdding; }
           })
           .catch(function () {
-            /* Close the drawer we optimistically opened, then fall back to a
-               native submit so the shopper still gets a working add. */
-            if (typeof self.closeDrawer === 'function') self.closeDrawer();
+            /* Retract the optimistically-opened drawer and restore the button.
+               This used to fall back to form.submit(), which reloaded the page
+               mid-flow — jarring, and it discarded the shopper's scroll
+               position. /cart/add.js is reliable here, so a failed add is far
+               more likely to be transient than to need a full-page fallback. */
             document.dispatchEvent(new CustomEvent('rb-cart-close'));
-            if (btn) { btn.innerHTML = origHTML; btn.disabled = false; delete btn.dataset.rbAdding; }
-            form.submit();
+            if (btn) {
+              btn.innerHTML = origHTML;
+              btn.disabled = false;
+              delete btn.dataset.rbAdding;
+            }
+            /* Re-sync so the badge reflects whatever the server actually has. */
+            self.fetchCart();
           });
       });
     }

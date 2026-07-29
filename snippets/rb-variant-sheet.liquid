@@ -135,11 +135,33 @@
     line-height: 1.2;
   }
   .rb-vs__opt:hover:not(:disabled) { border-color: #2D6A2F; color: #2D6A2F; }
-  .rb-vs__opt.is-busy { background: #2D6A2F; border-color: #2D6A2F; color: #fff; }
-  .rb-vs__opt:disabled {
+
+  /* Sold-out variants. `:not(.is-busy)` matters: the tapped option is also
+     briefly disabled to block double-adds, and without this guard it rendered
+     strikethrough — looking sold out at the exact moment it was being added. */
+  .rb-vs__opt:disabled:not(.is-busy) {
     opacity: 0.45;
     cursor: not-allowed;
+  }
+  .rb-vs__opt:disabled:not(.is-busy) .rb-vs__opt-title {
     text-decoration: line-through;
+  }
+
+  /* Selected + adding: green, never struck through. */
+  .rb-vs__opt.is-busy {
+    background: #2D6A2F;
+    border-color: #2D6A2F;
+    color: #fff;
+    opacity: 1;
+    cursor: default;
+  }
+  .rb-vs__opt.is-busy .rb-vs__opt-title { text-decoration: none; }
+
+  .rb-vs__opt-soldout {
+    font-weight: 600;
+    font-size: 12px;
+    color: #71717A;
+    text-decoration: none;
   }
   .rb-vs__opt-price {
     font-weight: 500;
@@ -215,6 +237,7 @@
     if (sheet.parentElement !== document.body) document.body.appendChild(sheet);
 
     var lastFocus = null;
+    var busy = false;   /* true while an add is in flight, so a second tap is ignored */
 
     function open() {
       lastFocus = document.activeElement;
@@ -224,6 +247,7 @@
     }
 
     function close() {
+      busy = false;
       sheet.classList.remove('is-open');
       sheet.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
@@ -255,12 +279,22 @@
         b.type = 'button';
         b.className = 'rb-vs__opt';
         b.disabled = !v.available;
-        b.innerHTML = '<span>' + String(v.title).replace(/[<>&]/g, '') + '</span>'
-          + (v.price ? '<span class="rb-vs__opt-price">' + String(v.price).replace(/[<>&]/g, '') + '</span>' : '');
+        /* Sold-out options say so explicitly. Strikethrough alone was ambiguous:
+           Big Foot has 6 variants of which 2 are out of stock, so a third of the
+           sheet looked struck through with no explanation. */
+        b.innerHTML = '<span class="rb-vs__opt-title">' + String(v.title).replace(/[<>&]/g, '') + '</span>'
+          + (v.available
+              ? (v.price ? '<span class="rb-vs__opt-price">' + String(v.price).replace(/[<>&]/g, '') + '</span>' : '')
+              : '<span class="rb-vs__opt-soldout">Sold out</span>');
+
         b.addEventListener('click', function () {
-          if (b.disabled) return;
-          /* lock the whole sheet so a double-tap can't add twice */
-          optsEl.querySelectorAll('button').forEach(function (x) { x.disabled = true; });
+          if (b.disabled || busy) return;
+          /* Lock via a flag + the busy class, NOT by disabling the tapped
+             button — `:disabled` carries the sold-out styling. */
+          busy = true;
+          optsEl.querySelectorAll('button').forEach(function (x) {
+            if (x !== b) x.disabled = true;
+          });
           b.classList.add('is-busy');
           errEl.hidden = true;
 
@@ -278,10 +312,12 @@
               }
             })
             .catch(function () {
+              /* Restore each option to its real availability — never leave the
+                 sheet in a state where everything looks unavailable. */
+              busy = false;
               b.classList.remove('is-busy');
-              optsEl.querySelectorAll('button').forEach(function (x) {
-                var vv = variants[[].indexOf.call(optsEl.children, x)];
-                x.disabled = vv ? !vv.available : false;
+              optsEl.querySelectorAll('button').forEach(function (x, i) {
+                x.disabled = variants[i] ? !variants[i].available : false;
               });
               errEl.hidden = false;
             });
