@@ -452,6 +452,8 @@
   overlay.addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
   document.addEventListener('rb-cart-open', open);
+  /* Lets RBCart retract the optimistically-opened drawer if the add fails */
+  document.addEventListener('rb-cart-close', close);
   document.addEventListener('rb-cart', function () {
     if (drawer.classList.contains('is-open')) render();
   });
