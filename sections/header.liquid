@@ -818,6 +818,20 @@
   var searchInput  = document.querySelector('[data-search-input]');
   var searchCloseEls = document.querySelectorAll('[data-search-close]');
 
+  /* #shopify-section-header has `will-change: transform`, which makes it a
+     containing block for position:fixed descendants. The modal's `inset: 0`
+     was therefore resolving against the ~75px header box instead of the
+     viewport, so the hero painted on top and swallowed every tap — the modal
+     looked open but nothing in it was clickable.
+
+     Moving it to <body> takes it out of that containing block. The vendor
+     theme solves the same problem for its own header with
+     `.sticky-search-open #shopify-section-header-05 { will-change: unset }`
+     (component-header-05.css), which doesn't apply to this custom header. */
+  if (searchModal && searchModal.parentElement !== document.body) {
+    document.body.appendChild(searchModal);
+  }
+
   function openSearch() {
     if (!searchModal) return;
     searchModal.classList.add('active');
