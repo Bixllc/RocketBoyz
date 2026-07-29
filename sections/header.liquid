@@ -819,6 +819,16 @@
     document.body.appendChild(searchModal);
   }
 
+  /* Same trap, worse symptom: #rb-mobile-nav is position:fixed but was also
+     inside the header's containing block, so it scrolled with the page instead
+     of staying pinned to the viewport. Measured: scrolling 1200px moved it
+     1200px, to top:-1085px — i.e. a shopper who scrolled down and tapped the
+     hamburger got a menu rendered off-screen above them. */
+  var mobileNavEl = document.getElementById('rb-mobile-nav');
+  if (mobileNavEl && mobileNavEl.parentElement !== document.body) {
+    document.body.appendChild(mobileNavEl);
+  }
+
   function openSearch() {
     if (!searchModal) return;
     searchModal.classList.add('active');

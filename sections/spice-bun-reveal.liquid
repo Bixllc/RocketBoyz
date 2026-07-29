@@ -78,7 +78,9 @@
     height: 560px;
   }
 
+  /* empty divs — base.css `*:empty { display: none }` was hiding both */
   .spice-{{ section.id }} .stage__glow {
+    display: block !important;
     position: absolute;
     left: 50%;
     bottom: 8%;
@@ -131,6 +133,7 @@
   }
 
   .spice-{{ section.id }} .bag-sheen {
+    display: block !important;
     position: absolute;
     inset: 0;
     z-index: 4;

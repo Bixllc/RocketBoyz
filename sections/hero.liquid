@@ -18,6 +18,9 @@
   }
 
   .rb-hero__overlay {
+    /* empty div — hidden by base.css's `*:empty { display: none }`, which
+       removed the dark scrim that keeps hero text legible over the photo */
+    display: block !important;
     position: absolute;
     inset: 0;
     background: linear-gradient(

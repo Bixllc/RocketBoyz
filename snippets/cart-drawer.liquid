@@ -3,6 +3,9 @@
 <style>
 /* ── Cart Drawer ──────────────────────────────────────────── */
 .rb-overlay {
+  /* empty div — base.css's global `*:empty { display: none }` was hiding it,
+     so the cart drawer had no dimmed backdrop and no tap-outside-to-close */
+  display: block !important;
   position: fixed; inset: 0;
   background: rgba(20,22,18,0.42);
   z-index: 9600; /* above the PDP sticky add-to-cart bar (9400) */
