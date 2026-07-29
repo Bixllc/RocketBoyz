@@ -474,7 +474,10 @@
     display: none;
   }
   .rb-search-modal.active { display: block; }
+  /* Empty div — base.css has a global `*:empty { display: none }`, which was
+     hiding the backdrop entirely: no dimming, and no outside-click to close. */
   .rb-search-modal__backdrop {
+    display: block !important;
     position: absolute;
     inset: 0;
     background: rgba(27, 26, 22, 0.5);
@@ -528,6 +531,29 @@
     flex-shrink: 0;
   }
   .rb-search-modal__close:hover { color: #1b1a16; }
+
+  /* The modal had no mobile styling: a 640px panel with 20px padding and a
+     "Search" button all on one row is unusable on a phone. Give the panel side
+     margins, shrink the chrome, and keep the input at 16px so iOS doesn't
+     zoom the viewport on focus. */
+  @media (max-width: 600px) {
+    .rb-search-modal__panel {
+      margin: 8vh 16px 0;
+      padding: 14px 16px;
+      gap: 8px;
+      border-radius: 16px;
+    }
+    .rb-search-modal__input {
+      font-size: 16px;
+      min-width: 0;
+    }
+    .rb-search-modal__submit {
+      padding: 10px 14px;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .rb-search-modal__form { gap: 8px; min-width: 0; }
+  }
 
   @media (max-width: 640px) {
     .rb-search-modal__panel { margin: 8vh 16px 0; padding: 16px; }
