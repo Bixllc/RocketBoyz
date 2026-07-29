@@ -39,7 +39,25 @@
   text-transform: uppercase;
   color: #2D6A2F;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+/* "Added to bag" confirmation tick — shown only when the drawer was opened by an
+   add, so the shopper gets explicit confirmation rather than having to infer it
+   from the cart contents. Reverts to "Your Cart" after a few seconds, and
+   immediately if the drawer is opened from the cart icon instead. */
+.rb-drawer__added {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #2D6A2F;
+  color: #fff;
+  flex-shrink: 0;
+}
+.rb-drawer__added[hidden] { display: none !important; }
 .rb-drawer__pill {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: 12px; font-weight: 600;
@@ -300,7 +318,14 @@
 
   <!-- Header -->
   <div class="rb-drawer__head">
-    <h2 class="rb-drawer__title">Your Cart</h2>
+    <h2 class="rb-drawer__title" id="rbd-title">
+      <span class="rb-drawer__added" id="rbd-added" hidden>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </span>
+      <span id="rbd-title-text">Your Cart</span>
+    </h2>
     <span class="rb-drawer__pill" id="rbd-count">0 items</span>
     <button class="rb-drawer__close" id="rbd-close" aria-label="Close cart">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -451,9 +476,33 @@
   document.getElementById('rbd-close').addEventListener('click', close);
   overlay.addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-  document.addEventListener('rb-cart-open', open);
+  /* "ADDED TO BAG" confirmation state.
+     rb-cart-open carries detail.fromAdd when it was triggered by an add-to-cart
+     rather than by tapping the cart icon, so the tick only shows when it's
+     actually confirming something. */
+  var addedEl = document.getElementById('rbd-added');
+  var titleTextEl = document.getElementById('rbd-title-text');
+  var addedTimer = null;
+
+  function setAddedState(on) {
+    if (!addedEl || !titleTextEl) return;
+    clearTimeout(addedTimer);
+    addedEl.hidden = !on;
+    titleTextEl.textContent = on ? 'Added to bag' : 'Your Cart';
+    if (on) {
+      addedTimer = setTimeout(function () {
+        addedEl.hidden = true;
+        titleTextEl.textContent = 'Your Cart';
+      }, 4000);
+    }
+  }
+
+  document.addEventListener('rb-cart-open', function (e) {
+    setAddedState(!!(e && e.detail && e.detail.fromAdd));
+    open();
+  });
   /* Lets RBCart retract the optimistically-opened drawer if the add fails */
-  document.addEventListener('rb-cart-close', close);
+  document.addEventListener('rb-cart-close', function () { setAddedState(false); close(); });
   document.addEventListener('rb-cart', function () {
     if (drawer.classList.contains('is-open')) render();
   });

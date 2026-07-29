@@ -144,8 +144,12 @@
       }));
     },
 
-    openDrawer() {
-      document.dispatchEvent(new CustomEvent('rb-cart-open'));
+    /* fromAdd=true renders the "Added to bag" confirmation in the drawer header.
+       Opening from the cart icon passes nothing, so it stays "Your Cart". */
+    openDrawer(fromAdd) {
+      document.dispatchEvent(new CustomEvent('rb-cart-open', {
+        detail: { fromAdd: !!fromAdd }
+      }));
     },
 
     // ── Init ───────────────────────────────────────────────────
@@ -216,7 +220,7 @@
            mobile data. To the shopper the tap appeared to do nothing, then the
            drawer appeared late. The drawer re-renders on the 'rb-cart' event
            that fetchCart emits, so it fills in as soon as the server confirms. */
-        self.openDrawer();
+        self.openDrawer(true);
 
         fetch('/cart/add.js', {
           method: 'POST',

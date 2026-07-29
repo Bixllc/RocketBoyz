@@ -733,7 +733,7 @@ body.rb-sticky-open shopify-chat {
            `window`, but every listener is bound to `document`, so those events
            reached nothing and the drawer never opened from the PDP. */
         if (window.RBCart) {
-          window.RBCart.openDrawer(); window.RBCart.fetchCart();
+          window.RBCart.openDrawer(true); window.RBCart.fetchCart();
         }
 
         setTimeout(function () {
@@ -803,7 +803,7 @@ body.rb-sticky-open shopify-chat {
         /* fetchCart() emits 'rb-cart' on document itself, so no manual dispatch
            is needed — the previous window dispatch had no listeners. */
         if (window.RBCart) {
-          window.RBCart.openDrawer(); window.RBCart.fetchCart();
+          window.RBCart.openDrawer(true); window.RBCart.fetchCart();
         }
       })
       .catch(function () {});

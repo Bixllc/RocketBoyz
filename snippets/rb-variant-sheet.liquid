@@ -273,7 +273,7 @@
             .then(function () {
               close();
               if (window.RBCart) {
-                window.RBCart.openDrawer();   /* instant feedback */
+                window.RBCart.openDrawer(true);  /* instant feedback + confirmation */
                 window.RBCart.fetchCart();    /* fills in when confirmed */
               }
             })
